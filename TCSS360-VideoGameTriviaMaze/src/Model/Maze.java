@@ -21,7 +21,7 @@ public class Maze {
     }
     public static synchronized Maze getInstance() {
         if (mySingleton == null) {
-            mySingleton = new Maze();
+            mySingleton = new Maze(); //need to specify dimension size of maze for singleton somehow.
         }
         return mySingleton;
     }
