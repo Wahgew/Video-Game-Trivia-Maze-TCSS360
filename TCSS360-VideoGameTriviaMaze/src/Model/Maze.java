@@ -8,7 +8,7 @@ public class Maze {
     private final int myEntranceRow;
     private final int myEntranceCol;
     private final int myExitRow;
-    private final int myExitCol;
+    private final int myExitColumn;
     private final Random myRandom;
 
     private Maze(int theXSize, int theYSize) {
@@ -17,7 +17,7 @@ public class Maze {
         myEntranceRow = generateNumber(theXSize);
         myEntranceCol = generateNumber(theYSize);
         myExitRow = generateNumber(theXSize);
-        myExitCol = generateNumber(theYSize);
+        myExitColumn = generateNumber(theYSize);
     }
 
     /**
@@ -62,8 +62,8 @@ public class Maze {
         return myExitRow;
     }
 
-    public int getMyExitCol() {
-        return myExitCol;
+    public int getMyExitColumn() {
+        return myExitColumn;
     }
     public Room getMyRoom(int theRoomX, int theRoomY) {
         if ((theRoomX >= 0 && theRoomX < myMaze.length) && (theRoomY >= 0 && theRoomY < myMaze[0].length)) {
@@ -89,7 +89,11 @@ public class Maze {
                     mazeString += "▣";
                     specialChar = true;
                 }
-                if (myExitRow == i && myExitCol == j){
+                if (myEntranceRow == i && myEntranceCol == j && !specialChar) {
+                    mazeString += "E";
+                    specialChar = true;
+                }
+                if (myExitRow == i && myExitColumn == j){
                     mazeString += "▨";
                     specialChar = true;
                 }
