@@ -21,5 +21,12 @@ public class TriviaGame {
         System.out.println();
         System.out.println("Player Row Location: " + Player.getInstance().getMyLocationRow());
         System.out.println("Player Col Location: " + Player.getInstance().getMyLocationCol());
+
+        //TODO:
+        //      Look at the Player class, need to change validPlayerMove or how Room/Door class works.
+        //  current implementation of Room/Door has every room with four doors, meaning each "doorway"
+        //  has two doors, one from the room the player starts movement in and one in the room
+        //  the player is moving to. Might need to sync the "set" of doors.
+        //      Need some way to call question construction/query when moving through non-attempted door.
     }
 }

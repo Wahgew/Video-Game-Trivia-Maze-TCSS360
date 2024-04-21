@@ -1,8 +1,8 @@
 package Model;
 
-public class Question {
-    private String myQuestion;
-    private String myAnswer;
+public class Question { // Could just use this base parent class for short answer questions? Don't need specific child.
+    private final String myQuestion;
+    private final String myAnswer;
 
     /**
      * TODO: CONSTRUCTOR WILL NEED TO PULL FROM A SQLITE DATABASE FOR Q&A.

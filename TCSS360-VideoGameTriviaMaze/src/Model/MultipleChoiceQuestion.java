@@ -7,7 +7,7 @@ public class MultipleChoiceQuestion extends Question {
     private boolean isTrueFalse;
 
     /**
-     * TODO: CONSTRUCTOR WILL NEED TO PULL FROM A SQLITE DATABASE FOR Q&A.
+     *
      * @param theQuestion
      * @param theAnswer
      * @param theChoice1
@@ -17,6 +17,7 @@ public class MultipleChoiceQuestion extends Question {
      */
     MultipleChoiceQuestion(String theQuestion, String theAnswer, String theChoice1, String theChoice2,
                            String theChoice3, boolean theTrueFalse) {
+        // TODO:CONSTRUCTOR WILL NEED TO PULL FROM A SQLITE DATABASE FOR Q&A.
         super(theQuestion, theAnswer);
         myChoice1 = theChoice1;
         myChoice2 = theChoice2;

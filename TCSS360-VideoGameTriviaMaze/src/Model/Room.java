@@ -2,7 +2,7 @@ package Model;
 
 public class Room {
     private Door[] myDoors;
-    Room() {
+    Room() { //TODO: ALL rooms are created with 4 doors. Each "doorway" has two doors technically? need to fix.
         myDoors = new Door[4];
     }
     /**
