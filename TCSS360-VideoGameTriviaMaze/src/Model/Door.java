@@ -8,7 +8,7 @@ public class Door {
     public boolean getMyLockStatus() {
         return myLockStatus;
     }
-     void setMyLockStatus(boolean theLockStatus) {
+    void setMyLockStatus(boolean theLockStatus) {
         myLockStatus = theLockStatus;
     }
 }
