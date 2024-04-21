@@ -22,6 +22,9 @@ public class TriviaGame {
         System.out.println("Player Row Location: " + Player.getInstance().getMyLocationRow());
         System.out.println("Player Col Location: " + Player.getInstance().getMyLocationCol());
 
+        System.out.println("Exit Row Location: " + Maze.getInstance().getMyExitRow());
+        System.out.println("Exit Col Location: " + Maze.getInstance().getMyExitCol());
+
         //TODO:
         //      Look at the Player class, need to change validPlayerMove or how Room/Door class works.
         //  current implementation of Room/Door has every room with four doors, meaning each "doorway"
