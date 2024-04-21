@@ -38,7 +38,7 @@ public class Maze {
     /**
      * Row index of the entrance location in the maze.
      */
-    private final int myEntranceCol;
+    private final int myEntranceColumn;
 
     /**
      * Column index of the entrance location in the maze.
@@ -48,7 +48,7 @@ public class Maze {
     /**
      * Row index of the exit location in the maze.
      */
-    private final int myExitCol;
+    private final int myExitColumn;
 
     /**
      * Column index of the exit location in the maze.
@@ -65,9 +65,9 @@ public class Maze {
         myMaze = new Room[theXSize][theYSize];
         myRandom = new Random();
         myEntranceRow = generateNumber(theXSize);
-        myEntranceCol = generateNumber(theYSize);
+        myEntranceColumn = generateNumber(theYSize);
         myExitRow = generateNumber(theXSize);
-        myExitCol = generateNumber(theYSize);
+        myExitColumn = generateNumber(theYSize);
     }
 
     /**
@@ -125,7 +125,7 @@ public class Maze {
      * @return the row index of the entrance.
      */
     public int getMyEntranceColumn() {
-        return myEntranceCol;
+        return myEntranceColumn;
     }
 
     /**
@@ -142,8 +142,8 @@ public class Maze {
      *
      * @return the column index of the exit
      */
-    public int getMyExitCol() {
-        return myExitCol;
+    public int getMyExitColumn() {
+        return myExitColumn;
     }
 
     /**
@@ -189,24 +189,28 @@ public class Maze {
      */
     @Override
     public String toString() {
-        String mazeString = "";
+        StringBuilder mazeString = new StringBuilder();
         for (int i = 0; i < myMaze.length; i++) {
             for (int j = 0; j < myMaze[0].length; j++) {
                 boolean specialChar = false;
                 if (Player.getInstance().getMyLocationRow() == i && Player.getInstance().getMyLocationCol() == j) {
-                    mazeString += "▣"; //▣
+                    mazeString.append("▣");
                     specialChar = true;
                 }
-                if (myExitRow == i && myExitCol == j){
-                    mazeString += "▨"; //▨
+                if (myExitRow == i && myExitColumn == j && !specialChar){
+                    mazeString.append("▨");
+                    specialChar = true;
+                }
+                if (myEntranceRow == i && myEntranceColumn == j && !specialChar) {
+                    mazeString.append("E");
                     specialChar = true;
                 }
                 if (!specialChar) {
-                    mazeString += "□"; //□
+                    mazeString.append("□");
                 }
             }
-            mazeString += "\n";
+            mazeString.append("\n");
         }
-        return mazeString;
+        return mazeString.toString();
     }
 }
