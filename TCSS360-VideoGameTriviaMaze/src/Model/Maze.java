@@ -1,10 +1,10 @@
 package Model;
+import java.util.Random;
 
 /**
  * The Maze class represents a maze composed of interconnected rooms.
  * It provides methods for accessing information about the maze, such as
  * size, entrance and exit locations, and individual rooms.
- *
  * The maze generates randomly upon instantiation, with specified size and
  * random entrance and exit locations.
  * The rooms in the maze are represented by
@@ -15,7 +15,6 @@ package Model;
  * @author Sopheanith Ny
  * @version 0.0.1 April 20, 2024
  */
-import java.util.Random;
 
 public class Maze {
     //TODO:
