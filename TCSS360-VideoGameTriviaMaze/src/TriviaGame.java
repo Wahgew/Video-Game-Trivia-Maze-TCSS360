@@ -18,9 +18,12 @@ public class TriviaGame {
         Maze.getInstance(4,4);
         System.out.println(Maze.getInstance());
 
-        System.out.println();
-        System.out.println("Player Row Location: " + Player.getInstance().getMyLocationRow());
-        System.out.println("Player Col Location: " + Player.getInstance().getMyLocationCol());
+        System.out.println("Player Location (▣): " + Player.getInstance().getMyLocationRow() + ", "
+                + Player.getInstance().getMyLocationCol());
+        System.out.println("Maze Entrance Location (E): " + Maze.getInstance().getMyEntranceRow() + ", "
+                + Maze.getInstance().getMyEntranceColumn());
+        System.out.println("Maze Exit Location (▨): " + Maze.getInstance().getMyExitRow() + ", "
+                + Maze.getInstance().getMyExitColumn());
 
         System.out.println("Exit Row Location: " + Maze.getInstance().getMyExitRow());
         System.out.println("Exit Col Location: " + Maze.getInstance().getMyExitCol());
