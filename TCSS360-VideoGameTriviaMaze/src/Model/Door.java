@@ -24,6 +24,8 @@ public class Door {
      */
     private boolean myAttemptStatus;
 
+    private boolean myLeadsOutofBounds;
+
     /**
      * Constructs a new Door object with default lock
      * status as true (locked) and attempt status as false.
@@ -31,6 +33,7 @@ public class Door {
     Door() {
         myLockStatus = true;
         myAttemptStatus = false;
+        myLeadsOutofBounds = false;
     }
 
     /**
@@ -67,5 +70,9 @@ public class Door {
      */
     void setMyAttemptStatus(boolean theAttemptStatus) {
         myAttemptStatus = theAttemptStatus;
+    }
+
+    void setMyLeadsOutofBounds(boolean theOOBStatus) {
+        myLeadsOutofBounds = theOOBStatus;
     }
 }

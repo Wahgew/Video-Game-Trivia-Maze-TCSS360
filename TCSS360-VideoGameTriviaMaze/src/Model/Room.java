@@ -23,12 +23,14 @@ public class Room {
      * Constructs a new Room object with four doors.
      *
      * <p>TODO: Currently, all rooms are created with four doors. Each "doorway" technically has two doors,
-     * but this behavior may need to be adjusted.</p>
+     *      but this behavior may need to be adjusted.</p>
      */
     Room() { //TODO: ALL rooms are created with 4 doors. Each "doorway" has two doors technically? need to fix.
         myDoors = new Door[4];
+        for (int i = 0; i < 4; i++) {
+            myDoors[i] = new Door();
+        }
     }
-
     /**
      * Returns the door in the specified direction.
      *
