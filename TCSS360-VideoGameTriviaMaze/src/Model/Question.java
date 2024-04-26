@@ -12,6 +12,10 @@ package Model;
  * @version 0.0.1 April 20, 2024
  */
 public class Question { // Could just use this base parent class for short answer questions? Don't need specific child.
+    //TODO: Consider if this class should be reformed into a interface or an abstract class
+    // Since we have 5 different question types Multiple choice, short answer, true/false, image, and audio
+    // it maybe beneficial to give some abstraction.
+
     /**
      * The question text.
      */

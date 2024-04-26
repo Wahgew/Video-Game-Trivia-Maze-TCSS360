@@ -1,5 +1,6 @@
 import Model.Maze;
 import Model.Player;
+import Model.QuestionAnswerDatabase;
 
 import java.util.Scanner;
 
@@ -13,7 +14,6 @@ public class TriviaGame {
 //        System.out.println("Input # of columns in Maze: ");
 //        mazeCols = testInput.nextInt();
 //        Maze.getInstance(mazeRows, mazeCols);
-
 //        EVERYTHING HERE IS JUST TEMPORARY FOR TESTING MAZE AND PLAYER.
         Maze.getInstance(4,4);
         System.out.println(Maze.getInstance());
