@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Arrays;
+
 /**
  * Room class represents a room withing a maze
  * Each room has multiple doors max 4, allowing access to adjective rooms.
@@ -39,5 +41,16 @@ public class Room {
      */
     Door getMyDoor(Direction theDirection) {
         return myDoors[theDirection.getMyValue()];
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder roomString = new StringBuilder();
+        int counter = 1;
+        for (Door door : myDoors) {
+            roomString.append("Door #").append(counter).append(": ").append(door.getMyAttemptStatus()).append("\n");
+            counter++;
+        }
+        return roomString.toString();
     }
 }

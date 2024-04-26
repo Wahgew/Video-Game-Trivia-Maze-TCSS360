@@ -1,5 +1,7 @@
 package Model;
 
+import javax.swing.*;
+
 /**
  * The Direction enum represents the four cardinal directions:
  * North, East, South, and West
@@ -10,7 +12,7 @@ package Model;
  * @author Sopheanith Ny
  * @version 0.0.1 April 20, 2024
  */
-enum Direction {
+public enum Direction {
     /**
      * Represents the direction North with an integer value of 0.
      */
@@ -77,5 +79,50 @@ enum Direction {
         } else {
             return WEST;
         }
+    }
+    /**
+     * Returns the direction in which the player is moving to move to
+     * parameter room.
+     * @return the enum Direction, the direction the player is moving to.
+     */
+    static Direction getPlayerDirection(Direction theDirection) {
+        switch (theDirection) {
+            case NORTH -> {
+                return SOUTH;
+            }
+            case SOUTH -> {
+                return NORTH;
+            }
+            case EAST -> {
+                return WEST;
+            }
+            case WEST -> {
+                return EAST;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /**
+     * Change int into the corresponding Direction.
+     * @param theInt
+     * @return
+     */
+    public static Direction getDirectionInt(int theInt) {
+        switch (theInt) {
+            case 0 -> {
+                return NORTH;
+            }
+            case 1 -> {
+                return EAST;
+            }
+            case 2 -> {
+                return SOUTH;
+            }
+            case 3 -> {
+                return WEST;
+            }
+        }
+        throw new IllegalArgumentException();
     }
 }

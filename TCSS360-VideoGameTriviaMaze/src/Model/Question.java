@@ -71,4 +71,9 @@ public class Question { // Could just use this base parent class for short answe
     boolean checkAnswer(String userAnswer) {
         return myAnswer.equals(userAnswer);
     }
+
+    @Override
+    public String toString() {
+        return myQuestion + "\n" + "Input Answer: ";
+    }
 }

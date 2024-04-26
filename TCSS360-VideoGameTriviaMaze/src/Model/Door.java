@@ -74,5 +74,6 @@ public class Door {
 
     void setMyLeadsOutofBounds(boolean theOOBStatus) {
         myLeadsOutofBounds = theOOBStatus;
+        myLockStatus = theOOBStatus;
     }
 }

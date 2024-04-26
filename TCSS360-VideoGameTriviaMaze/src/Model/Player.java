@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Scanner;
+
 /**
  * The player class represents a player in the game.
  *
@@ -91,15 +93,99 @@ public class Player {
         }
         return moveAllowed;
     }
-
+    boolean validPlayerMove(Direction theDirection) { // TODO: need to change, read TODO located in Room class.
+        boolean moveAllowed = false;
+        int playerRow = myLocationRow;
+        int playerCol = myLocationCol;
+        switch (theDirection) {
+            case NORTH -> playerRow--;
+            case SOUTH -> playerRow++;
+            case EAST -> playerCol++;
+            case WEST -> playerCol--;
+        }
+        if (playerRow >= 0 && playerRow < Maze.getInstance().getMyMazeRows()
+                && playerCol >= 0 && playerCol < Maze.getInstance().getMyMazeCols()) {
+            if (!Maze.getInstance().getMyRoom(playerRow, playerCol) // if door is not locked
+                    .getMyDoor(Direction.getPlayerDirection(theDirection)).getMyLockStatus()) {
+                moveAllowed = true;
+            } else if (Maze.getInstance().getMyRoom(playerRow, playerCol) // if door hasn't been attempted yet.
+                    .getMyDoor(Direction.getPlayerDirection(theDirection)).getMyAttemptStatus()) {
+                moveAllowed = true;
+            }
+        }
+        return moveAllowed;
+    }
+    boolean validPlayerMove(int theMove) { // TODO: TEST VERSION TEST VERSION
+        boolean moveAllowed = false;
+        int playerRow = myLocationRow;
+        int playerCol = myLocationCol;
+        switch (theMove) {
+            case 0 -> playerRow--; // North
+            case 1 -> playerCol++; // East
+            case 2 -> playerRow++; // South
+            case 3 -> playerCol--; // West
+        }
+        if (playerRow >= 0 && playerRow < Maze.getInstance().getMyMazeRows()
+                && playerCol >= 0 && playerCol < Maze.getInstance().getMyMazeCols()) {
+            if (!Maze.getInstance().getMyRoom(playerRow, playerCol) // if door is not locked
+                    .getMyDoor(Direction.getPlayerDirection(playerRow, playerCol)).getMyLockStatus()) {
+                moveAllowed = true;
+            } else if (!Maze.getInstance().getMyRoom(playerRow, playerCol) // if door hasn't been attempted yet.
+                    .getMyDoor(Direction.getPlayerDirection(playerRow, playerCol)).getMyAttemptStatus()) {
+                moveAllowed = true;
+            }
+        }
+        return moveAllowed;
+    }
+    boolean attemptMove(Direction theDirection, Scanner theInput) { //TODO: possibly change this, just for testing rn
+        boolean allowMove = false;
+        if (!Maze.getInstance().getMyRoom(myLocationRow,myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) {
+            Question testQuestion = new Question();
+            System.out.println(testQuestion);
+            String userAns = theInput.nextLine();
+            if (testQuestion.checkAnswer(userAns)) { //TODO: SYNC DOOR ATTEMPT AND LOCK
+                allowMove = true;
+            } else { //TODO: SYNC DOOR ATTEMPT AND LOCK
+            }
+        }
+        return allowMove;
+    }
     /**
      * NEED TO VALIDATE THE MOVE BEFORE USING THIS IS JUST A SETTER.
      * @param theRow the row moving to.
      * @param theCol the column moving to.
      */
-    void movePlayer(int theRow, int theCol) {
+    public void movePlayer(int theRow, int theCol) {
         myLocationRow = theRow;
         myLocationCol = theCol;
+    }
+    public void movePlayer(Direction theDirection) {
+        switch (theDirection) {
+            case NORTH -> myLocationRow--;
+            case SOUTH -> myLocationRow++;
+            case EAST -> myLocationCol++;
+            case WEST -> myLocationCol--;
+        }
+    }
+    public void movePlayer(Direction theDirection, Scanner theInput) {
+        if (attemptMove(theDirection, theInput)) {
+            switch (theDirection) {
+                case NORTH -> myLocationRow--;
+                case SOUTH -> myLocationRow++;
+                case EAST -> myLocationCol++;
+                case WEST -> myLocationCol--;
+            }
+        }
+    }
+    public void movePlayer(int theMove) { //TESTING VERSION
+        if (validPlayerMove(theMove)) {
+            switch (theMove) {
+                case 0 -> myLocationRow--; // North
+                case 1 -> myLocationCol++; // East
+                case 2 -> myLocationRow++; // South
+                case 3 -> myLocationCol--; // West
+            }
+        }
     }
 
     /**
