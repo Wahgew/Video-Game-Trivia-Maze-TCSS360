@@ -94,6 +94,7 @@ public class QuestionAnswerDatabase {
         return answers;
     }
 
+    //switch to private
     static class QuestionsAndAnswers {
         private final String myQuestionText;
         private final List<Answer> myAnswers;
@@ -112,6 +113,7 @@ public class QuestionAnswerDatabase {
         }
     }
 
+    //switch to private
     static class Answer {
         private final String myAnswer;
         private final boolean myCorrect;
