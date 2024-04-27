@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 /**
  * The player class represents a player in the game.
- *
  * Each player has a current location, score, and number of correct answers.
  * The player's current location is represented by row and column indices.
  * The score indicates the player's progress or performance in the game,
@@ -47,6 +46,8 @@ public class Player {
      */
     private int myCorrectAns;
 
+    private boolean myVictory;
+
     /**
      * Constructs a new Player object with default attributes.
      * The player's initial location is set to the maze entrance,
@@ -57,6 +58,7 @@ public class Player {
         myLocationCol = Maze.getInstance().getMyEntranceColumn();
         myScore = 0;
         myCorrectAns = 0;
+        myVictory = false;
     }
 
     /**
@@ -79,7 +81,7 @@ public class Player {
      * @param theY the column the player is attempting to move to.
      * @return if the movement is a valid player move.
      */
-    boolean validPlayerMove(int theX, int theY) { // TODO: need to change, read TODO located in Room class.
+    boolean validPlayerMove(int theX, int theY) {
         boolean moveAllowed = false;
         if (theX >= 0 && theX < Maze.getInstance().getMyMazeRows()
                 && theY >= 0 && theY < Maze.getInstance().getMyMazeCols()) {
@@ -93,7 +95,7 @@ public class Player {
         }
         return moveAllowed;
     }
-    boolean validPlayerMove(Direction theDirection) { // TODO: need to change, read TODO located in Room class.
+    boolean validPlayerMove(Direction theDirection) {
         boolean moveAllowed = false;
         int playerRow = myLocationRow;
         int playerCol = myLocationCol;
@@ -139,18 +141,32 @@ public class Player {
     }
     boolean attemptMove(Direction theDirection, Scanner theInput) { //TODO: possibly change this, just for testing rn
         boolean allowMove = false;
-        if (!Maze.getInstance().getMyRoom(myLocationRow,myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) {
-            Question testQuestion = new Question();
-            System.out.println(testQuestion);
-            String userAns = theInput.nextLine();
-            if (testQuestion.checkAnswer(userAns)) { //TODO: SYNC DOOR ATTEMPT AND LOCK - SUCCESS STATE
+        int playerRow = myLocationRow;
+        int playerCol = myLocationCol;
+        switch (theDirection) {
+            case NORTH -> myLocationRow--;
+            case SOUTH -> myLocationRow++;
+            case EAST -> myLocationCol++;
+            case WEST -> myLocationCol--;
+        }
+        if (playerRow >= 0 && playerRow < Maze.getInstance().getMyMazeRows()
+                && playerCol >= 0 && playerCol < Maze.getInstance().getMyMazeCols()) {
+            if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyLockStatus()) { // check if door is locked
                 allowMove = true;
-                Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
-            } else { //TODO: SYNC DOOR ATTEMPT AND LOCK - FAILURE STATE
-                Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
+            } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
+                Question testQuestion = new Question();
+                System.out.println(testQuestion);         //TODO: THIS IS WHERE WE WOULD SWAP TO USING SQLITE DATABASE
+                String userAns = theInput.nextLine();
+                if (testQuestion.checkAnswer(userAns)) { // check player's answer
+                    allowMove = true;
+                    Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
+                    myCorrectAns++;
+                    myScore += 100;
+                } else { // player failed to answer correctly
+                    Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
+                    myScore -= 100;
+                }
             }
-        } else if (!Maze.getInstance().getMyRoom(myLocationRow,myLocationCol).getMyDoor(theDirection).getMyLockStatus()) {
-            allowMove = true;
         }
         return allowMove;
     }
@@ -171,7 +187,7 @@ public class Player {
             case WEST -> myLocationCol--;
         }
     }
-    public void movePlayer(Direction theDirection, Scanner theInput) {
+    public void movePlayer(Direction theDirection, Scanner theInput) { // TODO: remove scanner usage when not needed
         if (attemptMove(theDirection, theInput)) {
             switch (theDirection) {
                 case NORTH -> myLocationRow--;
@@ -179,6 +195,7 @@ public class Player {
                 case EAST -> myLocationCol++;
                 case WEST -> myLocationCol--;
             }
+            checkVictory();
         }
     }
     public void movePlayer(int theMove) { //TESTING VERSION
@@ -226,5 +243,12 @@ public class Player {
      */
     public int getMyScore() {
         return myScore;
+    }
+    public boolean getMyVictory() {
+        return myVictory;
+    }
+    boolean checkVictory() {
+        return myVictory = (Maze.getInstance().getMyExitRow() == getMyLocationRow()
+                && Maze.getInstance().getMyExitColumn() == getMyLocationRow());
     }
 }

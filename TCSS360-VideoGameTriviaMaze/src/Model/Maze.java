@@ -43,12 +43,12 @@ public class Maze {
     /**
      * Column index of the entrance location in the maze.
      */
-    private final int myExitRow;
+    private int myExitRow;
 
     /**
      * Row index of the exit location in the maze.
      */
-    private final int myExitColumn;
+    private int myExitColumn;
 
     /**
      * Column index of the exit location in the maze.
@@ -68,6 +68,7 @@ public class Maze {
         myEntranceColumn = generateNumber(theYSize);
         myExitRow = generateNumber(theXSize);
         myExitColumn = generateNumber(theYSize);
+        checkEntExitGen();
         mazeInstantiate();
     }
 
@@ -209,6 +210,12 @@ public class Maze {
                     }
                 }
             }
+        }
+    }
+    void checkEntExitGen() {
+        while (myEntranceRow == myExitRow && myEntranceColumn == myExitColumn) {
+            myExitRow = generateNumber(myMaze.length);
+            myExitColumn = generateNumber(myMaze[0].length);
         }
     }
 
