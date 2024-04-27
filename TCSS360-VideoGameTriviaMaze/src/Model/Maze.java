@@ -163,6 +163,23 @@ public class Maze {
             throw new IndexOutOfBoundsException("Index is out of bounds");
         }
     }
+    public Room getMyAdjacentRoom(Direction theDirection, int theRow, int theCol) {
+        switch (theDirection) {
+            case NORTH -> {
+                return myMaze[theRow - 1][theCol];
+            }
+            case SOUTH -> {
+                return myMaze[theRow + 1][theCol];
+            }
+            case EAST -> {
+                return myMaze[theRow][theCol + 1];
+            }
+            case WEST -> {
+                return myMaze[theRow][theCol - 1];
+            }
+        }
+        throw new IllegalArgumentException();
+    }
 
     /**
      * Gets the number of rows in the maze.
@@ -194,6 +211,13 @@ public class Maze {
             }
         }
     }
+
+    /**
+     * If the room at parameter row and column is on the edge of the maze,
+     * sets the doors leading out-of-bounds state to true.
+     * @param theRow
+     * @param theCol
+     */
     void roomOutOfBounds(int theRow, int theCol) {
         if (theRow - 1 < 0) {
             myMaze[theRow][theCol].getMyDoor(Direction.NORTH).setMyLeadsOutofBounds(true);

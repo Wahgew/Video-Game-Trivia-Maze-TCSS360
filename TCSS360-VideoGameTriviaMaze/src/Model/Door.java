@@ -76,4 +76,23 @@ public class Door {
         myLeadsOutofBounds = theOOBStatus;
         myLockStatus = theOOBStatus;
     }
+    static void questionAttempted(boolean theSuccess, int theRow, int theCol, Direction theDirection) {
+        if (theSuccess) {
+            Maze.getInstance().getMyRoom(theRow, theCol).getMyDoor(theDirection).setMyAttemptStatus(true);
+            Maze.getInstance().getMyRoom(theRow, theCol).getMyDoor(theDirection).setMyLockStatus(false);
+
+            Maze.getInstance().getMyAdjacentRoom(theDirection, theRow, theCol)
+                    .getMyDoor(Direction.getPlayerDirection(theDirection)).setMyAttemptStatus(true);
+            Maze.getInstance().getMyAdjacentRoom(theDirection, theRow, theCol)
+                    .getMyDoor(Direction.getPlayerDirection(theDirection)).setMyLockStatus(false);
+        } else {
+            Maze.getInstance().getMyRoom(theRow, theCol).getMyDoor(theDirection).setMyAttemptStatus(true);
+            Maze.getInstance().getMyRoom(theRow, theCol).getMyDoor(theDirection).setMyLockStatus(true);
+
+            Maze.getInstance().getMyAdjacentRoom(theDirection, theRow, theCol)
+                    .getMyDoor(Direction.getPlayerDirection(theDirection)).setMyAttemptStatus(true);
+            Maze.getInstance().getMyAdjacentRoom(theDirection, theRow, theCol)
+                    .getMyDoor(Direction.getPlayerDirection(theDirection)).setMyLockStatus(true);
+        }
+    }
 }

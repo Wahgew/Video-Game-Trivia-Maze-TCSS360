@@ -24,7 +24,7 @@ public class TriviaGame {
                 + Maze.getInstance().getMyEntranceColumn());
         System.out.println("Maze Exit Location (▨): " + Maze.getInstance().getMyExitRow() + ", "
                 + Maze.getInstance().getMyExitColumn());
-        System.out.println("Current Room:");
+        System.out.println("\nCurrent Room:");
         System.out.println(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(),
                 Player.getInstance().getMyLocationCol()));
         String userIn = "";
@@ -33,6 +33,9 @@ public class TriviaGame {
             userIn = testInput.nextLine();
             Player.getInstance().movePlayer(Direction.getDirectionInt(Integer.parseInt(userIn)), testInput);
             System.out.println(Maze.getInstance());
+            System.out.println("\nCurrent Room:");
+            System.out.println(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(),
+                    Player.getInstance().getMyLocationCol()));
         }
         //TODO:
         //      Look at the Player class, need to change validPlayerMove or how Room/Door class works.

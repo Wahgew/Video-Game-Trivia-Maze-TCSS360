@@ -27,7 +27,7 @@ public class Room {
      * <p>TODO: Currently, all rooms are created with four doors. Each "doorway" technically has two doors,
      *      but this behavior may need to be adjusted.</p>
      */
-    Room() { //TODO: ALL rooms are created with 4 doors. Each "doorway" has two doors technically? need to fix.
+    Room() {
         myDoors = new Door[4];
         for (int i = 0; i < 4; i++) {
             myDoors[i] = new Door();
@@ -46,9 +46,9 @@ public class Room {
     @Override
     public String toString() {
         StringBuilder roomString = new StringBuilder();
-        int counter = 1;
+        int counter = 0;
         for (Door door : myDoors) {
-            roomString.append("Door #").append(counter).append(": ").append(door.getMyAttemptStatus()).append("\n");
+            roomString.append("Door #").append(counter).append(" Attempt Status: ").append(door.getMyAttemptStatus()).append("\n");
             counter++;
         }
         return roomString.toString();

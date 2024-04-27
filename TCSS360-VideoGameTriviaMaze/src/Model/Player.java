@@ -143,10 +143,14 @@ public class Player {
             Question testQuestion = new Question();
             System.out.println(testQuestion);
             String userAns = theInput.nextLine();
-            if (testQuestion.checkAnswer(userAns)) { //TODO: SYNC DOOR ATTEMPT AND LOCK
+            if (testQuestion.checkAnswer(userAns)) { //TODO: SYNC DOOR ATTEMPT AND LOCK - SUCCESS STATE
                 allowMove = true;
-            } else { //TODO: SYNC DOOR ATTEMPT AND LOCK
+                Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
+            } else { //TODO: SYNC DOOR ATTEMPT AND LOCK - FAILURE STATE
+                Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
             }
+        } else if (!Maze.getInstance().getMyRoom(myLocationRow,myLocationCol).getMyDoor(theDirection).getMyLockStatus()) {
+            allowMove = true;
         }
         return allowMove;
     }
