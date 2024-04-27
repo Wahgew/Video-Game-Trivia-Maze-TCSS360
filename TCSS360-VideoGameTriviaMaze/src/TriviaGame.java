@@ -28,16 +28,20 @@ public class TriviaGame {
         System.out.println(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(),
                 Player.getInstance().getMyLocationCol()));
         String userIn = "";
-        while (!userIn.equals("n") || !Player.getInstance().getMyVictory()) {
+        while (!Player.getInstance().getMyVictory()) {
             System.out.println("Input direction (0 = N, 1 = E, 2 = S, 3 = W) to move in: ");
             userIn = testInput.nextLine();
             Player.getInstance().movePlayer(Direction.getDirectionInt(Integer.parseInt(userIn)), testInput);
             System.out.println(Maze.getInstance());
+
+            System.out.println("Player Location (▣): " + Player.getInstance().getMyLocationRow() + ", "
+                    + Player.getInstance().getMyLocationCol());
+            System.out.println("Player Victory: " + Player.getInstance().getMyVictory());
+
             System.out.println("\nCurrent Room:");
             System.out.println(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(),
                     Player.getInstance().getMyLocationCol()));
         }
-        System.out.println("You reached the Exit! You win!");
         //TODO:
         //      Look at the Player class, need to change validPlayerMove or how Room/Door class works.
         //  current implementation of Room/Door has every room with four doors, meaning each "doorway"

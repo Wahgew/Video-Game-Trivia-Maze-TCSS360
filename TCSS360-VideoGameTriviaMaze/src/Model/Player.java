@@ -144,10 +144,10 @@ public class Player {
         int playerRow = myLocationRow;
         int playerCol = myLocationCol;
         switch (theDirection) {
-            case NORTH -> myLocationRow--;
-            case SOUTH -> myLocationRow++;
-            case EAST -> myLocationCol++;
-            case WEST -> myLocationCol--;
+            case NORTH -> playerRow--;
+            case SOUTH -> playerRow++;
+            case EAST -> playerCol++;
+            case WEST -> playerCol--;
         }
         if (playerRow >= 0 && playerRow < Maze.getInstance().getMyMazeRows()
                 && playerCol >= 0 && playerCol < Maze.getInstance().getMyMazeCols()) {
@@ -195,7 +195,7 @@ public class Player {
                 case EAST -> myLocationCol++;
                 case WEST -> myLocationCol--;
             }
-            checkVictory();
+            myVictory = checkVictory();
         }
     }
     public void movePlayer(int theMove) { //TESTING VERSION
@@ -248,7 +248,7 @@ public class Player {
         return myVictory;
     }
     boolean checkVictory() {
-        return myVictory = (Maze.getInstance().getMyExitRow() == getMyLocationRow()
-                && Maze.getInstance().getMyExitColumn() == getMyLocationRow());
+        return (Maze.getInstance().getMyExitRow() == getMyLocationRow()
+                && Maze.getInstance().getMyExitColumn() == getMyLocationCol());
     }
 }
