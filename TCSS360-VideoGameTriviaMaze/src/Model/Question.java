@@ -1,7 +1,9 @@
 package Model;
 
+import java.util.List;
+
 /**
- * Question class represents a generic question with a question text and answer.
+ * Abstract Question class represents a generic question with a question text and answer.
  *
  * Each question has a question text and an answer. This class serves as a base class
  * for more specific types of questions, such as multiple-choice or short answer questions.
@@ -9,9 +11,9 @@ package Model;
  * @author Ken Egawa
  * @author Peter Madin
  * @author Sopheanith Ny
- * @version 0.0.1 April 20, 2024
+ * @version 0.0.2 April 27, 2024
  */
-public class Question { // Could just use this base parent class for short answer questions? Don't need specific child.
+public abstract class Question {
     //TODO: Consider if this class should be reformed into a interface or an abstract class
     // Since we have 5 different question types Multiple choice, short answer, true/false, image, and audio
     // it maybe beneficial to give some abstraction.
@@ -24,32 +26,38 @@ public class Question { // Could just use this base parent class for short answe
     /**
      * The correct answer to the question.
      */
-    private final String myAnswer;
+    private final AnswerData myAnswer;
+
 
     /**
      * TODO: CONSTRUCTOR WILL NEED TO PULL FROM A SQLITE DATABASE FOR Q&A.
      * @param theQuestion
      * @param theAnswer
      */
-    Question(String theQuestion, String theAnswer) {
+    protected Question(String theQuestion, AnswerData theAnswer) {
         myQuestion = theQuestion;
         myAnswer = theAnswer;
     }
-    /**
-     * Constructs a new Question object with predefined values for testing purposes.
-     * This constructor provides predefined values for the question and answer.
-     */
-    Question() { // TEST CONSTRUCTOR
-        myQuestion = "What is Andrew Hwang's nickname?";
-        myAnswer = "Andy";
-    }
+
+//    /**
+//     * Constructs a new Question object with predefined values for testing purposes.
+//     * This constructor provides predefined values for the question and answer.
+//     */
+//    Question() { // TEST CONSTRUCTOR
+//        myQuestion = "What is Andrew Hwang's nickname?";
+//        myAnswer = "Andy";
+//    }
+
+    public abstract Question getRandomQuestionType(String theQuestionText, List<String> theAnswers);
+
+    public abstract String getType();
 
     /**
      * Gets the question text.
      *
      * @return the question text
      */
-    String getMyQuestion() {
+    public String getMyQuestion() {
         return myQuestion;
     }
 
@@ -58,7 +66,7 @@ public class Question { // Could just use this base parent class for short answe
      *
      * @return the correct answer
      */
-    String getMyAnswer() {
+    public AnswerData getMyAnswer() {
         return myAnswer;
     }
 
