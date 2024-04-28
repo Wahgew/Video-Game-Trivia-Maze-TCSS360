@@ -9,27 +9,17 @@ import java.awt.event.ActionListener;
 public class WelcomeScreen extends JPanel {
     private static final int Screen_Width = ScreenSetting.Screen_Width;
     private static final int Screen_Height = ScreenSetting.Screen_Height;
-    private static final Font buttonFont = new Font("Banhschrift", Font.BOLD, 16);
     private JButton myNewGameButton;
     private JButton myLoadGameButton;
     private JButton myAboutUsButton;
     private JButton myExitButton;
     private final Image myBackground;
-    private final Image myIconLogo;
 
     public WelcomeScreen() {
         setPreferredSize(new Dimension(Screen_Width, Screen_Height));
 
-//        ImageIcon backgroundIcon = new ImageIcon
-//                (("C:\\Users\\nysop\\Desktop\\Trivia\\src\\Resource\\Background.jpg")); //Window
-//        ImageIcon backgroundIcon = new ImageIcon
-//                (("/Users/nithh/Desktop/Trivia/src/Resource/Background.jpg")); //macOS
         ImageIcon backgroundIcon= new ImageIcon(getClass().getResource("/Resource/Background.jpg"));
         myBackground = backgroundIcon.getImage();
-
-        ImageIcon logoIcon = new ImageIcon
-                (("C:\\Users\nysop\\Desktop\\Trivia\\src\\Resource\\Logo.jpg")); //Window
-        myIconLogo = logoIcon.getImage();
 
         setLayout(null);
         setUpButtons();
@@ -40,13 +30,9 @@ public class WelcomeScreen extends JPanel {
         myAboutUsButton = new JButton();
         myExitButton = new JButton();
 
-        //ImageIcon newGameIcon = new ImageIcon("/Users/nithh/Desktop/Trivia/src/Resource/NewGame.jpg"); //MacOS
         ImageIcon newGameIcon = new ImageIcon(getClass().getResource("/Resource/NewGame.jpg"));
-        //ImageIcon loadGameIcon = new ImageIcon("/Users/nithh/Desktop/Trivia/src/Resource/LoadGame.jpg"); //MacOS
         ImageIcon loadGameIcon = new ImageIcon(getClass().getResource("/Resource/LoadGame.jpg"));
-        //ImageIcon aboutUsIcon = new ImageIcon("/Users/nithh/Desktop/Trivia/src/Resource/AboutMe.jpg"); //MacOS
         ImageIcon aboutUsIcon = new ImageIcon(getClass().getResource("/Resource/AboutMe.jpg"));
-        //ImageIcon exitIcon = new ImageIcon("/Users/nithh/Desktop/Trivia/src/Resource/Exit.jpg"); //MacOS
         ImageIcon exitIcon = new ImageIcon(getClass().getResource("/Resource/Exit.jpg"));
 
         myNewGameButton.setIcon(newGameIcon);
@@ -74,26 +60,6 @@ public class WelcomeScreen extends JPanel {
         myAboutUsButton.setContentAreaFilled(false);
         myExitButton.setContentAreaFilled(false);
 
-//        myNewGameButton.setFont(buttonFont);
-//        myLoadGameButton.setFont(buttonFont);
-//        myAboutUsButton.setFont(buttonFont);
-//        myExitButton.setFont(buttonFont);
-//
-//        myNewGameButton.setBackground(Color.WHITE);
-//        myLoadGameButton.setBackground(Color.WHITE);
-//        myAboutUsButton.setBackground(Color.WHITE);
-//        myExitButton.setBackground(Color.WHITE);
-//
-//        myNewGameButton.setForeground(Color.BLACK);
-//        myLoadGameButton.setForeground(Color.BLACK);
-//        myAboutUsButton.setForeground(Color.BLACK);
-//        myExitButton.setForeground(Color.BLACK);
-//
-//        myNewGameButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
-//        myLoadGameButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
-//        myAboutUsButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
-//        myExitButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 4));
-
         myNewGameButton.setBounds(390,235, 170, 60); //150 50
         myLoadGameButton.setBounds(390,315, 170, 60);
         myAboutUsButton.setBounds(390,395, 170, 60);
@@ -109,11 +75,13 @@ public class WelcomeScreen extends JPanel {
     public void addButtonListener() {
         myNewGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
-            //gameFrame.switchToGamePanel(new GamePanel());
+            gameFrame.switchToGamePanel(new GamePanel());
         });
         myLoadGameButton.addActionListener(e -> {
-            GameFrame loadGame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
-            //loadGame.switchToGamePanel(new getMyGamePanel());
+            GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
+//            if (gameFrame.getMyGamePanel().loadGame()) {
+//                gameFrame.switchToGamePanel(gameFrame.getMyGamePanel());
+//            }
         });
         myAboutUsButton.addActionListener(new ActionListener() {
             @Override
@@ -134,16 +102,10 @@ public class WelcomeScreen extends JPanel {
                 }
             }
         });
-
     }
-    public void paintComponent(final Graphics graphics) {
-        super.paintComponent(graphics);
-        graphics.drawImage(myBackground,  0, 0, getWidth(), getHeight(), this);
-        //graphics.setColor(Color.BLACK);
-        int logoX = (getWidth() - myIconLogo.getWidth(this)) / 2; // Center the logo horizontally
-        int logoY = 100; // Adjust the vertical position of the logo
-        graphics.drawImage(myIconLogo, logoX,logoY, this);
-
+    public void paintComponent(final Graphics theGraphics) {
+        super.paintComponent(theGraphics);
+        theGraphics.drawImage(myBackground,0, 0, getWidth(), getHeight(), this);
     }
 
 }
