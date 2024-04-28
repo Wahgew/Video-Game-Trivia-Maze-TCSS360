@@ -155,6 +155,15 @@ public class Player {
                 allowMove = true;
             } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
                 Question testQuestion = new Question();
+
+                /*
+                 * this is the new test,
+                 * but the database does not work because I still cant figure out the connection problem yet.
+                 * I believe the correct way this works is the door will call the database.
+                 */
+                QuestionAnswerDatabase database = new QuestionAnswerDatabase();
+                database.getRandomQuestion();
+
                 System.out.println(testQuestion);         //TODO: THIS IS WHERE WE WOULD SWAP TO USING SQLITE DATABASE
                 String userAns = theInput.nextLine();
                 if (testQuestion.checkAnswer(userAns)) { // check player's answer

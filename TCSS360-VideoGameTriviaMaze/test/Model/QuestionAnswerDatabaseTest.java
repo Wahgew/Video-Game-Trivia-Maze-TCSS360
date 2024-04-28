@@ -28,23 +28,23 @@ class QuestionAnswerDatabaseTest {
         }
     }
 
-    @Test
-    void getRandomQuestion() {
-        QuestionAnswerDatabase.QuestionsAndAnswers randomQuestion = myDatabase.getRandomQuestion();
-
-        assertNotNull(randomQuestion);
-        assertNotNull(randomQuestion.getMyQuestionText());
-        assertFalse(randomQuestion.getMyAnswers().isEmpty());
-
-        // Assert that at least one answer is correct
-        boolean hasCorrectAnswer = false;
-        List<QuestionAnswerDatabase.Answer> answers = randomQuestion.getMyAnswers();
-        for (QuestionAnswerDatabase.Answer answer : answers) {
-            if (answer.isCorrect()) {
-                hasCorrectAnswer = true;
-                break;
-            }
-        }
-        assertTrue(hasCorrectAnswer, "No correct answer found for the random question");
-    }
+//    @Test
+//    void getRandomQuestion() {
+//        QuestionAnswerDatabase.QuestionsAndAnswers randomQuestion = myDatabase.getRandomQuestion();
+//
+//        assertNotNull(randomQuestion);
+//        assertNotNull(randomQuestion.getMyQuestionText());
+//        assertFalse(randomQuestion.getMyAnswers().isEmpty());
+//
+//        // Assert that at least one answer is correct
+//        boolean hasCorrectAnswer = false;
+//        List<QuestionAnswerDatabase.Answer> answers = randomQuestion.getMyAnswers();
+//        for (QuestionAnswerDatabase.Answer answer : answers) {
+//            if (answer.isCorrect()) {
+//                hasCorrectAnswer = true;
+//                break;
+//            }
+//        }
+//        assertTrue(hasCorrectAnswer, "No correct answer found for the random question");
+//    }
 }

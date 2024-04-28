@@ -42,19 +42,32 @@ public class QuestionAnswerDatabase {
         return myConnection;
     }
 
-    public QuestionsAndAnswers getRandomQuestion() {
-        QuestionsAndAnswers QNA = null;
+
+    //TODO: Add other question sub class -- Audio and Short answer.
+    public Question getRandomQuestion() {
+        Question rndQuestion = null;
 
         try {
             int randomQID = getRandomQuestionID();
             String questionText = getQuestionText(randomQID);
-            List<Answer> answers = getAnswers(randomQID);
+            AnswerData answers = getAnswers(randomQID);
+            String questionType = getQuestionType(randomQID);
 
-            QNA = new QuestionsAndAnswers(questionText, answers);
+            rndQuestion = switch (questionType) {
+                case "Mutli" -> new MultipleChoiceQuestion(questionText, answers);
+                case "T/F" -> new TrueFalseQuestion(questionType, answers);
+                case "Image" -> {
+                    String questionImage = getQuestionImage(randomQID);
+                    yield new ImageQuestion(questionText, answers, questionImage);
+                }
+                default -> throw new IllegalArgumentException("Error unknown question type :" + questionType);
+            };
+
+
         } catch (SQLException e) {
             throw new IllegalArgumentException("Error retrieve random question: " + e.getMessage());
         }
-        return QNA;
+        return rndQuestion;
     }
 
     private int getRandomQuestionID() throws SQLException {
@@ -79,56 +92,90 @@ public class QuestionAnswerDatabase {
         return questionText;
     }
 
-    private List<Answer> getAnswers(int theQuestionID) throws SQLException {
-        List<Answer> answers = new ArrayList<>();
+    //TODO: May throw null pointer exception fix later.
+    private String getQuestionImage(int theQuestionID) throws SQLException {
+        String imagePath = "";
+        PreparedStatement statement = myConnection.prepareStatement("SELECT ImageURL FROM Questions WHERE QuestionID = ?");
+        statement.setInt(1,theQuestionID);
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            imagePath = resultSet.getString("ImageURL");
+        }
+        return imagePath;
+    }
+
+    private AnswerData getAnswers(int theQuestionID) throws SQLException {
+        List<String> answers = new ArrayList<>();
+        int correctAnswerIndex = -1;
 
         PreparedStatement statement = myConnection.prepareStatement("SELECT AnswerText, IsCorrect FROM Answers WHERE QuestionID = ?");
         statement.setInt(1, theQuestionID);
         ResultSet resultSet = statement.executeQuery();
 
+        int index = 0;
         while (resultSet.next()) {
             String ansText = resultSet.getString("AnswerText");
             boolean isCorrect = resultSet.getInt("IsCorrect") == 1;
-            answers.add(new Answer(ansText, isCorrect));
+            answers.add(ansText);
+
+            if (isCorrect) {
+                correctAnswerIndex = index;
+            }
+            index++;
         }
-        return answers;
+
+        return new AnswerData(answers, correctAnswerIndex);
     }
 
-    //switch to private
-    static class QuestionsAndAnswers {
-        private final String myQuestionText;
-        private final List<Answer> myAnswers;
+    private String getQuestionType(int theQuestionID) throws SQLException {
+        String questionType = "";
+        PreparedStatement statement = myConnection.prepareStatement("SELECT QuestionType FROM Questions WHERE QuestionID = ?");
+        statement.setInt(1, theQuestionID);
+        ResultSet resultSet = statement.executeQuery();
 
-        public QuestionsAndAnswers(String theQuestion, List<Answer> theAnswers) {
-            myQuestionText = theQuestion;
-            myAnswers = theAnswers;
+        if (resultSet.next()) {
+            questionType = resultSet.getString("QuestionType");
         }
-
-        public String getMyQuestionText() {
-            return myQuestionText;
-        }
-
-        public List<Answer> getMyAnswers() {
-            return myAnswers;
-        }
+        return questionType;
     }
 
-    //switch to private
-    static class Answer {
-        private final String myAnswer;
-        private final boolean myCorrect;
-
-        public Answer(String theText, boolean theCorrect) {
-            myAnswer = theText;
-            myCorrect = theCorrect;
-        }
-
-        public String getMyAnswer() {
-            return myAnswer;
-        }
-
-        public Boolean isCorrect() {
-            return myCorrect;
-        }
-    }
+    //TODO: Will remove later keep it now just in case
+//    //switch to private
+//    static class QuestionsAndAnswers {
+//        private final String myQuestionText;
+//        private final List<Answer> myAnswers;
+//
+//        public QuestionsAndAnswers(String theQuestion, List<Answer> theAnswers) {
+//            myQuestionText = theQuestion;
+//            myAnswers = theAnswers;
+//        }
+//
+//        public String getMyQuestionText() {
+//            return myQuestionText;
+//        }
+//
+//        public List<Answer> getMyAnswers() {
+//            return myAnswers;
+//        }
+//    }
+//
+//    //switch to private
+//    static class Answer {
+//        private final String myAnswer;
+//        private final boolean myCorrect;
+//
+//        public Answer(String theText, boolean theCorrect) {
+//            myAnswer = theText;
+//            myCorrect = theCorrect;
+//        }
+//
+//        public String getMyAnswer() {
+//            return myAnswer;
+//        }
+//
+//        public Boolean isCorrect() {
+//            return myCorrect;
+//        }
+//    }
 }
