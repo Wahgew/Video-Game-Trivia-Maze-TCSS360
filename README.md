@@ -1,2 +1,3 @@
 # Video-Game-Trivia-Maze-TCSS360
-Maze game related to video game trivia
+Trivia maze game, focused on video game trivia.
+Coded in Java, pulling Q&A's from a SQLite database.
