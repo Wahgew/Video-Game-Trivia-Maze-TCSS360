@@ -107,7 +107,7 @@ public class GameFrame extends JFrame {
                 }
             }
         });
-        //myExitGame.addActionListener(e -> showDialog(new exitPanel()));
+
 
         myHintGame.addActionListener(e -> showDialog(new hintPanel()));
         myAboutUs.addActionListener(e -> showDialog(new aboutUsPanel()));
