@@ -42,8 +42,6 @@ public class QuestionAnswerDatabase {
         return myConnection;
     }
 
-
-    //TODO: Add other question sub class -- Audio and Short answer.
     public Question getRandomQuestion() {
         Question rndQuestion = null;
 
@@ -56,6 +54,11 @@ public class QuestionAnswerDatabase {
             rndQuestion = switch (questionType) {
                 case "Mutli" -> new MultipleChoiceQuestion(questionText, answers);
                 case "T/F" -> new TrueFalseQuestion(questionType, answers);
+                case "Short" -> new ShortAnswerQuestion(questionType, answers);
+                case "Audio" -> {
+                    String questionAudio = getQuestionAudio(randomQID);
+                    yield new AuditoryQuestion(questionText, answers, questionAudio);
+                }
                 case "Image" -> {
                     String questionImage = getQuestionImage(randomQID);
                     yield new ImageQuestion(questionText, answers, questionImage);
@@ -90,6 +93,18 @@ public class QuestionAnswerDatabase {
             questionText = resultSet.getString("QuestionText");
         }
         return questionText;
+    }
+
+    private String getQuestionAudio(int theQuestionID) throws SQLException {
+        String audioPath = "";
+        PreparedStatement statement = myConnection.prepareStatement("SELECT AudioFile FROM Questions Where QuestionID = ?");
+        statement.setInt(1, theQuestionID);
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            audioPath = resultSet.getString("AudioPath");
+        }
+        return audioPath;
     }
 
     //TODO: May throw null pointer exception fix later.
