@@ -26,7 +26,7 @@ public abstract class Question {
     /**
      * The correct answer to the question.
      */
-    private final AnswerData myAnswer;
+    private final AnswerData myAnswers;
 
 
     /**
@@ -36,7 +36,7 @@ public abstract class Question {
      */
     protected Question(String theQuestion, AnswerData theAnswer) {
         myQuestion = theQuestion;
-        myAnswer = theAnswer;
+        myAnswers = theAnswer;
     }
 
 //    /**
@@ -48,7 +48,6 @@ public abstract class Question {
 //        myAnswer = "Andy";
 //    }
 
-    public abstract Question getRandomQuestionType(String theQuestionText, List<String> theAnswers);
 
     public abstract String getType();
 
@@ -57,7 +56,7 @@ public abstract class Question {
      *
      * @return the question text
      */
-    public String getMyQuestion() {
+    public String getQuestion() {
         return myQuestion;
     }
 
@@ -66,8 +65,8 @@ public abstract class Question {
      *
      * @return the correct answer
      */
-    public AnswerData getMyAnswer() {
-        return myAnswer;
+    public AnswerData getAnswers() {
+        return myAnswers;
     }
 
     /**
@@ -77,7 +76,7 @@ public abstract class Question {
      * @return true if the user's answer is correct, false otherwise
      */
     boolean checkAnswer(String userAnswer) {
-        return myAnswer.equals(userAnswer);
+        return myAnswers.equals(userAnswer);
     }
 
     @Override
