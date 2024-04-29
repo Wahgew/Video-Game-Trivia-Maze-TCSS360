@@ -75,11 +75,6 @@ public class MultipleChoiceQuestion extends Question {
 //    }
 
     @Override
-    public Question getRandomQuestionType(String theQuestionText, List<String> theAnswers) {
-        return null;
-    }
-
-    @Override
     public String getType() {
         return "Multiple Choice";
     }
