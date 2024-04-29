@@ -2,6 +2,7 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GameFrame extends JFrame {
@@ -17,7 +18,8 @@ public class GameFrame extends JFrame {
 
     private JButton myResumeGameButton;
 
-    ImageIcon logoIcon = new ImageIcon(getClass().getResource("/Resource/Logo1.png"));
+    private final ImageIcon logoIcon = new ImageIcon(getClass().getResource("/Resource/Logo1.png"));
+    private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
 
     private GamePanel myGamePanel;
     private WelcomeScreen myWelcomeScreen;
@@ -42,12 +44,12 @@ public class GameFrame extends JFrame {
         myGamePanel = theGamePanel;
         resumeButton();
         menuBar();
-        setContentPane(theGamePanel);
-        //setContentPane(theGamePanel.getMyLayeredPane());
+        setContentPane(theGamePanel.getMyLayeredPane());
+
         revalidate();
         theGamePanel.requestFocusInWindow();
-        //theGamePanel.startGameThreat();
-        showDialog(new instructionPanel());
+        theGamePanel.startGameThread();
+        //showDialog(new instructionPanel());
     }
     public void switchToWelcomeScreen() {
         setContentPane(myWelcomeScreen);
@@ -70,30 +72,43 @@ public class GameFrame extends JFrame {
 
     private void menuBar() {
         myMenuBar = new JMenuBar();
-        JMenu myGameMenu = new JMenu("Game");
+        JMenu myGameMenu = new JMenu("Game Setting");
         JMenu myHelpMenu = new JMenu("Help");
         mySaveGame = new JMenuItem("Save Game");
         myLoadGame = new JMenuItem("Load Game");
         myAboutUs = new JMenuItem("About Us");
-        myExitGame = new JMenuItem("Exit");
         myHintGame = new JMenuItem("Hint");
+        myExitGame = new JMenuItem("Exit");
         myInstructionGame = new JMenuItem("Instruction");
 
         myMenuBar.add(myGameMenu);
         myMenuBar.add(myHelpMenu);
 
-        myMenuBar.add(mySaveGame);
-        myMenuBar.add(myLoadGame);
-        myMenuBar.add(myAboutUs);
-        myMenuBar.add(myExitGame);
-        myMenuBar.add(myHintGame);
-        myMenuBar.add(myInstructionGame);
+        myGameMenu.add(mySaveGame);
+        myGameMenu.add(myLoadGame);
+        myGameMenu.add(myHintGame);
+        myGameMenu.add(myExitGame);
+        myHelpMenu.add(myAboutUs);
+        myHelpMenu.add(myInstructionGame);
         setJMenuBar(myMenuBar);
         menuBarListener();
 
     }
     private void menuBarListener() {
-        myExitGame.addActionListener(e -> showDialog(new exitPanel()));
+        myExitGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                final int jOption = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to Exit?", "Exit",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,Speed_Icon);
+                if (jOption == JOptionPane.YES_NO_OPTION) {
+                    showDialog(new exitPanel());
+                    System.exit(0);
+                }
+            }
+        });
+        //myExitGame.addActionListener(e -> showDialog(new exitPanel()));
+
         myHintGame.addActionListener(e -> showDialog(new hintPanel()));
         myAboutUs.addActionListener(e -> showDialog(new aboutUsPanel()));
         myInstructionGame.addActionListener(e -> showDialog(new instructionPanel()));
@@ -109,7 +124,39 @@ public class GameFrame extends JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
-    class exitPanel extends JPanel {}
+    class exitPanel extends JPanel {
+        public exitPanel() {
+        setBackground(Color.LIGHT_GRAY);
+            //Set up the label for the exit panel
+            JLabel confirmExitLabel = new JLabel("CONFIRM EXIT?");
+            confirmExitLabel.setForeground(Color.BLACK);
+
+            JLabel confirmUnSavedExitLabel = new JLabel("UNSAVED PROGRESS WILL BE LOST!!");
+            confirmUnSavedExitLabel.setForeground(Color.BLACK);
+
+            //Set up the label for the exit panel
+            JPanel confirmExitPanel = new JPanel();
+            confirmExitPanel.setOpaque(false);
+            confirmExitPanel.add(confirmExitLabel);
+
+            JPanel confirmUnSavedExitPanel = new JPanel();
+            confirmUnSavedExitPanel.setOpaque(false);
+            confirmUnSavedExitPanel.add(confirmUnSavedExitLabel);
+
+            //Setting up the border
+            setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+            setLayout(new GridLayout(4,1,10,10));
+            add(confirmExitPanel);
+            add(confirmUnSavedExitPanel);
+
+            //Setting up the Exit Button
+            JButton exitButton = new JButton("EXIT");
+            exitButton.setBackground(Color.DARK_GRAY);
+            exitButton.setForeground(Color.white);
+            exitButton.addActionListener(e -> dispose());
+            add(exitButton);
+        }
+    }
     class hintPanel extends JPanel {}
     class instructionPanel extends JPanel {}
     class aboutUsPanel extends JPanel {}

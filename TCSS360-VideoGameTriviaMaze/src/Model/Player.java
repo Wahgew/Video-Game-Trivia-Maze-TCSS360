@@ -154,7 +154,7 @@ public class Player {
             if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyLockStatus()) { // check if door is locked
                 allowMove = true;
             } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
-                Question testQuestion = new Question();
+                //Question testQuestion = new Question();
 
                 /*
                  * this is the new test,
@@ -164,17 +164,17 @@ public class Player {
                 QuestionAnswerDatabase database = new QuestionAnswerDatabase();
                 database.getRandomQuestion();
 
-                System.out.println(testQuestion);         //TODO: THIS IS WHERE WE WOULD SWAP TO USING SQLITE DATABASE
-                String userAns = theInput.nextLine();
-                if (testQuestion.checkAnswer(userAns)) { // check player's answer
-                    allowMove = true;
-                    Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
-                    myCorrectAns++;
-                    myScore += 100;
-                } else { // player failed to answer correctly
-                    Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
-                    myScore -= 100;
-                }
+//                System.out.println(testQuestion);         //TODO: THIS IS WHERE WE WOULD SWAP TO USING SQLITE DATABASE
+//                String userAns = theInput.nextLine();
+//                if (testQuestion.checkAnswer(userAns)) { // check player's answer
+//                    allowMove = true;
+//                    Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
+//                    myCorrectAns++;
+//                    myScore += 100;
+//                } else { // player failed to answer correctly
+//                    Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
+//                    myScore -= 100;
+//                }
             }
         }
         return allowMove;

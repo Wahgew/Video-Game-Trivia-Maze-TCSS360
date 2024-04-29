@@ -14,11 +14,13 @@ public class WelcomeScreen extends JPanel {
     private JButton myAboutUsButton;
     private JButton myExitButton;
     private final Image myBackground;
+    private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
+    private final ImageIcon backgroundIcon= new ImageIcon(getClass().getResource("/Resource/Background.jpg"));
+
 
     public WelcomeScreen() {
         setPreferredSize(new Dimension(Screen_Width, Screen_Height));
 
-        ImageIcon backgroundIcon= new ImageIcon(getClass().getResource("/Resource/Background.jpg"));
         myBackground = backgroundIcon.getImage();
 
         setLayout(null);
@@ -96,7 +98,7 @@ public class WelcomeScreen extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 final int jOption = JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to Exit?", "Exit",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,Speed_Icon);
                 if (jOption == JOptionPane.YES_NO_OPTION) {
                     System.exit(0);
                 }
