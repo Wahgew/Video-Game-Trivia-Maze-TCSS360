@@ -86,10 +86,10 @@ public class GameFrame extends JFrame {
 
         myGameMenu.add(mySaveGame);
         myGameMenu.add(myLoadGame);
-        myGameMenu.add(myHintGame);
         myGameMenu.add(myExitGame);
-        myHelpMenu.add(myAboutUs);
+        myHelpMenu.add(myHintGame);
         myHelpMenu.add(myInstructionGame);
+        myHelpMenu.add(myAboutUs);
         setJMenuBar(myMenuBar);
         menuBarListener();
 
@@ -107,10 +107,15 @@ public class GameFrame extends JFrame {
                 }
             }
         });
-
-
+        myAboutUs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
+                        "Author: Peter, Ken Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 20.", "About",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
+            }
+        });
         myHintGame.addActionListener(e -> showDialog(new hintPanel()));
-        myAboutUs.addActionListener(e -> showDialog(new aboutUsPanel()));
         myInstructionGame.addActionListener(e -> showDialog(new instructionPanel()));
         //mySaveGame.addActionListener(e -> myGamePanel.saveGame());
         //myLoadGame.addActionListener(e -> myGamePanel.loadGame());
@@ -126,7 +131,7 @@ public class GameFrame extends JFrame {
     }
     class exitPanel extends JPanel {
         public exitPanel() {
-        setBackground(Color.LIGHT_GRAY);
+        setBackground(Color.WHITE);
             //Set up the label for the exit panel
             JLabel confirmExitLabel = new JLabel("CONFIRM EXIT?");
             confirmExitLabel.setForeground(Color.BLACK);
@@ -159,6 +164,12 @@ public class GameFrame extends JFrame {
     }
     class hintPanel extends JPanel {}
     class instructionPanel extends JPanel {}
-    class aboutUsPanel extends JPanel {}
+    class aboutUsPanel extends JPanel {
+        public aboutUsPanel() {
+            setBackground(Color.WHITE);
+            JLabel aboutUsLabel = new JLabel("About US");
+
+        }
+    }
 
 }
