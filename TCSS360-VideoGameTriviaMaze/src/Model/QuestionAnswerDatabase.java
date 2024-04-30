@@ -3,6 +3,7 @@ package Model;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.sqlite.SQLiteDataSource;
 
 /**
  * QuestionAnswerDatabase represents an SQlite database that
@@ -11,14 +12,13 @@ import java.util.List;
  * @author Peter Madin
  * @author Ken Egawa
  * @author Sopheanith Ny
- * @version 0.0.1 April 21, 2024
+ * @version 0.0.2 April 29, 2024
  */
 public class QuestionAnswerDatabase {
     /**
      * Get database file location from system property
      */
-    private static final String JDBC_URL = "jdbc:sqlite:QuestionAnswerDB.db";
-    //private static final String JDBC_URL = "jdbc:sqlite:" + System.getProperty("database.location");
+    private SQLiteDataSource myDB = null;
 
     /**
      * Database connection
@@ -27,9 +27,11 @@ public class QuestionAnswerDatabase {
 
     public QuestionAnswerDatabase() {
         try {
-            myConnection = DriverManager.getConnection(JDBC_URL);
+            myDB = new SQLiteDataSource();
+            myDB.setUrl("jdbc:sqlite:QuestionAnswerDB.db");
+            myConnection = myDB.getConnection();
             System.out.println("Connected to the database.");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.err.println("Error connecting to the database: " + e.getMessage());
         }
     }
@@ -42,6 +44,10 @@ public class QuestionAnswerDatabase {
         return myConnection;
     }
 
+    public SQLiteDataSource getMyDB() {
+        return myDB;
+    }
+
     public Question getRandomQuestion() {
         Question rndQuestion = null;
 
@@ -52,20 +58,19 @@ public class QuestionAnswerDatabase {
             String questionType = getQuestionType(randomQID);
 
             rndQuestion = switch (questionType) {
-                case "Mutli" -> new MultipleChoiceQuestion(questionText, answers);
-                case "T/F" -> new TrueFalseQuestion(questionType, answers);
-                case "Short" -> new ShortAnswerQuestion(questionType, answers);
+                case "Multi" -> new MultipleChoiceQuestion(questionText, answers, questionType);
+                case "T/F" -> new TrueFalseQuestion(questionText, answers, questionType);
+                case "Short" -> new ShortAnswerQuestion(questionText, answers, questionType);
                 case "Audio" -> {
                     String questionAudio = getQuestionAudio(randomQID);
-                    yield new AuditoryQuestion(questionText, answers, questionAudio);
+                    yield new AuditoryQuestion(questionText, answers, questionAudio, questionType);
                 }
                 case "Image" -> {
                     String questionImage = getQuestionImage(randomQID);
-                    yield new ImageQuestion(questionText, answers, questionImage);
+                    yield new ImageQuestion(questionText, answers, questionImage, questionType);
                 }
                 default -> throw new IllegalArgumentException("Error unknown question type :" + questionType);
             };
-
 
         } catch (SQLException e) {
             throw new IllegalArgumentException("Error retrieve random question: " + e.getMessage());
@@ -102,7 +107,7 @@ public class QuestionAnswerDatabase {
         ResultSet resultSet = statement.executeQuery();
 
         if (resultSet.next()) {
-            audioPath = resultSet.getString("AudioPath");
+            audioPath = resultSet.getString("AudioFile");
         }
         return audioPath;
     }
@@ -154,43 +159,4 @@ public class QuestionAnswerDatabase {
         }
         return questionType;
     }
-
-    //TODO: Will remove later keep it now just in case
-//    //switch to private
-//    static class QuestionsAndAnswers {
-//        private final String myQuestionText;
-//        private final List<Answer> myAnswers;
-//
-//        public QuestionsAndAnswers(String theQuestion, List<Answer> theAnswers) {
-//            myQuestionText = theQuestion;
-//            myAnswers = theAnswers;
-//        }
-//
-//        public String getMyQuestionText() {
-//            return myQuestionText;
-//        }
-//
-//        public List<Answer> getMyAnswers() {
-//            return myAnswers;
-//        }
-//    }
-//
-//    //switch to private
-//    static class Answer {
-//        private final String myAnswer;
-//        private final boolean myCorrect;
-//
-//        public Answer(String theText, boolean theCorrect) {
-//            myAnswer = theText;
-//            myCorrect = theCorrect;
-//        }
-//
-//        public String getMyAnswer() {
-//            return myAnswer;
-//        }
-//
-//        public Boolean isCorrect() {
-//            return myCorrect;
-//        }
-//    }
 }
