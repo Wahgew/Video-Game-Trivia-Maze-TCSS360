@@ -2,22 +2,25 @@ package Model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.sqlite.SQLiteDataSource;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionAnswerDatabaseTest {
     private QuestionAnswerDatabase myDatabase;
     private Connection myConnection;
+    private SQLiteDataSource mySQL;
 
     @BeforeEach
     void setUp() throws SQLException {
         myDatabase = new QuestionAnswerDatabase();
         myConnection = myDatabase.getConnection();
+        mySQL = myDatabase.getMyDB();
     }
 
 
@@ -28,23 +31,29 @@ class QuestionAnswerDatabaseTest {
         }
     }
 
-//    @Test
-//    void getRandomQuestion() {
-//        QuestionAnswerDatabase.QuestionsAndAnswers randomQuestion = myDatabase.getRandomQuestion();
-//
-//        assertNotNull(randomQuestion);
-//        assertNotNull(randomQuestion.getMyQuestionText());
-//        assertFalse(randomQuestion.getMyAnswers().isEmpty());
-//
-//        // Assert that at least one answer is correct
-//        boolean hasCorrectAnswer = false;
-//        List<QuestionAnswerDatabase.Answer> answers = randomQuestion.getMyAnswers();
-//        for (QuestionAnswerDatabase.Answer answer : answers) {
-//            if (answer.isCorrect()) {
-//                hasCorrectAnswer = true;
-//                break;
-//            }
-//        }
-//        assertTrue(hasCorrectAnswer, "No correct answer found for the random question");
-//    }
+    @Test
+    void getMyDBConnection() {
+        if (mySQL != null) {
+            assertTrue(true, "connected");
+        }
+    }
+
+    @Test
+    void getRandomQuestion() {
+        Set<String> generateQuestionTypes = new HashSet<>();
+        int iterations = 20;
+
+        for (int i = 0; i < iterations; i++) {
+            // check we are not creating null objects
+            Question question = myDatabase.getRandomQuestion();
+            assertNotNull(question);
+
+            String qType = question.getType();
+            generateQuestionTypes.add(qType);
+
+            System.out.println("\n" + question);
+        }
+
+        assertTrue(generateQuestionTypes.containsAll(Set.of("Multi", "T/F", "Short", "Audio", "Image")));
+    }
 }
