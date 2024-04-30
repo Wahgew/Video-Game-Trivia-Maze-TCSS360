@@ -157,8 +157,9 @@ public class GameFrame extends JFrame {
             //Setting up the Exit Button
             JButton exitButton = new JButton("EXIT");
             exitButton.setBackground(Color.DARK_GRAY);
-            exitButton.setForeground(Color.white);
+            exitButton.setForeground(Color.BLACK);
             exitButton.addActionListener(e -> dispose());
+            add(myResumeGameButton);
             add(exitButton);
         }
     }
