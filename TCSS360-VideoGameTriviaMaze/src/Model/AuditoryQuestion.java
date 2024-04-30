@@ -3,8 +3,8 @@ package Model;
 public class AuditoryQuestion extends MultipleChoiceQuestion {
     private final String myAudioPath;
 
-    public AuditoryQuestion(String theQuestion, AnswerData theAnswer, String theAudioPath) {
-        super(theQuestion, theAnswer);
+    public AuditoryQuestion(String theQuestion, AnswerData theAnswer, String theAudioPath, String theType) {
+        super(theQuestion, theAnswer, theType);
         myAudioPath = theAudioPath;
     }
 
@@ -14,7 +14,7 @@ public class AuditoryQuestion extends MultipleChoiceQuestion {
 
     @Override
     public String getType() {
-        return "Audio";
+        return super.getType();
     }
 
     @Override

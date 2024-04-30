@@ -4,8 +4,8 @@ public class ImageQuestion extends MultipleChoiceQuestion{
 
     private final String myImagePath;
 
-    public ImageQuestion(String theQuestion, AnswerData theAnswer, String theImageFile) {
-        super(theQuestion, theAnswer);
+    public ImageQuestion(String theQuestion, AnswerData theAnswer, String theImageFile, String theType) {
+        super(theQuestion, theAnswer, theType);
         myImagePath = theImageFile;
     }
 
@@ -15,7 +15,7 @@ public class ImageQuestion extends MultipleChoiceQuestion{
 
     @Override
     public String getType() {
-        return "Image";
+        return super.getType();
     }
 
     @Override

@@ -1,13 +1,13 @@
 package Model;
 
 public class TrueFalseQuestion extends MultipleChoiceQuestion {
-    public TrueFalseQuestion(String theQuestion, AnswerData theAnswer) {
-        super(theQuestion, theAnswer);
+    public TrueFalseQuestion(String theQuestion, AnswerData theAnswer, String theType) {
+        super(theQuestion, theAnswer, theType);
     }
 
     @Override
     public String getType() {
-        return "T/F";
+        return super.getType();
     }
 
     @Override

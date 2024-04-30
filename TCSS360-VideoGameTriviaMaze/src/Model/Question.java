@@ -28,28 +28,23 @@ public abstract class Question {
      */
     private final AnswerData myAnswers;
 
+    private final String myQuestionType;
 
     /**
      * TODO: CONSTRUCTOR WILL NEED TO PULL FROM A SQLITE DATABASE FOR Q&A.
      * @param theQuestion
      * @param theAnswer
      */
-    protected Question(String theQuestion, AnswerData theAnswer) {
+    protected Question(String theQuestion, AnswerData theAnswer, String theType) {
         myQuestion = theQuestion;
         myAnswers = theAnswer;
+        myQuestionType = theType;
     }
 
-//    /**
-//     * Constructs a new Question object with predefined values for testing purposes.
-//     * This constructor provides predefined values for the question and answer.
-//     */
-//    Question() { // TEST CONSTRUCTOR
-//        myQuestion = "What is Andrew Hwang's nickname?";
-//        myAnswer = "Andy";
-//    }
 
-
-    public abstract String getType();
+    public String getType() {
+        return myQuestionType;
+    }
 
     /**
      * Gets the question text.
@@ -81,6 +76,21 @@ public abstract class Question {
 
     @Override
     public String toString() {
-        return myQuestion + "\n" + "Input Answer: ";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Question Type: ").append(myQuestionType).append("\n");
+        sb.append("Question: ").append(myQuestion).append("\n");
+        sb.append("Answers:\n");
+
+        List<String> answers = myAnswers.getAnswerChoices();
+        int correctAnswerIndex = myAnswers.getCorrectAnswerIndex();
+
+        for (int i = 0; i < answers.size(); i++) {
+            sb.append("  ").append(i + 1).append(". ").append(answers.get(i));
+            if (i == correctAnswerIndex) {
+                sb.append(" (Correct)");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

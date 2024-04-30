@@ -3,14 +3,14 @@ package Model;
 public class ShortAnswerQuestion extends Question {
     private final String myCorrectAnswer;
 
-    public ShortAnswerQuestion(String theQuestion, AnswerData theAnswerData) {
-        super(theQuestion, theAnswerData);
+    public ShortAnswerQuestion(String theQuestion, AnswerData theAnswerData, String theType) {
+        super(theQuestion, theAnswerData, theType);
         myCorrectAnswer = theAnswerData.getAnswerChoices().toString();
     }
 
     @Override
     public String getType() {
-        return "Short";
+        return super.getType();
     }
 
     @Override
@@ -18,7 +18,7 @@ public class ShortAnswerQuestion extends Question {
         return super.getQuestion();
     }
 
-    public String getMyCorrectAnswer() {
+    public String getCorrectAnswer() {
         return myCorrectAnswer;
     }
 }
