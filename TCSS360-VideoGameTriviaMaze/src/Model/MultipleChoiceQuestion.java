@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.List;
-
 /**
  * MultipleChoiceQuestion represents a multiple-choice question with options.
  * It extends the Question class and provides functionality to store and retrieve
