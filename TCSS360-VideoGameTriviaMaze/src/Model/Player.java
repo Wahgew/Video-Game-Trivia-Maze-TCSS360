@@ -161,8 +161,8 @@ public class Player {
                  * but the database does not work because I still cant figure out the connection problem yet.
                  * I believe the correct way this works is the door will call the database.
                  */
-                QuestionAnswerDatabase database = new QuestionAnswerDatabase();
-                database.getRandomQuestion();
+//                QuestionAnswerDatabase database = new QuestionAnswerDatabase();
+//                database.getRandomQuestion();
 
 //                System.out.println(testQuestion);         //TODO: THIS IS WHERE WE WOULD SWAP TO USING SQLITE DATABASE
 //                String userAns = theInput.nextLine();

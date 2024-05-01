@@ -1,7 +1,7 @@
 import Model.Direction;
 import Model.Maze;
 import Model.Player;
-import Model.QuestionAnswerDatabase;
+//import Model.QuestionAnswerDatabase;
 
 import java.util.Scanner;
 

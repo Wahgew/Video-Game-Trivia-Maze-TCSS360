@@ -116,7 +116,29 @@ public class GameFrame extends JFrame {
             }
         });
         myHintGame.addActionListener(e -> showDialog(new hintPanel()));
-        myInstructionGame.addActionListener(e -> showDialog(new instructionPanel()));
+        myInstructionGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final int jOption = JOptionPane.showConfirmDialog(null, "<html><p align='justify'>Objective:<br>"
+                                + "Navigate through the maze, answer the trivia questions as prompted when you reach a door to open the pathway, and reach the exit!<br><br>"
+                                + "Controls:<br>"
+                                + "Use arrow key buttons or keyboard arrows to navigate through the maze.<br>"
+                                + "Load the game at the 'File' tab to enable the start button to begin game play.<br>"
+                                + "Press 'Start' to begin the game.<br>"
+                                + "Press 'Play Again' or 'Reset' to restart the game.<br><br>"
+                                + "Gameplay:<br>"
+                                + "Move the player using arrow key buttons or keyboard arrows.<br>"
+                                + "When the player encounters a door, a Marvel trivia question will be prompted on the screen.<br>"
+                                + "Trivia questions will be short answer, multiple choice, and true/false.<br>"
+                                + "Answer the question correctly, and the door color will change to white meaning the player is free to continue on the maze,<br>"
+                                + "or else the door will turn grey if the player answers incorrectly and the door is now locked.<br>"
+                                + "The player must find another route to exit the maze.<br>"
+                                + "Reach the exit to win the game!<br>"
+                                + "Otherwise, if there are no other possible pathways out of the maze, the player loses!<br>"
+                                + "Good luck and have fun!</p></html>", "Instruction",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
+            }
+        });
         //mySaveGame.addActionListener(e -> myGamePanel.saveGame());
         //myLoadGame.addActionListener(e -> myGamePanel.loadGame());
 
@@ -156,19 +178,53 @@ public class GameFrame extends JFrame {
 
             //Setting up the Exit Button
             JButton exitButton = new JButton("EXIT");
-            exitButton.setBackground(Color.DARK_GRAY);
-            exitButton.setForeground(Color.BLACK);
+            exitButton.setBackground(Color.GRAY);
+            exitButton.setForeground(Color.WHITE);
             exitButton.addActionListener(e -> dispose());
             add(myResumeGameButton);
             add(exitButton);
         }
     }
     class hintPanel extends JPanel {}
-    class instructionPanel extends JPanel {}
-    class aboutUsPanel extends JPanel {
-        public aboutUsPanel() {
-            setBackground(Color.WHITE);
-            JLabel aboutUsLabel = new JLabel("About US");
+    class instructionPanel extends JPanel {
+        public instructionPanel() {
+            setBackground(Color.GRAY);
+            JLabel instructionLabel1 = new JLabel("Instruction");
+            instructionLabel1.setForeground(Color.BLACK);
+            JLabel instructionLabel2 = new JLabel
+                    ("<html><p align='justify'>Objective:<br>"
+                            + "Navigate through the maze, answer the trivia questions as prompted when you reach a door to open the pathway, and reach the exit!<br><br>"
+                            + "Controls:<br>"
+                            + "Use arrow key buttons or keyboard arrows to navigate through the maze.<br>"
+                            + "Load the game at the 'File' tab to enable the start button to begin game play.<br>"
+                            + "Press 'Start' to begin the game.<br>"
+                            + "Press 'Play Again' or 'Reset' to restart the game.<br><br>"
+                            + "Gameplay:<br>"
+                            + "Move the player using arrow key buttons or keyboard arrows.<br>"
+                            + "When the player encounters a door, a Marvel trivia question will be prompted on the screen.<br>"
+                            + "Trivia questions will be short answer, multiple choice, and true/false.<br>"
+                            + "Answer the question correctly, and the door color will change to white meaning the player is free to continue on the maze,<br>"
+                            + "or else the door will turn grey if the player answers incorrectly and the door is now locked.<br>"
+                            + "The player must find another route to exit the maze.<br>"
+                            + "Reach the exit to win the game!<br>"
+                            + "Otherwise, if there are no other possible pathways out of the maze, the player loses!<br>"
+                            + "Good luck and have fun!</p></html>");
+            instructionLabel2.setForeground(Color.BLACK);
+
+            JPanel instructionPanel1 = new JPanel();
+            instructionPanel1.setOpaque(false);
+            instructionPanel1.add(instructionLabel1);
+
+            JPanel instructionPanel2 = new JPanel();
+            instructionPanel2.setOpaque(false);
+            instructionPanel2.add(instructionLabel2);
+
+            setLayout(new BorderLayout());
+            setBorder(BorderFactory.createEmptyBorder(Border,Border,Border,Border));
+            add(instructionPanel1);
+            add(instructionPanel2);
+            add(myResumeGameButton, BorderLayout.SOUTH);
+
 
         }
     }
