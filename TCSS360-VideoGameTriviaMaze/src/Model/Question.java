@@ -14,9 +14,6 @@ import java.util.List;
  * @version 0.0.2 April 27, 2024
  */
 public abstract class Question {
-    //TODO: Consider if this class should be reformed into a interface or an abstract class
-    // Since we have 5 different question types Multiple choice, short answer, true/false, image, and audio
-    // it maybe beneficial to give some abstraction.
 
     /**
      * The question text.
@@ -28,12 +25,17 @@ public abstract class Question {
      */
     private final AnswerData myAnswers;
 
+    /**
+     * The question Type (e.g., "Multi", "T/F", "Short", "Audio", "Image").
+     */
     private final String myQuestionType;
 
     /**
-     * TODO: CONSTRUCTOR WILL NEED TO PULL FROM A SQLITE DATABASE FOR Q&A.
-     * @param theQuestion
-     * @param theAnswer
+     * Question constructor that creates a question with a question text,
+     * AnswerData, and type.
+     *
+     * @param theQuestion the question text.
+     * @param theAnswer the data representing the answer choices and correct index
      */
     protected Question(String theQuestion, AnswerData theAnswer, String theType) {
         myQuestion = theQuestion;
@@ -42,6 +44,11 @@ public abstract class Question {
     }
 
 
+    /**
+     * Gets the question type.
+     *
+     * @return the question type
+     */
     public String getType() {
         return myQuestionType;
     }
@@ -65,15 +72,11 @@ public abstract class Question {
     }
 
     /**
-     * Checks if the specified user answer matches the correct answer.
+     * toString displaying question, possible answer with
+     * the correct answer marked.
      *
-     * @param userAnswer the user's answer to check
-     * @return true if the user's answer is correct, false otherwise
+     * @return String displaying question object information
      */
-    boolean checkAnswer(String userAnswer) {
-        return myAnswers.equals(userAnswer);
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
