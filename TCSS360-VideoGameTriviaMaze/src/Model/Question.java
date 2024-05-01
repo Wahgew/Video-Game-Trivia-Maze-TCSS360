@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * Abstract Question class represents a generic question with a question text and answer.
- *
  * Each question has a question text and an answer. This class serves as a base class
  * for more specific types of questions, such as multiple-choice or short answer questions.
  *
