@@ -45,6 +45,7 @@ public class Player {
      * Number of correct answers given by the player.
      */
     private int myCorrectAns;
+    private int myConsecutiveAns;
 
     private boolean myVictory;
 
@@ -58,6 +59,7 @@ public class Player {
         myLocationCol = Maze.getInstance().getMyEntranceColumn();
         myScore = 0;
         myCorrectAns = 0;
+        myConsecutiveAns = 0;
         myVictory = false;
     }
 
@@ -154,30 +156,52 @@ public class Player {
             if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyLockStatus()) { // check if door is locked
                 allowMove = true;
             } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
-                //Question testQuestion = new Question();
-
-                /*
-                 * this is the new test,
-                 * but the database does not work because I still cant figure out the connection problem yet.
-                 * I believe the correct way this works is the door will call the database.
-                 */
-//                QuestionAnswerDatabase database = new QuestionAnswerDatabase();
-//                database.getRandomQuestion();
-
-//                System.out.println(testQuestion);         //TODO: THIS IS WHERE WE WOULD SWAP TO USING SQLITE DATABASE
-//                String userAns = theInput.nextLine();
-//                if (testQuestion.checkAnswer(userAns)) { // check player's answer
-//                    allowMove = true;
-//                    Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
-//                    myCorrectAns++;
-//                    myScore += 100;
-//                } else { // player failed to answer correctly
-//                    Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
-//                    myScore -= 100;
-//                }
+//                //Question testQuestion = new Question();
+//
+//                /*
+//                 * this is the new test,
+//                 * but the database does not work because I still cant figure out the connection problem yet.
+//                 * I believe the correct way this works is the door will call the database.
+//                 */
+////                QuestionAnswerDatabase database = new QuestionAnswerDatabase();
+////                database.getRandomQuestion();
+//
+////                System.out.println(testQuestion);         //TODO: THIS IS WHERE WE WOULD SWAP TO USING SQLITE DATABASE
+////                String userAns = theInput.nextLine();
+////                if (testQuestion.checkAnswer(userAns)) { // check player's answer
+////                    allowMove = true;
+////                    Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
+////                    myCorrectAns++;
+////                    scoreUpdate(true);
+////                } else { // player failed to answer correctly
+////                    Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
+////                    scoreUpdate(false;
+////                }
             }
         }
         return allowMove;
+    }
+    /**
+     * Called to update player score when question is attempted.
+     * Players earn points for correct answers, with the score multiplier increasing with consecutive correct answers
+     * up to a maximum of 5x. The base score for each correct answer is 100 points, multiplied by the consecutive
+     * correct answer multiplier.  A deduction of 100 points is acquired for each incorrect answer,
+     * however, the multiplier does not apply to losing points.
+     * @param theSuccess if the question was answered correctly.
+     */
+    void scoreUpdate(boolean theSuccess) {
+        if (theSuccess) {
+            myConsecutiveAns++;
+            myCorrectAns++;
+            if (myConsecutiveAns >= 5) {
+                myScore += (100 * 5);
+            } else {
+                myScore += (100 * myConsecutiveAns);
+            }
+        } else {
+            myConsecutiveAns = 0;
+            myScore -= 100;
+        }
     }
     /**
      * NEED TO VALIDATE THE MOVE BEFORE USING THIS IS JUST A SETTER.

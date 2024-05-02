@@ -24,7 +24,7 @@ public class Door {
      */
     private boolean myAttemptStatus;
 
-    private boolean myLeadsOutofBounds;
+    private boolean myLeadsOutofBounds; // not actually useful? maybe remove this
 
     /**
      * Constructs a new Door object with default lock
@@ -76,6 +76,15 @@ public class Door {
         myLeadsOutofBounds = theOOBStatus;
         myLockStatus = theOOBStatus;
     }
+
+    /**
+     * Should be called when a question has been attempted, "syncs" the state of
+     * the corresponding door and adjacent room's door.
+     * @param theSuccess if the question was answered correctly.
+     * @param theRow the row of the room the player is attempting the question from.
+     * @param theCol the column of the room the player is attempting the question from.
+     * @param theDirection the Direction the player is attempting to move.
+     */
     static void questionAttempted(boolean theSuccess, int theRow, int theCol, Direction theDirection) {
         if (theSuccess) {
             Maze.getInstance().getMyRoom(theRow, theCol).getMyDoor(theDirection).setMyAttemptStatus(true);

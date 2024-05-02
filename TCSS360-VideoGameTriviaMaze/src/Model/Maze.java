@@ -164,6 +164,14 @@ public class Maze {
             throw new IndexOutOfBoundsException("Index is out of bounds");
         }
     }
+
+    /**
+     * "Gets" the room that is adjacent to parameter location based on a given Direction.
+     * @param theDirection the direction of the room to return.
+     * @param theRow the row of the room to calculate the adjacency from.
+     * @param theCol the column of the room to calculate the adjacency from.
+     * @return the room that is adjacent in the parameter direction to the room specified by row and column.
+     */
     public Room getMyAdjacentRoom(Direction theDirection, int theRow, int theCol) {
         switch (theDirection) {
             case NORTH -> {

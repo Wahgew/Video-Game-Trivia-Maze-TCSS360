@@ -15,7 +15,7 @@ public class TriviaGame {
 //        System.out.println("Input # of columns in Maze: ");
 //        mazeCols = testInput.nextInt();
 //        Maze.getInstance(mazeRows, mazeCols);
-//        EVERYTHING HERE IS JUST TEMPORARY FOR TESTING MAZE AND PLAYER.
+//        TODO: EVERYTHING HERE IS JUST TEMPORARY FOR TESTING MAZE AND PLAYER.
         Maze.getInstance(4,4);
         System.out.println(Maze.getInstance());
         System.out.println("Player Location (▣): " + Player.getInstance().getMyLocationRow() + ", "
@@ -41,13 +41,10 @@ public class TriviaGame {
             System.out.println("\nCurrent Room:");
             System.out.println(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(),
                     Player.getInstance().getMyLocationCol()));
+            System.out.println("\n Player Score: " + Player.getInstance().getMyScore());
         }
-        //TODO:
-        //      Look at the Player class, need to change validPlayerMove or how Room/Door class works.
-        //  current implementation of Room/Door has every room with four doors, meaning each "doorway"
-        //  has two doors, one from the room the player starts movement in and one in the room
-        //  the player is moving to. Might need to sync the "set" of doors.
-        //      Need some way to call question construction/query when moving through non-attempted door.
+        // TODO:
+        //  Need some way to call question construction/query when moving through non-attempted door.
         //  FIX METHODS VISIBILITIES, CHANGED SOME TO PUBLIC FOR TESTING IN THIS.
     }
 }
