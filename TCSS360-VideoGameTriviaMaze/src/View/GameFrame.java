@@ -17,6 +17,7 @@ public class GameFrame extends JFrame {
     private JMenuItem myInstructionGame;
 
     private JButton myResumeGameButton;
+
     private JButton myUpArrowButton;
     private JButton myDownArrowButton;
     private JButton myLeftArrowButton;
@@ -42,6 +43,13 @@ public class GameFrame extends JFrame {
 
 
     }
+    private void guiSetup() {
+        final Container contentPane = getContentPane();
+        contentPane.setLayout(new BorderLayout());
+        contentPane.add(myGamePanel, BorderLayout.WEST);
+
+    }
+
     public GamePanel getMyGamePanel() {
         return myGamePanel;
     }
@@ -51,7 +59,7 @@ public class GameFrame extends JFrame {
         menuBar();
         setContentPane(theGamePanel.getMyLayeredPane());
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setUndecorated(true);
+        //setUndecorated(true);
         revalidate();
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();

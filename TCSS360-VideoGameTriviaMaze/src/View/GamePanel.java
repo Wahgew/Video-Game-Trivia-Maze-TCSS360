@@ -12,18 +12,46 @@ public class GamePanel extends JPanel implements Runnable{
     private transient Thread myGameThread;
     private boolean myGameOver;
 
-    public GamePanel(){
+    private JButton myUpArrowButton;
+    private JButton myDownArrowButton;
+    private JButton myLeftArrowButton;
+    private JButton myRightArrowButton;
+
+    public GamePanel() {
         myGameOver = false;
 
         this.setPreferredSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
-        this.setBackground(Color.BLACK);
+        //this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
 
         myLayeredPane = new JLayeredPane();
         myLayeredPane.setLayout(new BorderLayout());
         myLayeredPane.add(this);
+        myLayeredPane.add(createLayeredPanel());
+
     }
+
+    private JPanel createLayeredPanel() {
+        JPanel layeredPanel = new JPanel();
+        layeredPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 1));
+        //layeredPanel.setLayout(new GridLayout(3,1,10,10));
+        //layeredPanel.setLayout(new BoxLayout(layeredPanel, BoxLayout.LINE_AXIS));
+
+
+        myUpArrowButton = new JButton("^");
+        myDownArrowButton = new JButton("v");
+        myLeftArrowButton = new JButton("<");
+        myRightArrowButton = new JButton(">");
+
+        layeredPanel.add(myLeftArrowButton);
+        layeredPanel.add(myUpArrowButton);
+        layeredPanel.add(myDownArrowButton);
+        layeredPanel.add(myRightArrowButton);
+
+        return layeredPanel;
+    }
+
 //    public void saveGame() {
 //        try {
 //            FileOutputStream fileOut = new FileOutputStream("game_state.ser");
