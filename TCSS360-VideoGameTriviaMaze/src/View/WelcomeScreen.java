@@ -87,10 +87,10 @@ public class WelcomeScreen extends JPanel {
         });
         myAboutUsButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(final ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Game: Game of Carps.\n" +
-                        "Author: Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 19.", "About",
-                        JOptionPane.INFORMATION_MESSAGE);
+            public void actionPerformed(ActionEvent e) {
+                final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
+                                "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 21.", "About",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
             }
         });
         myExitButton.addActionListener(new ActionListener() {

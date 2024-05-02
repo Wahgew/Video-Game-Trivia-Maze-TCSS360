@@ -17,6 +17,10 @@ public class GameFrame extends JFrame {
     private JMenuItem myInstructionGame;
 
     private JButton myResumeGameButton;
+    private JButton myUpArrowButton;
+    private JButton myDownArrowButton;
+    private JButton myLeftArrowButton;
+    private JButton myRightArrowButton;
 
     private final ImageIcon logoIcon = new ImageIcon(getClass().getResource("/Resource/Logo1.png"));
     private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
@@ -36,6 +40,7 @@ public class GameFrame extends JFrame {
         setVisible(true);
         myGamePanel = new GamePanel();
 
+
     }
     public GamePanel getMyGamePanel() {
         return myGamePanel;
@@ -45,11 +50,13 @@ public class GameFrame extends JFrame {
         resumeButton();
         menuBar();
         setContentPane(theGamePanel.getMyLayeredPane());
-
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
         revalidate();
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
         //showDialog(new instructionPanel());
+
     }
     public void switchToWelcomeScreen() {
         setContentPane(myWelcomeScreen);
@@ -62,7 +69,7 @@ public class GameFrame extends JFrame {
     private void resumeButton() {
         myResumeGameButton = new JButton("RESUME GAME");
         //myResumeGameButton.setBackground(BEIGE);
-        myResumeGameButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,1));
+        myResumeGameButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         myResumeGameButton.addActionListener(e -> {
             Component component = (Component) e.getSource();
             Window window = SwingUtilities.getWindowAncestor(component);
@@ -111,7 +118,7 @@ public class GameFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
-                        "Author: Peter, Ken Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 20.", "About",
+                        "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 21.", "About",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
             }
         });
