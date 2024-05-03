@@ -113,7 +113,7 @@ public class Player {
         }
         return moveAllowed;
     }
-    boolean validPlayerMove(Direction theDirection) {
+    public boolean validPlayerMove(Direction theDirection) {
         boolean moveAllowed = false;
         int playerRow = myLocationRow;
         int playerCol = myLocationCol;
@@ -197,6 +197,46 @@ public class Player {
         }
         return allowMove;
     }
+    boolean attemptMove(Direction theDirection) { //TODO: possibly change this, just for testing rn
+        boolean allowMove = false;
+        int playerRow = myLocationRow;
+        int playerCol = myLocationCol;
+        switch (theDirection) {
+            case NORTH -> playerRow--;
+            case SOUTH -> playerRow++;
+            case EAST -> playerCol++;
+            case WEST -> playerCol--;
+        }
+        if (playerRow >= 0 && playerRow < Maze.getInstance().getMyMazeRows()
+                && playerCol >= 0 && playerCol < Maze.getInstance().getMyMazeCols()) {
+            if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyLockStatus()) { // check if door is locked
+                allowMove = true;
+            } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
+//                //Question testQuestion = new Question();
+//
+//                /*
+//                 * this is the new test,
+//                 * but the database does not work because I still cant figure out the connection problem yet.
+//                 * I believe the correct way this works is the door will call the database.
+//                 */
+////                QuestionAnswerDatabase database = new QuestionAnswerDatabase();
+////                database.getRandomQuestion();
+//
+////                System.out.println(testQuestion);         //TODO: THIS IS WHERE WE WOULD SWAP TO USING SQLITE DATABASE
+////                String userAns = theInput.nextLine();
+////                if (testQuestion.checkAnswer(userAns)) { // check player's answer
+////                    allowMove = true;
+////                    Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
+////                    myCorrectAns++;
+////                    scoreUpdate(true);
+////                } else { // player failed to answer correctly
+////                    Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
+////                    scoreUpdate(false;
+////                }
+            }
+        }
+        return allowMove;
+    }
     /**
      * Called to update player score when question is attempted.
      * Players earn points for correct answers, with the score multiplier increasing with consecutive correct answers
@@ -229,11 +269,14 @@ public class Player {
         myLocationCol = theCol;
     }
     public void movePlayer(Direction theDirection) {
-        switch (theDirection) {
-            case NORTH -> myLocationRow--;
-            case SOUTH -> myLocationRow++;
-            case EAST -> myLocationCol++;
-            case WEST -> myLocationCol--;
+        if (attemptMove(theDirection)) {
+            switch (theDirection) {
+                case NORTH -> myLocationRow--;
+                case SOUTH -> myLocationRow++;
+                case EAST -> myLocationCol++;
+                case WEST -> myLocationCol--;
+            }
+            myVictory = checkVictory();
         }
     }
     public void movePlayer(Direction theDirection, Scanner theInput) { // TODO: remove scanner usage when not needed

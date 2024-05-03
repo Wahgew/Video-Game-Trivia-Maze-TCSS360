@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.Arrays;
 
 /**
  * Room class represents a room withing a maze

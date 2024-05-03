@@ -1,5 +1,10 @@
 package View;
 
+import Controller.MazeController;
+import Model.Direction;
+import Model.Maze;
+import Model.Player;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -31,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BorderLayout());
         add(createLayeredPanel());
+        addButtonListener();
     }
 
     private JPanel createLayeredPanel() {
@@ -103,6 +109,25 @@ public class GamePanel extends JPanel implements Runnable{
     }
     @Override
     public void run() {
-
+    }
+    public void addButtonListener() {
+        myUpArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.NORTH);
+        });
+        myDownArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.SOUTH);
+        });
+        myLeftArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.WEST);
+        });
+        myRightArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.EAST);
+        });
+    }
+    public void updateButtonStatus() {
+        myUpArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.NORTH));
+        myDownArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.SOUTH));
+        myLeftArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.WEST));
+        myRightArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.EAST));
     }
 }

@@ -1,5 +1,9 @@
 package View;
 
+import Controller.MazeController;
+import Model.Maze;
+import Model.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +20,6 @@ public class WelcomeScreen extends JPanel {
     private final Image myBackground;
     private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
     private final ImageIcon backgroundIcon= new ImageIcon(getClass().getResource("/Resource/Background.jpg"));
-
 
     public WelcomeScreen() {
         setPreferredSize(new Dimension(Screen_Width, Screen_Height));
@@ -110,4 +113,7 @@ public class WelcomeScreen extends JPanel {
         theGraphics.drawImage(myBackground,0, 0, getWidth(), getHeight(), this);
     }
 
+    public JButton getMyNewGameButton() {
+        return myNewGameButton;
+    }
 }
