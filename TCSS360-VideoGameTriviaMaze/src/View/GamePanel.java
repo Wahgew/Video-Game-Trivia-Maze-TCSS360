@@ -28,8 +28,9 @@ public class GamePanel extends JPanel implements Runnable{
         myLayeredPane = new JLayeredPane();
         myLayeredPane.setLayout(new BorderLayout());
         myLayeredPane.add(this);
-        myLayeredPane.add(createLayeredPanel());
 
+
+        add(createLayeredPanel());
     }
 
     private JPanel createLayeredPanel() {
@@ -37,7 +38,6 @@ public class GamePanel extends JPanel implements Runnable{
         layeredPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 1));
         //layeredPanel.setLayout(new GridLayout(3,1,10,10));
         //layeredPanel.setLayout(new BoxLayout(layeredPanel, BoxLayout.LINE_AXIS));
-
 
         myUpArrowButton = new JButton("^");
         myDownArrowButton = new JButton("v");
