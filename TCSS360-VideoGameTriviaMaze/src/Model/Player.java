@@ -48,6 +48,7 @@ public class Player {
     private int myConsecutiveAns;
 
     private boolean myVictory;
+    private int myHealth;
 
     /**
      * Constructs a new Player object with default attributes.
@@ -57,6 +58,7 @@ public class Player {
     private Player() {
         myLocationRow = Maze.getInstance().getMyEntranceRow();
         myLocationCol = Maze.getInstance().getMyEntranceColumn();
+        myHealth = 3;
         myScore = 0;
         myCorrectAns = 0;
         myConsecutiveAns = 0;
@@ -74,6 +76,20 @@ public class Player {
             mySingleton = new Player();
         }
         return mySingleton;
+    }
+
+    /**
+     * Reduces the health of the object by one.
+     * If the current health is greater than zero, it decrements the health by one.
+     * If the health becomes zero or negative, the object is considered to be "dead".
+     */
+    public void decreaseHealth() {
+        if (myHealth > 0) {
+            myHealth--;
+        }
+    }
+    public int getMyHealth() {
+        return myHealth;
     }
 
     /**
