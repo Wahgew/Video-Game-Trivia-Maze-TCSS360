@@ -29,22 +29,27 @@ public class GamePanel extends JPanel implements Runnable{
         //this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
+        this.setLayout(new BorderLayout());
 
-        myLayeredPane = new JLayeredPane();
-        myLayeredPane.setLayout(new BorderLayout());
-        myLayeredPane.add(this);
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BorderLayout());
-        add(createLayeredPanel());
+        add(createLayeredPanel(), BorderLayout.WEST);
         addButtonListener();
     }
 
     private JPanel createLayeredPanel() {
-//        JPanel layeredPanel = new JPanel();
-//        layeredPanel.setLayout(new BorderLayout());
-        //layeredPanel.setLayout(new GridLayout(3,1,10,10));
-        //layeredPanel.setLayout(new BoxLayout(layeredPanel, BoxLayout.LINE_AXIS));
+        JPanel westPanel = new JPanel(new BorderLayout()) {
+            @Override
+            public Dimension getPreferredSize() {
+                // Set the desired width and height for the westPanel
+                return new Dimension(300, 300);
+            }
+        };
+
+        JPanel topPanel = new JPanel();
+        westPanel.add(topPanel,BorderLayout.CENTER);
+
+
         JPanel buttonPanel = new JPanel();
+        //buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setLayout(new GridLayout(3,3, 10, 10));
 
         myUpArrowButton = new JButton("^");
@@ -72,12 +77,9 @@ public class GamePanel extends JPanel implements Runnable{
         buttonPanel.add(invisButton4);
         buttonPanel.add(myDownArrowButton);
         buttonPanel.add(invisButton5);
-//        layeredPanel.add(myLeftArrowButton);
-//        layeredPanel.add(myUpArrowButton);
-//        layeredPanel.add(myDownArrowButton);
-//        layeredPanel.add(myRightArrowButton);
+        westPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        return buttonPanel;
+        return westPanel;
     }
 
 
