@@ -41,7 +41,9 @@ public abstract class Question {
         myAnswers = theAnswer;
         myQuestionType = theType;
     }
-
+    boolean checkAnswer(String userAnswer) {
+        return myAnswers.equals(userAnswer); // TODO: WRITE A COMPARETO METHOD FOR ANSWERDATA
+    }
 
     /**
      * Gets the question type.

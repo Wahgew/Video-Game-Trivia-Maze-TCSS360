@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.MazeController;
+
 import java.util.Scanner;
 
 /**
@@ -172,7 +174,7 @@ public class Player {
             if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyLockStatus()) { // check if door is locked
                 allowMove = true;
             } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
-//                //Question testQuestion = new Question();
+                //Question testQuestion = new Question();
 //
 //                /*
 //                 * this is the new test,
@@ -212,27 +214,18 @@ public class Player {
             if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyLockStatus()) { // check if door is locked
                 allowMove = true;
             } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
-//                //Question testQuestion = new Question();
-//
-//                /*
-//                 * this is the new test,
-//                 * but the database does not work because I still cant figure out the connection problem yet.
-//                 * I believe the correct way this works is the door will call the database.
-//                 */
-////                QuestionAnswerDatabase database = new QuestionAnswerDatabase();
-////                database.getRandomQuestion();
-//
-////                System.out.println(testQuestion);         //TODO: THIS IS WHERE WE WOULD SWAP TO USING SQLITE DATABASE
-////                String userAns = theInput.nextLine();
-////                if (testQuestion.checkAnswer(userAns)) { // check player's answer
-////                    allowMove = true;
-////                    Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
-////                    myCorrectAns++;
-////                    scoreUpdate(true);
-////                } else { // player failed to answer correctly
-////                    Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
-////                    scoreUpdate(false;
-////                }
+                Question randQuestion = MazeController.getQuestionDatabase().getRandomQuestion(); // Need to get this question also to VIEW somehow.
+                System.out.println(randQuestion);         //TODO: THIS IS WHERE WE WOULD SWAP TO USING SQLITE DATABASE
+                String userAns = "Andy";     // TODO: GUI USER INPUT HERE INSTEAD OF SCANNER
+                if (randQuestion.checkAnswer(userAns)) { // check player's answer
+                    allowMove = true;
+                    Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
+                    myCorrectAns++;
+                    scoreUpdate(true);
+                } else { // player failed to answer correctly
+                    Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
+                    scoreUpdate(false);
+                }
             }
         }
         return allowMove;
