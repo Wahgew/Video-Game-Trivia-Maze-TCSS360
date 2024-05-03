@@ -38,10 +38,29 @@ class QuestionAnswerDatabaseTest {
         }
     }
 
+//    @Test
+//    void getRandomQuestionFromDB() {
+//        Set<String> generateQuestionTypes = new HashSet<>();
+//        int iterations = 20;
+//
+//        for (int i = 0; i < iterations; i++) {
+//            // check we are not creating null objects
+//            Question question = myDatabase.getRandomQuestionFromDB();
+//            assertNotNull(question);
+//
+//            String qType = question.getType();
+//            generateQuestionTypes.add(qType);
+//
+//            System.out.println("\n" + question);
+//        }
+//
+//        assertTrue(generateQuestionTypes.containsAll(Set.of("Multi", "T/F", "Short", "Audio", "Image")));
+//    }
+
     @Test
     void getRandomQuestion() {
         Set<String> generateQuestionTypes = new HashSet<>();
-        int iterations = 20;
+        int iterations = 43;
 
         for (int i = 0; i < iterations; i++) {
             // check we are not creating null objects
