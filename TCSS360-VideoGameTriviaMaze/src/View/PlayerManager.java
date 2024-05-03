@@ -15,8 +15,8 @@ public class PlayerManager implements Serializable {
     private String myDirection;
 
     private Rectangle mySolidAreas;
-    private int mySolidAreasDefualtX;
-    private int mySolidAreasDefualtY;
+    private int mySolidAreasDefaultX;
+    private int mySolidAreasDefaultY;
 
     public PlayerManager(final KeyboardsHandler theKeyboardsHandler,
                          final GamePanel theGamePanel, final Player thePlayer) {
@@ -56,10 +56,10 @@ public class PlayerManager implements Serializable {
         mySolidAreas.y = theAreaY;
     }
     public int getMySolidAreasDefualtX() {
-        return mySolidAreasDefualtX;
+        return mySolidAreasDefaultX;
     }
     public int getMySolidAreasDefualtY() {
-        return mySolidAreasDefualtY;
+        return mySolidAreasDefaultY;
     }
     public Player getPlayer() {
         return myPlayer;

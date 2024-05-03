@@ -43,12 +43,6 @@ public class GameFrame extends JFrame {
 
 
     }
-    private void guiSetup() {
-        final Container contentPane = getContentPane();
-        contentPane.setLayout(new BorderLayout());
-        contentPane.add(myGamePanel, BorderLayout.WEST);
-
-    }
 
     public GamePanel getMyGamePanel() {
         return myGamePanel;
@@ -57,7 +51,8 @@ public class GameFrame extends JFrame {
         myGamePanel = theGamePanel;
         resumeButton();
         menuBar();
-        setContentPane(theGamePanel.getMyLayeredPane());
+        //setContentPane(theGamePanel.getMyLayeredPane());
+        setContentPane(theGamePanel);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         //setUndecorated(true);
         revalidate();
