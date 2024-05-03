@@ -28,29 +28,52 @@ public class GamePanel extends JPanel implements Runnable{
         myLayeredPane = new JLayeredPane();
         myLayeredPane.setLayout(new BorderLayout());
         myLayeredPane.add(this);
-
-
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BorderLayout());
         add(createLayeredPanel());
     }
 
     private JPanel createLayeredPanel() {
-        JPanel layeredPanel = new JPanel();
-        layeredPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 1));
+//        JPanel layeredPanel = new JPanel();
+//        layeredPanel.setLayout(new BorderLayout());
         //layeredPanel.setLayout(new GridLayout(3,1,10,10));
         //layeredPanel.setLayout(new BoxLayout(layeredPanel, BoxLayout.LINE_AXIS));
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(3,3, 10, 10));
 
         myUpArrowButton = new JButton("^");
         myDownArrowButton = new JButton("v");
         myLeftArrowButton = new JButton("<");
         myRightArrowButton = new JButton(">");
 
-        layeredPanel.add(myLeftArrowButton);
-        layeredPanel.add(myUpArrowButton);
-        layeredPanel.add(myDownArrowButton);
-        layeredPanel.add(myRightArrowButton);
+        JButton invisButton1 = new JButton(); //invis buttons are to get desired spacing in the grid.
+        invisButton1.setVisible(false);
+        JButton invisButton2 = new JButton();
+        invisButton2.setVisible(false);
+        JButton invisButton3 = new JButton();
+        invisButton3.setVisible(false);
+        JButton invisButton4 = new JButton();
+        invisButton4.setVisible(false);
+        JButton invisButton5 = new JButton();
+        invisButton5.setVisible(false);
 
-        return layeredPanel;
+        buttonPanel.add(invisButton1);
+        buttonPanel.add(myUpArrowButton);
+        buttonPanel.add(invisButton2);
+        buttonPanel.add(myLeftArrowButton);
+        buttonPanel.add(invisButton3);
+        buttonPanel.add(myRightArrowButton);
+        buttonPanel.add(invisButton4);
+        buttonPanel.add(myDownArrowButton);
+        buttonPanel.add(invisButton5);
+//        layeredPanel.add(myLeftArrowButton);
+//        layeredPanel.add(myUpArrowButton);
+//        layeredPanel.add(myDownArrowButton);
+//        layeredPanel.add(myRightArrowButton);
+
+        return buttonPanel;
     }
+
 
 //    public void saveGame() {
 //        try {
