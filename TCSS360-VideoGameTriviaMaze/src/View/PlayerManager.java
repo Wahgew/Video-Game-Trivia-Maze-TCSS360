@@ -67,10 +67,6 @@ public class PlayerManager implements Serializable {
         }
     }
     public void draw(Graphics2D g) {
-
-        //g.setColor(Color.black);
-        //g.fillRect(X,Y,ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE);
-
         //draw the sprite 2D
         BufferedImage image = null;
         switch(myDirection) {
@@ -110,45 +106,30 @@ public class PlayerManager implements Serializable {
         g.drawImage(image, myX, myY, ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE, null);
     }
     public void updateSpriteKeyPressed() {
-//        if (myKeyboardsHandler.isMyDownKeyPressed() || myKeyboardsHandler.isMyLeftKeyPressed()
-//                || !myKeyboardsHandler.isMyRightKeyPressed() || myKeyboardsHandler.isMyUpKeyPressed()) {
-//            if (myKeyboardsHandler.isMyUpKeyPressed()) {
-//                myDirection = "UP";
-//            }
-//            else if (myKeyboardsHandler.isMyDownKeyPressed()) {
-//                myDirection = "DOWN";
-//            }
-//            else if (myKeyboardsHandler.isMyLeftKeyPressed()) {
-//                myDirection = "LEFT";
-//            }
-//            else if (myKeyboardsHandler.isMyRightKeyPressed()) {
-//                myDirection = "RIGHT";
-//            }
-//        }
-        if (myKeyboardsHandler.isMyUpKeyPressed() == true) {
-            myDirection = "UP";
-            myY -= playerSpeed;
-        }
-        else if (myKeyboardsHandler.isMyDownKeyPressed() == true) {
-            myDirection = "DOWN";
-            myY += playerSpeed;
-        }
-        else if (myKeyboardsHandler.isMyLeftKeyPressed() == true) {
-            myDirection = "LEFT";
-            myX -= playerSpeed;
-        }
-        else if (myKeyboardsHandler.isMyRightKeyPressed() == true) {
-            myDirection = "RIGHT";
-            myX += playerSpeed;
-        }
-        mySpritesCounter++;
-        if (mySpritesCounter > 12) {
-            if (mySpritesNum == 1) {
-                mySpritesNum = 2;
-            } else if (mySpritesNum == 2) {
-                mySpritesNum = 1;
+        if (myKeyboardsHandler.isMyDownKeyPressed() || myKeyboardsHandler.isMyLeftKeyPressed()
+                || myKeyboardsHandler.isMyRightKeyPressed() || myKeyboardsHandler.isMyUpKeyPressed()) {
+            if (myKeyboardsHandler.isMyUpKeyPressed() == true) {
+                myDirection = "UP";
+                myY -= playerSpeed;
+            } else if (myKeyboardsHandler.isMyDownKeyPressed() == true) {
+                myDirection = "DOWN";
+                myY += playerSpeed;
+            } else if (myKeyboardsHandler.isMyLeftKeyPressed() == true) {
+                myDirection = "LEFT";
+                myX -= playerSpeed;
+            } else if (myKeyboardsHandler.isMyRightKeyPressed() == true) {
+                myDirection = "RIGHT";
+                myX += playerSpeed;
             }
-            mySpritesCounter = 0;
+            mySpritesCounter++;
+            if (mySpritesCounter > 12) {
+                if (mySpritesNum == 1) {
+                    mySpritesNum = 2;
+                } else if (mySpritesNum == 2) {
+                    mySpritesNum = 1;
+                }
+                mySpritesCounter = 0;
+            }
         }
     }
 

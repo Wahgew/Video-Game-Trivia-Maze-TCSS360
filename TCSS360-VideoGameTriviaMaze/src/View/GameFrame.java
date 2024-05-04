@@ -53,8 +53,8 @@ public class GameFrame extends JFrame {
         menuBar();
         //setContentPane(theGamePanel.getMyLayeredPane());
         setContentPane(theGamePanel);
-        setExtendedState(JFrame.EXIT_ON_CLOSE);
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setExtendedState(JFrame.EXIT_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         //setUndecorated(true);
         revalidate();
         theGamePanel.requestFocusInWindow();

@@ -39,7 +39,6 @@ public class GamePanel extends JPanel implements Runnable{
 
         add(createLayeredPanel(), BorderLayout.WEST);
         addButtonListener();
-
     }
     public void setMyGame(Game game) {
         System.out.println("1");
@@ -47,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
         addKeyListener(myGame.getKeyHandler());
         myPlayerHealth = new PlayerHealth(myGame.getMyPlayer());
         this.setFocusable(true);
+
     }
 
     public void saveGame() {
@@ -80,7 +80,50 @@ public class GamePanel extends JPanel implements Runnable{
             return false;
         }
     }
+    public void deleteSavedGames(){
+        try {
+            File saveFile = new File("game_state.ser");
+            if (saveFile.exists()) {
+                if (saveFile.delete()) {
+                    System.out.println("Game has been deleted successfully.");
+                } else {
+                    System.out.println("Error occured while deleting the game state.");
+                }
+            } else {
+                System.out.println("Error occured while deleting the game state.");
+            }
+        } catch (Exception exception) {
+            System.out.println("Error occured while deleting the game state: " + exception.getMessage());
+        }
+    }
 
+
+    public void update(){
+        myGame.getMyPlayerManager().updateSpriteKeyPressed();
+    }
+    public void paintComponent(Graphics theGraph){
+        super.paintComponent(theGraph);
+
+        Graphics2D g2 = (Graphics2D) theGraph;
+        myGame.getMyPlayerManager().draw(g2);
+        myPlayerHealth.draw(g2);
+
+        g2.dispose();
+    }
+    public void addButtonListener() {
+        myUpArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.NORTH);
+        });
+        myDownArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.SOUTH);
+        });
+        myLeftArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.WEST);
+        });
+        myRightArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.EAST);
+        });
+    }
     @Override
     public void run() {
         //Setting up game loop with better FPS
@@ -108,33 +151,6 @@ public class GamePanel extends JPanel implements Runnable{
                 e.printStackTrace();
             }
         }
-    }
-
-    public void update(){
-        myGame.getMyPlayerManager().updateSpriteKeyPressed();
-    }
-    public void paintComponent(Graphics theGraph){
-        super.paintComponent(theGraph);
-
-        Graphics2D g2 = (Graphics2D) theGraph;
-        myGame.getMyPlayerManager().draw(g2);
-        myPlayerHealth.draw(g2);
-
-        g2.dispose();
-    }
-    public void addButtonListener() {
-        myUpArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.NORTH);
-        });
-        myDownArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.SOUTH);
-        });
-        myLeftArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.WEST);
-        });
-        myRightArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.EAST);
-        });
     }
     private JPanel createLayeredPanel() {
         JPanel westPanel = new JPanel(new BorderLayout()) {
