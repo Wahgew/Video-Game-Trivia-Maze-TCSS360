@@ -26,9 +26,7 @@ public class PlayerManager implements Serializable {
     private int mySpritesCounter;
     private int mySpritesNum;
 
-    //int X = 100;
-    //int Y = 100;
-    int playerSpeed = 4;
+    int playerSpeed = 3;
 
     public PlayerManager(final KeyboardsHandler theKeyboardsHandler,
                          final GamePanel theGamePanel, final Player thePlayer) {
@@ -142,6 +140,15 @@ public class PlayerManager implements Serializable {
         else if (myKeyboardsHandler.isMyRightKeyPressed() == true) {
             myDirection = "RIGHT";
             myX += playerSpeed;
+        }
+        mySpritesCounter++;
+        if (mySpritesCounter > 12) {
+            if (mySpritesNum == 1) {
+                mySpritesNum = 2;
+            } else if (mySpritesNum == 2) {
+                mySpritesNum = 1;
+            }
+            mySpritesCounter = 0;
         }
     }
 
