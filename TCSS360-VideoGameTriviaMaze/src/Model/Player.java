@@ -57,7 +57,7 @@ public class Player {
      * The player's initial location is set to the maze entrance,
      * and both the score and number of correct answers are initialized to zero.
      */
-    private Player() {
+    public Player() {
         myLocationRow = Maze.getInstance().getMyEntranceRow();
         myLocationCol = Maze.getInstance().getMyEntranceColumn();
         myHealth = 3;

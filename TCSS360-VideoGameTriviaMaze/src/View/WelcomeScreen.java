@@ -1,6 +1,5 @@
 package View;
 
-import Controller.MazeController;
 import Model.Maze;
 import Model.Player;
 
@@ -84,9 +83,9 @@ public class WelcomeScreen extends JPanel {
         });
         myLoadGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
-//            if (gameFrame.getMyGamePanel().loadGame()) {
-//                gameFrame.switchToGamePanel(gameFrame.getMyGamePanel());
-//            }
+            if (gameFrame.getMyGamePanel().loadGame()) {
+                gameFrame.switchToGamePanel(gameFrame.getMyGamePanel());
+            }
         });
         myAboutUsButton.addActionListener(new ActionListener() {
             @Override

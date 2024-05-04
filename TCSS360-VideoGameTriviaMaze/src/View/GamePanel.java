@@ -1,6 +1,6 @@
 package View;
 
-import Controller.MazeController;
+//import Controller.MazeController;
 import Model.Direction;
 import Model.Maze;
 import Model.Player;
@@ -8,33 +8,134 @@ import Model.Player;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 public class GamePanel extends JPanel implements Runnable{
     private JLayeredPane myLayeredPane;
     private transient Thread myGameThread;
     private boolean myGameOver;
 
+
     private JButton myUpArrowButton;
     private JButton myDownArrowButton;
     private JButton myLeftArrowButton;
     private JButton myRightArrowButton;
 
+    private Game myGame;
+    private transient PlayerHealth myPlayerHealth;
+    KeyboardsHandler keyboardsHandler = new KeyboardsHandler();
+
+
     public GamePanel() {
+        setMyGame(new Game(this));
         myGameOver = false;
 
         this.setPreferredSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
-        //this.setBackground(Color.BLACK);
+        this.setBackground(Color.white);
         this.setDoubleBuffered(true);
+        this.addKeyListener(keyboardsHandler);
         this.setFocusable(true);
         this.setLayout(new BorderLayout());
 
         add(createLayeredPanel(), BorderLayout.WEST);
         addButtonListener();
+
+    }
+    public void setMyGame(Game game) {
+        System.out.println("1");
+        myGame = game;
+        addKeyListener(myGame.getKeyHandler());
+        myPlayerHealth = new PlayerHealth(myGame.getMyPlayer());
+        this.setFocusable(true);
     }
 
+    public void saveGame() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream("game_state.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(myGame);
+            fileOut.close();
+            System.out.println("Game have been saved successfully.");
+            //showDialog(new SaveLoadPanel("Saved"));
+        } catch (Exception e) {
+            System.out.println("Error occured while saving the game state: " + e.getMessage());
+        }
+    }
+    public boolean loadGame() {
+        try {
+            FileInputStream fileIn = new FileInputStream("game_state.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            Game loadGame = (Game) in.readObject();
+            in.close();
+            fileIn.close();
+            setMyGame(loadGame);
+            myGame.getMyPlayerManager().setPlayerImageIcon();
+            //myGame.setMyCollisionChecker(this);
+            //showDialog
+            repaint();
+            System.out.println(myGame.getMyPlayer().getMyHealth());
+            return true;
+        } catch (Exception exception) {
+            System.out.println("Error occured while loading the game state: " + exception.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public void run() {
+        //Setting up game loop with better FPS
+        double drawInterval = (double) 1000000000 / ScreenSetting.FPS; // 0.0166 seconds
+        double nextDrawTime = System.nanoTime() + drawInterval;
+        long lastUpdateTime = System.currentTimeMillis();
+
+        while (myGameThread != null) {
+            // Update information player movement postions
+            update();
+            //Draw the screen with updated information
+            repaint();
+            try {
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime = remainingTime / 1000000;
+
+                if (remainingTime < 0) {
+                    remainingTime = 0;
+                }
+                Thread.sleep((long) remainingTime);
+
+                nextDrawTime += drawInterval;
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void update(){
+        myGame.getMyPlayerManager().updateSpriteKeyPressed();
+    }
+    public void paintComponent(Graphics theGraph){
+        super.paintComponent(theGraph);
+
+        Graphics2D g2 = (Graphics2D) theGraph;
+        myGame.getMyPlayerManager().draw(g2);
+        myPlayerHealth.draw(g2);
+
+        g2.dispose();
+    }
+    public void addButtonListener() {
+        myUpArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.NORTH);
+        });
+        myDownArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.SOUTH);
+        });
+        myLeftArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.WEST);
+        });
+        myRightArrowButton.addActionListener(e -> {
+            Player.getInstance().movePlayer(Direction.EAST);
+        });
+    }
     private JPanel createLayeredPanel() {
         JPanel westPanel = new JPanel(new BorderLayout()) {
             @Override
@@ -43,10 +144,8 @@ public class GamePanel extends JPanel implements Runnable{
                 return new Dimension(300, 300);
             }
         };
-
         JPanel topPanel = new JPanel();
         westPanel.add(topPanel,BorderLayout.CENTER);
-
 
         JPanel buttonPanel = new JPanel();
         //buttonPanel.setBackground(Color.BLACK);
@@ -81,21 +180,12 @@ public class GamePanel extends JPanel implements Runnable{
 
         return westPanel;
     }
-
-
-//    public void saveGame() {
-//        try {
-//            FileOutputStream fileOut = new FileOutputStream("game_state.ser");
-//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-//            out.writeObject(myGame);
-//            fileOut.close();
-//            System.out.println("Game have been saved successfully.");
-//            showDialog(new SaveLoadPanel("Saved"));
-//        } catch (FileNotFoundException e) {
-//            System.out.println("Error occured while saving the game state: " + e.getMessage());
-//        }
-//    }
-
+    public void updateButtonStatus() {
+        myUpArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.NORTH));
+        myDownArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.SOUTH));
+        myLeftArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.WEST));
+        myRightArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.EAST));
+    }
     public void startGameThread() {
         myGameThread = new Thread(this);
         myGameThread.start();
@@ -108,28 +198,5 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public JLayeredPane getMyLayeredPane(){
         return myLayeredPane;
-    }
-    @Override
-    public void run() {
-    }
-    public void addButtonListener() {
-        myUpArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.NORTH);
-        });
-        myDownArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.SOUTH);
-        });
-        myLeftArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.WEST);
-        });
-        myRightArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.EAST);
-        });
-    }
-    public void updateButtonStatus() {
-        myUpArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.NORTH));
-        myDownArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.SOUTH));
-        myLeftArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.WEST));
-        myRightArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.EAST));
     }
 }
