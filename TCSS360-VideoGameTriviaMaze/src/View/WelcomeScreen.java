@@ -1,5 +1,6 @@
 package View;
 
+import Controller.MazeController;
 import Model.Maze;
 import Model.Player;
 
@@ -80,6 +81,7 @@ public class WelcomeScreen extends JPanel {
         myNewGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
             gameFrame.switchToGamePanel(new GamePanel());
+            MazeController.promptAnswer(gameFrame);
         });
         myLoadGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);

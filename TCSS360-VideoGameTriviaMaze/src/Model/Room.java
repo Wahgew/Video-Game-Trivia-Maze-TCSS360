@@ -45,10 +45,9 @@ public class Room {
     @Override
     public String toString() {
         StringBuilder roomString = new StringBuilder();
-        int counter = 0;
-        for (Door door : myDoors) {
-            roomString.append("Door #").append(counter).append(" Attempt Status: ").append(door.getMyAttemptStatus()).append("\n");
-            counter++;
+        for (int i = 0; i < 4; i++) {
+            //roomString.append("Door ").append().append(" Attempt Status: ").append(door.getMyAttemptStatus()).append("\n");
+            roomString.append(i + " = ").append("Door ").append(Direction.getDirectionInt(i)).append(" Attempt Status: ").append(getMyDoor(Direction.getDirectionInt(i))).append("\n");
         }
         return roomString.toString();
     }

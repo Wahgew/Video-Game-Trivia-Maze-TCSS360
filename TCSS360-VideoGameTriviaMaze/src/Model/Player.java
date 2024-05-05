@@ -2,6 +2,9 @@ package Model;
 
 import Controller.MazeController;
 
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -214,10 +217,13 @@ public class Player {
             if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyLockStatus()) { // check if door is locked
                 allowMove = true;
             } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
-                Question randQuestion = MazeController.getQuestionDatabase().getRandomQuestion(); // Need to get this question also to VIEW somehow.
-                System.out.println(randQuestion);         //TODO: THIS IS WHERE WE WOULD SWAP TO USING SQLITE DATABASE
-                String userAns = "Andy";     // TODO: GUI USER INPUT HERE INSTEAD OF SCANNER
-                if (randQuestion.checkAnswer(userAns)) { // check player's answer
+//                Question randQuestion = MazeController.getQuestionDatabase().getRandomQuestion(); // commented out is database connection version
+//                String userAns = JOptionPane.showInputDialog(randQuestion.getQuestion());
+                List<String> tempList = new ArrayList<String>();
+                tempList.add("Andy");
+                ShortAnswerQuestion randQuestion = new ShortAnswerQuestion("What is Andrew Hwang's nickname?",new AnswerData(tempList, 0), "Short");
+                String userAns = JOptionPane.showInputDialog(randQuestion.getQuestion());
+                if (userAns.equals(randQuestion.getCorrectAnswer())) { // check player's answer TODO: sanitize user input w/ to lowercase??
                     allowMove = true;
                     Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
                     myCorrectAns++;
@@ -284,7 +290,7 @@ public class Player {
         }
     }
     public void movePlayer(int theMove) { //TESTING VERSION
-        if (validPlayerMove(theMove)) {
+        if (attemptMove(Direction.getDirectionInt(theMove))) {
             switch (theMove) {
                 case 0 -> myLocationRow--; // North
                 case 1 -> myLocationCol++; // East

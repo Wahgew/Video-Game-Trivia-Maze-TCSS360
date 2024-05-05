@@ -41,12 +41,11 @@ public class GamePanel extends JPanel implements Runnable{
         addButtonListener();
     }
     public void setMyGame(Game game) {
-        System.out.println("1");
+        System.out.println("1"); // TODO: should this be printing 1 to console randomly?
         myGame = game;
         addKeyListener(myGame.getKeyHandler());
         myPlayerHealth = new PlayerHealth(myGame.getMyPlayer());
         this.setFocusable(true);
-
     }
 
     public void saveGame() {
@@ -87,13 +86,13 @@ public class GamePanel extends JPanel implements Runnable{
                 if (saveFile.delete()) {
                     System.out.println("Game has been deleted successfully.");
                 } else {
-                    System.out.println("Error occured while deleting the game state.");
+                    System.out.println("Error occurred while deleting the game state.");
                 }
             } else {
-                System.out.println("Error occured while deleting the game state.");
+                System.out.println("Error occurred while deleting the game state.");
             }
         } catch (Exception exception) {
-            System.out.println("Error occured while deleting the game state: " + exception.getMessage());
+            System.out.println("Error occurred while deleting the game state: " + exception.getMessage());
         }
     }
 

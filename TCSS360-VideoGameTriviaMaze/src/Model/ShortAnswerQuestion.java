@@ -26,7 +26,8 @@ public class ShortAnswerQuestion extends Question {
      */
     public ShortAnswerQuestion(String theQuestion, AnswerData theAnswerData, String theType) {
         super(theQuestion, theAnswerData, theType);
-        myCorrectAnswer = theAnswerData.getAnswerChoices().toString();
+        myCorrectAnswer = theAnswerData.getAnswerChoices().get(theAnswerData.getCorrectAnswerIndex());
+        //myCorrectAnswer = theAnswerData.getAnswerChoices().toString();
     }
 
     /**

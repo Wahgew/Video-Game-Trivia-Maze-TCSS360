@@ -29,6 +29,8 @@ public class GameFrame extends JFrame {
     private GamePanel myGamePanel;
     private WelcomeScreen myWelcomeScreen;
 
+    private boolean myGamePanelFocus;
+
     public GameFrame() {
         setIconImage(logoIcon.getImage());
         myWelcomeScreen = new WelcomeScreen();
@@ -40,8 +42,7 @@ public class GameFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         myGamePanel = new GamePanel();
-
-
+        myGamePanelFocus = false; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
     }
 
     public GamePanel getMyGamePanel() {
@@ -60,6 +61,7 @@ public class GameFrame extends JFrame {
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
         //showDialog(new instructionPanel());
+        myGamePanelFocus = true; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
     }
     public void switchToWelcomeScreen() {
         setContentPane(myWelcomeScreen);
@@ -238,5 +240,7 @@ public class GameFrame extends JFrame {
 
         }
     }
-
+    public boolean getGamePanelFocus() {
+        return myGamePanelFocus;
+    }
 }

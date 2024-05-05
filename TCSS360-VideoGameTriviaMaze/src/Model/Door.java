@@ -104,4 +104,13 @@ public class Door {
                     .getMyDoor(Direction.getPlayerDirection(theDirection)).setMyLockStatus(true);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Door{" +
+                "myLockStatus=" + myLockStatus +
+                ", myAttemptStatus=" + myAttemptStatus +
+                ", myLeadsOutofBounds=" + myLeadsOutofBounds +
+                '}';
+    }
 }

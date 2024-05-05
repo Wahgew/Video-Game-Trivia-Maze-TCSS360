@@ -208,7 +208,7 @@ public class Maze {
         return myMaze[0].length;
     }
 
-    void mazeInstantiate() {
+    void mazeInstantiate() { // TODO: instantiates the maze fine, roomOutOfBounds is broken? check it
         for (int i = 0; i < getMyMazeRows(); i++) {
             for (int j = 0; j < getMyMazeCols(); j++) {
                 myMaze[i][j] = new Room();
