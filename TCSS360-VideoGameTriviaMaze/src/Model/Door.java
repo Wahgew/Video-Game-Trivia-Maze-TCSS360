@@ -24,7 +24,7 @@ public class Door {
      */
     private boolean myAttemptStatus;
 
-    private boolean myLeadsOutofBounds; // not actually useful? maybe remove this
+    private boolean myLeadsOutOfBounds; // not actually useful? maybe remove this
 
     /**
      * Constructs a new Door object with default lock
@@ -33,7 +33,7 @@ public class Door {
     Door() {
         myLockStatus = true;
         myAttemptStatus = false;
-        myLeadsOutofBounds = false;
+        myLeadsOutOfBounds = false;
     }
 
     /**
@@ -73,8 +73,9 @@ public class Door {
     }
 
     void setMyLeadsOutOfBounds(boolean theOOBStatus) {
-        myLeadsOutofBounds = theOOBStatus;
+        myLeadsOutOfBounds = theOOBStatus;
         myLockStatus = theOOBStatus;
+        myAttemptStatus = theOOBStatus;
     }
 
     /**
@@ -110,7 +111,7 @@ public class Door {
         return "Door{" +
                 "myLockStatus=" + myLockStatus +
                 ", myAttemptStatus=" + myAttemptStatus +
-                ", myLeadsOutofBounds=" + myLeadsOutofBounds +
+                ", myLeadsOutofBounds=" + myLeadsOutOfBounds +
                 '}';
     }
 }
