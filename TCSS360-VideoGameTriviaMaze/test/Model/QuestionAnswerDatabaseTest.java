@@ -60,7 +60,7 @@ class QuestionAnswerDatabaseTest {
     @Test
     void getRandomQuestion() {
         Set<String> generateQuestionTypes = new HashSet<>();
-        int iterations = 43;
+        int iterations = 50;
 
         for (int i = 0; i < iterations; i++) {
             // check we are not creating null objects
