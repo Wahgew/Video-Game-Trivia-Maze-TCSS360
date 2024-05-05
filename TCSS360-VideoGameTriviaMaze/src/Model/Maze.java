@@ -212,10 +212,8 @@ public class Maze {
         for (int i = 0; i < getMyMazeRows(); i++) {
             for (int j = 0; j < getMyMazeCols(); j++) {
                 myMaze[i][j] = new Room();
-                if (i == 0 || i == getMyMazeRows() - 1) { // check if on edge of maze rows.
-                    if (j == 0 || j == getMyMazeCols() - 1 ) { //check if on edge of maze columns.
-                        roomOutOfBounds(i, j);
-                    }
+                if (i == 0 || i == getMyMazeRows() - 1 || j == 0 || j == getMyMazeCols() - 1) { // check if on edge of maze rows.
+                    roomOutOfBounds(i, j);
                 }
             }
         }
@@ -235,14 +233,14 @@ public class Maze {
      */
     void roomOutOfBounds(int theRow, int theCol) {
         if (theRow - 1 < 0) {
-            myMaze[theRow][theCol].getMyDoor(Direction.NORTH).setMyLeadsOutofBounds(true);
+            myMaze[theRow][theCol].getMyDoor(Direction.NORTH).setMyLeadsOutOfBounds(true);
         } else if (theRow + 1 >= myMaze.length) {
-            myMaze[theRow][theCol].getMyDoor(Direction.SOUTH).setMyLeadsOutofBounds(true);
+            myMaze[theRow][theCol].getMyDoor(Direction.SOUTH).setMyLeadsOutOfBounds(true);
         }
         if (theCol - 1 < 0) {
-            myMaze[theRow][theCol].getMyDoor(Direction.WEST).setMyLeadsOutofBounds(true);
+            myMaze[theRow][theCol].getMyDoor(Direction.WEST).setMyLeadsOutOfBounds(true);
         } else if (theCol + 1 >= myMaze[0].length) {
-            myMaze[theRow][theCol].getMyDoor(Direction.EAST).setMyLeadsOutofBounds(true);
+            myMaze[theRow][theCol].getMyDoor(Direction.EAST).setMyLeadsOutOfBounds(true);
         }
     }
 

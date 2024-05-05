@@ -72,7 +72,7 @@ public class Door {
         myAttemptStatus = theAttemptStatus;
     }
 
-    void setMyLeadsOutofBounds(boolean theOOBStatus) {
+    void setMyLeadsOutOfBounds(boolean theOOBStatus) {
         myLeadsOutofBounds = theOOBStatus;
         myLockStatus = theOOBStatus;
     }
