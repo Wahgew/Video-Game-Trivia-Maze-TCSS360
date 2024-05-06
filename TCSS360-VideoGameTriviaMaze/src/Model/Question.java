@@ -36,13 +36,15 @@ public abstract class Question {
      * @param theQuestion the question text.
      * @param theAnswer the data representing the answer choices and correct index
      */
-    protected Question(String theQuestion, AnswerData theAnswer, String theType) {
+    protected Question(final String theQuestion, final AnswerData theAnswer, final String theType) {
         myQuestion = theQuestion;
         myAnswers = theAnswer;
         myQuestionType = theType;
     }
-    boolean checkAnswer(String userAnswer) {
-        return myAnswers.equals(userAnswer); // TODO: WRITE A COMPARETO METHOD FOR ANSWERDATA
+
+    boolean checkAnswer(final String userAnswer) {
+        String correctAns = myAnswers.getAnswerChoices().get(myAnswers.getCorrectAnswerIndex());
+        return correctAns.equals(userAnswer.toLowerCase());
     }
 
     /**
