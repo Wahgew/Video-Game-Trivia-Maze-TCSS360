@@ -1,5 +1,7 @@
 package Model;
+import java.io.File;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * The Maze class represents a maze composed of interconnected rooms.
@@ -71,6 +73,11 @@ public class Maze {
         checkEntExitGen();
         mazeInstantiate();
     }
+//    private Maze(String theFileName) {
+//        Scanner fileScan = new Scanner("src/Resource/MazeLayouts/" + theFileName);
+//        //myMaze = new Room[theXSize][theYSize];
+//        fileMazeInstantiate(fileScan, theFileName);
+//    }
 
     /**
      * Getter for Singleton instance of Maze,
@@ -85,6 +92,12 @@ public class Maze {
         }
         return mySingleton;
     }
+//    public static synchronized Maze getInstance(String theFileName) {
+//        if (mySingleton == null) {
+//            mySingleton = new Maze(theFileName);
+//        }
+//        return mySingleton;
+//    }
 
     /**
      * Returns the Singleton instance of Maze with custom dimensions.
@@ -218,6 +231,18 @@ public class Maze {
             }
         }
     }
+//    void fileMazeInstantiate(Scanner theScan, String theFileName) {
+//        int mazeRow, mazeCol;
+//        mazeRow = theScan.nextInt();
+//        mazeCol = theScan.nextInt();
+//        myMaze = new Room[mazeRow][mazeCol];
+//        // myEntranceRow = generateNumber(theXSize);
+//        // myEntranceColumn = generateNumber(theYSize);
+//        // myExitRow = generateNumber(theXSize);
+//        // myExitColumn = generateNumber(theYSize);
+//        // TODO: needs to set entrance/exit fields, obviously the rooms and doors as well.
+//    }
+
     void checkEntExitGen() {
         while (myEntranceRow == myExitRow && myEntranceColumn == myExitColumn) {
             myExitRow = generateNumber(myMaze.length);
