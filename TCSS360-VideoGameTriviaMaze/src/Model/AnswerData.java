@@ -13,7 +13,7 @@ import java.util.List;
  * @author Sopheanith Ny
  * @version 0.0.1 April 28, 2024
  */
-public class AnswerData {
+public class AnswerData implements Comparable<String> {
     private final List<String> myAnswers;
     private final int myCorrectIndex;
 
@@ -46,4 +46,22 @@ public class AnswerData {
     public int getCorrectAnswerIndex() {
         return myCorrectIndex;
     }
+
+    @Override
+    public int compareTo(final String theOtherAnswer) {
+        return this.myAnswers.get(myCorrectIndex).compareTo(theOtherAnswer);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < myAnswers.size(); i++) {
+            sb.append(myAnswers.get(i));
+            if (i < myAnswers.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        return sb.toString();
+    }
+
 }
