@@ -40,6 +40,8 @@ public class QuestionAnswerDatabase {
             myConnection = myDB.getConnection();
             System.out.println("Connected to the database.");
             myQuestionHash = new Hashtable<>(100); // update initial capacity as database of Q'A's grows.
+            instantiateHash();
+
         } catch (Exception e) {
             System.err.println("Error connecting to the database: " + e.getMessage());
         }
