@@ -229,7 +229,7 @@ public class GamePanel extends JPanel implements Runnable{
     class SaveLoadGamePanel extends JPanel {
         private static final int Border = 15;
         private static final Color GRAY = new Color(188, 188, 188);
-        private static final Color WHITE = new Color(255, 255, 255);
+        private static final Color BLACK = new Color(9, 9, 9);
         private static final Color LIGHT_BLUE = new Color(173, 216, 230);
 
         public SaveLoadGamePanel(final String thePanel) {
@@ -237,19 +237,19 @@ public class GamePanel extends JPanel implements Runnable{
             JLabel resultLabel1 = new JLabel();
             setBackground(GRAY);
 
-            continueButton.setForeground(WHITE);
+            continueButton.setForeground(BLACK);
             continueButton.setBackground(LIGHT_BLUE);
-            continueButton.setBorder(BorderFactory.createLineBorder(WHITE, 1));
+            continueButton.setBorder(BorderFactory.createLineBorder(BLACK, 1));
 
             if (thePanel.equalsIgnoreCase("Saved")) {
                 resultLabel1 = new JLabel("Progress saved");
-                resultLabel1.setForeground(WHITE);
+                resultLabel1.setForeground(BLACK);
             } else if (thePanel.equalsIgnoreCase("Loaded")) {
                 resultLabel1 = new JLabel("Progress loaded");
-                resultLabel1.setForeground(WHITE);
+                resultLabel1.setForeground(BLACK);
             } else if (thePanel.equalsIgnoreCase("No Saved File")) {
                 resultLabel1 = new JLabel("No Saved File Found");
-                resultLabel1.setForeground(WHITE);
+                resultLabel1.setForeground(BLACK);
             }
 
             JPanel resultPanel1 = new JPanel();

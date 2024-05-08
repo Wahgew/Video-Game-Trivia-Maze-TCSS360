@@ -45,12 +45,12 @@ public class QuestionPanel implements ActionListener {
         this.myAnswerButton2 = new JButton();
         this.myAnswerButton3 = new JButton();
         this.myAnswerButton4 = new JButton();
-        loadQuestion(theDoor.getQuestionObject());
+        loadQuestionOption(theDoor.getQuestionObject());
 
         popUpUI();
     }
 
-    private void loadQuestion(final Question theQuestion) {
+    private void loadQuestionOption(final Question theQuestion) {
         if (theQuestion == null) {
             throw new IllegalArgumentException("Question cannot be null");
         }
