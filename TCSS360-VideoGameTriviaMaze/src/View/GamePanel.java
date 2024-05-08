@@ -1,20 +1,15 @@
 package View;
 
-//import Controller.MazeController;
 import Model.Direction;
-import Model.Maze;
 import Model.Player;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.io.*;
 
 public class GamePanel extends JPanel implements Runnable{
-    private JLayeredPane myLayeredPane;
     private transient Thread myGameThread;
     private boolean myGameOver;
-
 
     private JButton myUpArrowButton;
     private JButton myDownArrowButton;
@@ -55,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable{
             out.writeObject(myGame);
             fileOut.close();
             System.out.println("Game have been saved successfully.");
-            //showDialog(new SaveLoadPanel("Saved"));
+            showDialog(new SaveLoadGamePanel("Saved"));
         } catch (Exception e) {
             System.out.println("Error occured while saving the game state: " + e.getMessage());
         }
@@ -69,12 +64,13 @@ public class GamePanel extends JPanel implements Runnable{
             fileIn.close();
             setMyGame(loadGame);
             myGame.getMyPlayerManager().setPlayerImageIcon();
-            //myGame.setMyCollisionChecker(this);
-            //showDialog
+            myGame.setMyCollisionChecker(this);
+            showDialog(new SaveLoadGamePanel("Game loaded"));
             repaint();
             System.out.println(myGame.getMyPlayer().getMyHealth());
             return true;
         } catch (Exception exception) {
+            showDialog(new SaveLoadGamePanel("No Saved File."));
             System.out.println("Error occured while loading the game state: " + exception.getMessage());
             return false;
         }
@@ -108,6 +104,15 @@ public class GamePanel extends JPanel implements Runnable{
         myPlayerHealth.draw(g2);
 
         g2.dispose();
+    }
+    private void showDialog(final JPanel thePanel) {
+        GameFrame frame = (GameFrame) SwingUtilities.windowForComponent(thePanel);
+        JDialog dialog = new JDialog(frame);
+        dialog.getContentPane().add(thePanel);
+        dialog.setUndecorated(true);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }
     public void addButtonListener() {
         myUpArrowButton.addActionListener(e -> {
@@ -213,6 +218,50 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public Game getMyGame() {
         return myGame;
+    }
+
+    class SaveLoadGamePanel extends JPanel {
+        private static final int Border = 15;
+        private static final Color GRAY = new Color(188, 188, 188);
+        private static final Color WHITE = new Color(255, 255, 255);
+        private static final Color LIGHT_BLUE = new Color(173, 216, 230);
+
+        public SaveLoadGamePanel(final String thePanel) {
+            JButton continueButton = new JButton("Continue");
+            JLabel resultLabel1 = new JLabel();
+            setBackground(GRAY);
+
+            continueButton.setForeground(WHITE);
+            continueButton.setBackground(LIGHT_BLUE);
+            continueButton.setBorder(BorderFactory.createLineBorder(WHITE, 1));
+
+            if (thePanel.equalsIgnoreCase("Saved")) {
+                resultLabel1 = new JLabel("Progress saved");
+                resultLabel1.setForeground(WHITE);
+            } else if (thePanel.equalsIgnoreCase("Loaded")) {
+                resultLabel1 = new JLabel("Progress loaded");
+                resultLabel1.setForeground(WHITE);
+            } else if (thePanel.equalsIgnoreCase("No Saved File")) {
+                resultLabel1 = new JLabel("No Saved File Found");
+                resultLabel1.setForeground(WHITE);
+            }
+
+            JPanel resultPanel1 = new JPanel();
+            resultPanel1.setOpaque(false);
+            resultPanel1.add(resultLabel1);
+
+            setBorder(BorderFactory.createEmptyBorder(Border, Border, Border, Border));
+            setLayout(new GridLayout(2,1,10,10));
+            add(resultPanel1);
+            add(continueButton);
+
+            continueButton.addActionListener(e -> {
+               Component component = (Component) e.getSource();
+               Window window = SwingUtilities.getWindowAncestor(component);
+               window.dispose();
+            });
+        }
+
     }
 
 }

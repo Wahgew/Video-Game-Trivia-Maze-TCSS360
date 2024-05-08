@@ -18,10 +18,10 @@ public class GameFrame extends JFrame {
 
     private JButton myResumeGameButton;
 
-    private JButton myUpArrowButton;
-    private JButton myDownArrowButton;
-    private JButton myLeftArrowButton;
-    private JButton myRightArrowButton;
+//    private JButton myUpArrowButton;
+//    private JButton myDownArrowButton;
+//    private JButton myLeftArrowButton;
+//    private JButton myRightArrowButton;
 
     private final ImageIcon logoIcon = new ImageIcon(getClass().getResource("/Resource/Logo1.png"));
     private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
@@ -127,7 +127,7 @@ public class GameFrame extends JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
             }
         });
-        myHintGame.addActionListener(e -> showDialog(new hintPanel()));
+        //myHintGame.addActionListener(e -> showDialog(new hintPanel()));
         myInstructionGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -151,8 +151,8 @@ public class GameFrame extends JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
             }
         });
-        //mySaveGame.addActionListener(e -> myGamePanel.saveGame());
-        //myLoadGame.addActionListener(e -> myGamePanel.loadGame());
+        mySaveGame.addActionListener(e -> myGamePanel.saveGame());
+        myLoadGame.addActionListener(e -> myGamePanel.loadGame());
 
     }
     public void showDialog(final JPanel thePanel) {
@@ -197,7 +197,7 @@ public class GameFrame extends JFrame {
             add(exitButton);
         }
     }
-    class hintPanel extends JPanel {}
+    //class hintPanel extends JPanel {}
     class instructionPanel extends JPanel {
         public instructionPanel() {
             setBackground(Color.GRAY);
