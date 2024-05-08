@@ -18,7 +18,10 @@ public class Door {
      * Door lock status.
      */
     private boolean myLockStatus;
-
+    /**
+     * Question objects
+     */
+    private Question myQuestion;
     /**
      * Attempt status.
      */
@@ -31,9 +34,10 @@ public class Door {
      * status as true (locked) and attempt status as false.
      */
     Door() {
-        myLockStatus = true;
+        myLockStatus = false;
         myAttemptStatus = false;
         myLeadsOutOfBounds = false;
+        myQuestion = null;
     }
 
     /**
@@ -59,7 +63,7 @@ public class Door {
      *
      * @param theLockStatus true to lock the door, false to unlock it
      */
-    void setMyLockStatus(boolean theLockStatus) {
+    public void setMyLockStatus(boolean theLockStatus) {
         myLockStatus = theLockStatus;
     }
 
@@ -68,8 +72,16 @@ public class Door {
      *
      * @param theAttemptStatus true if an attempt has been made to interact with the door, false otherwise
      */
-    void setMyAttemptStatus(boolean theAttemptStatus) {
+    public void setMyAttemptStatus(boolean theAttemptStatus) {
         myAttemptStatus = theAttemptStatus;
+    }
+
+    /**
+     * Getter method for question objects that attached the doors.
+     * @return the Question objects attached.
+     */
+    public Question getQuestionObject() {
+        return myQuestion;
     }
 
     void setMyLeadsOutOfBounds(boolean theOOBStatus) {
@@ -77,6 +89,7 @@ public class Door {
         myLockStatus = theOOBStatus;
         myAttemptStatus = theOOBStatus;
     }
+
 
     /**
      * Should be called when a question has been attempted, "syncs" the state of

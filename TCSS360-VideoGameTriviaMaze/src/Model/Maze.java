@@ -63,7 +63,7 @@ public class Maze {
      * @param theXSize the number of rows in the maze
      * @param theYSize the number of columns in the maze
      */
-    private Maze(int theXSize, int theYSize) {
+    public Maze(int theXSize, int theYSize) {
         myMaze = new Room[theXSize][theYSize];
         myRandom = new Random();
         myEntranceRow = generateNumber(theXSize);

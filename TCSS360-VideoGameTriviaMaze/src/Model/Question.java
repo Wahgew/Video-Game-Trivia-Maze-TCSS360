@@ -28,6 +28,22 @@ public abstract class Question {
      * The question Type (e.g., "Multi", "T/F", "Short", "Audio", "Image").
      */
     private final String myQuestionType;
+    /**
+     * Answer option 1
+     */
+    private String myAnswerOption1;
+    /**
+     * Answer option 2
+     */
+    private String myAnswerOption2;
+    /**
+     * Answer option 3
+     */
+    private String myAnswerOption3;
+    /**
+     * Answer option 4
+     */
+    private String myAnswerOption4;
 
     /**
      * Question constructor that creates a question with a question text,
@@ -40,6 +56,29 @@ public abstract class Question {
         myQuestion = theQuestion;
         myAnswers = theAnswer;
         myQuestionType = theType;
+    }
+
+    /**
+     * Constructor for initialize the fields of the question.
+     * @param theQuestion
+     * @param theAnswer
+     * @param theOption1
+     * @param theOption2
+     * @param theOption3
+     * @param theOption4
+     */
+    public Question(final String theQuestion, final AnswerData theAnswer, String myQuestionType, final String theOption1,
+                    final String theOption2, final String theOption3, final String theOption4) {
+        this.myQuestionType = myQuestionType;
+        if (theQuestion == null || theAnswer == null || theOption1 == null || theOption2 == null) {
+            throw new IllegalArgumentException("Question and Answer are required and cannot be null");
+        }
+        myQuestion = theQuestion;
+        myAnswers = theAnswer;
+        myAnswerOption1 = theOption1;
+        myAnswerOption2 = theOption2;
+        myAnswerOption3 = theOption3;
+        myAnswerOption4 = theOption4;
     }
 
     boolean checkAnswer(final String userAnswer) {
@@ -72,6 +111,38 @@ public abstract class Question {
      */
     public AnswerData getAnswers() {
         return myAnswers;
+    }
+    /**
+     * Getter for answer option 1
+     *
+     * @return the answer option
+     */
+    public String getAnswerOption1() {
+        return myAnswerOption1;
+    }
+    /**
+     * Getter for answer option 2
+     *
+     * @return the answer option 2
+     */
+    public String getAnswerOption2() {
+        return myAnswerOption2;
+    }
+    /**
+     * Getter for answer option 3
+     *
+     * @return the answer option 3
+     */
+    public String getAnswerOption3() {
+        return myAnswerOption3;
+    }
+    /**
+     * Getter for answer option 4
+     *
+     * @return the answer option 4
+     */
+    public String getAnswerOption4() {
+        return myAnswerOption4;
     }
 
     /**

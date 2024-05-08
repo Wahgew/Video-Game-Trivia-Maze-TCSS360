@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable{
     private JButton myLeftArrowButton;
     private JButton myRightArrowButton;
 
-    private Game myGame;
+    public Game myGame;
     private transient PlayerHealth myPlayerHealth;
     KeyboardsHandler keyboardsHandler = new KeyboardsHandler();
 
@@ -211,7 +211,8 @@ public class GamePanel extends JPanel implements Runnable{
     public boolean isGameOver() {
         return myGameOver;
     }
-    public JLayeredPane getMyLayeredPane(){
-        return myLayeredPane;
+    public Game getMyGame() {
+        return myGame;
     }
+
 }
