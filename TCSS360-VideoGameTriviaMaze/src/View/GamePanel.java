@@ -210,6 +210,12 @@ public class GamePanel extends JPanel implements Runnable{
         myGameThread = new Thread(this);
         myGameThread.start();
     }
+    public PlayerCollision getCollision() {
+        return myGame.getMyCollisionChecker();
+    }
+    public PlayerManager getMyPlayerManager() {
+        return myGame.getMyPlayerManager();
+    }
     public void setGameOver(boolean theGameOver){
         myGameOver = theGameOver;
     }
