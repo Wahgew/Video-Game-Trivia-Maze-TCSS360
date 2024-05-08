@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
         addButtonListener();
     }
     public void setMyGame(Game game) {
-        System.out.println("1"); // TODO: should this be printing 1 to console randomly?
+        //System.out.println("1"); // TODO: should this be printing 1 to console randomly?
         myGame = game;
         addKeyListener(myGame.getKeyHandler());
         myPlayerHealth = new PlayerHealth(myGame.getMyPlayer());
@@ -267,7 +267,6 @@ public class GamePanel extends JPanel implements Runnable{
                window.dispose();
             });
         }
-
     }
 
 }
