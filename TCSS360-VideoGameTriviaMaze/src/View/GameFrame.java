@@ -53,8 +53,22 @@ public class GameFrame extends JFrame {
         myGamePanel = theGamePanel;
         resumeButton();
         menuBar();
-        //setContentPane(theGamePanel.getMyLayeredPane());
-        setContentPane(theGamePanel);
+
+        JPanel mainPanel = new JPanel (new BorderLayout());
+        JPanel centerPanel = new JPanel();
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        centerPanel.setLayout(new BorderLayout());
+        leftPanel.setBackground(Color.GRAY); // Example color for left panel
+        centerPanel.setBackground(Color.GRAY);
+        // Add left and center panels to main panel
+        mainPanel.add(leftPanel, BorderLayout.WEST);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+        leftPanel.setPreferredSize(new Dimension(200,200));
+
+        mainPanel.add(theGamePanel);
+        setContentPane(mainPanel);
+        //setContentPane(theGamePanel);
         //setExtendedState(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         //setUndecorated(true);
