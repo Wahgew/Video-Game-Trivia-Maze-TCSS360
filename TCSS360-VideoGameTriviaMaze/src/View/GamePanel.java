@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
         this.setLayout(new BorderLayout());
 
+
         add(createLayeredPanel(), BorderLayout.WEST);
         addButtonListener();
     }
@@ -98,10 +99,9 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public void paintComponent(Graphics theGraph){
         super.paintComponent(theGraph);
-
         Graphics2D g2 = (Graphics2D) theGraph;
         myGame.getMyPlayerManager().draw(g2);
-        myPlayerHealth.draw(g2);
+        //myPlayerHealth.draw(g2);
 
         g2.dispose();
     }
@@ -156,7 +156,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
     }
-    private JPanel createLayeredPanel() {
+    protected JPanel createLayeredPanel() {
         JPanel westPanel = new JPanel(new BorderLayout()) {
             @Override
             public Dimension getPreferredSize() {
@@ -197,6 +197,10 @@ public class GamePanel extends JPanel implements Runnable{
         buttonPanel.add(myDownArrowButton);
         buttonPanel.add(invisButton5);
         westPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+
+
+        //this.add(paintComponent(), BorderLayout.WEST);
 
         return westPanel;
     }

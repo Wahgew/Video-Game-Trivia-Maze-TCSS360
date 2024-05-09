@@ -19,11 +19,19 @@ public class PlayerHealth {
             throw new IllegalArgumentException("Please enter non-null player object");
         }
         myPlayer = thePlayer;
+//        try {
+//            myImage = (ImageIO.read(getClass().getResourceAsStream("/Resource/Heart.png")));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+    public void playerHealthImage() {
         try {
             myImage = (ImageIO.read(getClass().getResourceAsStream("/Resource/Heart.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
     public void draw(final Graphics g) {
         if (myPlayer.getMyHealth() > 0) {

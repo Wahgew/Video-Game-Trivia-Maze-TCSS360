@@ -31,6 +31,8 @@ public class GameFrame extends JFrame {
     private WelcomeScreen myWelcomeScreen;
 
     private boolean myGamePanelFocus;
+    private transient PlayerHealth myPlayerHealth;
+
 
     public GameFrame() {
         setIconImage(logoIcon.getImage());
@@ -59,7 +61,7 @@ public class GameFrame extends JFrame {
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         centerPanel.setLayout(new BorderLayout());
-        leftPanel.setBackground(Color.GRAY); // Example color for left panel
+        leftPanel.setBackground(Color.GRAY);
         centerPanel.setBackground(Color.GRAY);
         // Add left and center panels to main panel
         mainPanel.add(leftPanel, BorderLayout.WEST);
@@ -68,8 +70,8 @@ public class GameFrame extends JFrame {
 
         mainPanel.add(theGamePanel);
         setContentPane(mainPanel);
-        //setContentPane(theGamePanel);
-        //setExtendedState(JFrame.EXIT_ON_CLOSE);
+
+
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         //setUndecorated(true);
         revalidate();
