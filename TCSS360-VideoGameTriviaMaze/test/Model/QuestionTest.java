@@ -3,17 +3,16 @@ package Model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionTest {
-    private List<String> ansTF;
-    private List<String> ansShort;
-    private List<String> ansMulti;
-    private List<String> ansImage;
-    private List<String> ansAudio;
+    private TreeMap<String, Boolean> ansTF;
+    private TreeMap<String, Boolean> ansShort;
+    private TreeMap<String, Boolean> ansMulti;
+    private TreeMap<String, Boolean> ansImage;
+    private TreeMap<String, Boolean> ansAudio;
 
     private AnswerData answerTF;
     private AnswerData answerMulti;
@@ -30,38 +29,38 @@ class QuestionTest {
 
     @BeforeEach
     void setUp() {
-        ansTF = new ArrayList<>();
-        ansShort = new ArrayList<>();
-        ansMulti = new ArrayList<>();
-        ansImage = new ArrayList<>();
-        ansAudio = new ArrayList<>();
+        ansTF = new TreeMap<>();
+        ansShort = new TreeMap<>();
+        ansMulti = new TreeMap<>();
+        ansImage = new TreeMap<>();
+        ansAudio = new TreeMap<>();
 
-        ansTF.add("False");
-        ansTF.add("True");
+        ansTF.put("True", false);
+        ansTF.put("False", true);
 
-        ansShort.add("test");
+        ansShort.put("test", true);
 
-        ansMulti.add("Ken Egawa");
-        ansMulti.add("Sopheanith Ny");
-        ansMulti.add("Peter W Madin");
-        ansMulti.add("All of the above");
+        ansMulti.put("Ken Egawa", false);
+        ansMulti.put("Sopheanith Ny", false);
+        ansMulti.put("Peter W Madin", false);
+        ansMulti.put("All of the above", true);
 
-        ansImage.add("Hideo Kojima");
-        ansImage.add("Gabe Newell");
-        ansImage.add("John Carmack");
-        ansImage.add("Shigeru Miyamoto");
+        ansImage.put("Hideo Kojima", true);
+        ansImage.put("Gabe Newell", false);
+        ansImage.put("John Carmack", false);
+        ansImage.put("Shigeru Miyamoto", false);
 
-        ansAudio.add("Mortal Kombat");
-        ansAudio.add("Mortal Kombat II");
-        ansAudio.add("Mortal Kombat 3");
-        ansAudio.add("Mortal Kombat 11");
+        ansAudio.put("Mortal Kombat", true);
+        ansAudio.put("Mortal Kombat II", false);
+        ansAudio.put("Mortal Kombat 3", false);
+        ansAudio.put("Mortal Kombat 11", false);
 
 
-        answerTF = new AnswerData(ansTF, 0);
-        answerShort = new AnswerData(ansShort, 0);
-        answerMulti = new AnswerData(ansMulti, 0);
-        answerImage = new AnswerData(ansImage, 0);
-        answerAudio = new AnswerData(ansAudio, 0);
+        answerTF = new AnswerData(ansTF);
+        answerShort = new AnswerData(ansShort);
+        answerMulti = new AnswerData(ansMulti);
+        answerImage = new AnswerData(ansImage);
+        answerAudio = new AnswerData(ansAudio);
 
         String questionTF = "Sims can take a job as a taxi driver?";
         String questionShort = "Just type test";
@@ -79,9 +78,9 @@ class QuestionTest {
 
     @Test
     void checkAnswer() {
-        List<String> ans = new ArrayList<>();
-        ans.add("microsoft");
-        AnswerData answerData = new AnswerData(ans, 0);
+        TreeMap<String, Boolean> ans = new TreeMap<>();
+        ans.put("microsoft", true);
+        AnswerData answerData = new AnswerData(ans);
 
         //Create short answer question.
         String question = "Who released the first flight simulator game?";
@@ -115,12 +114,17 @@ class QuestionTest {
     void getAnswers() {
         assertEquals("False, True", trueFalseQuestion.getAnswers().toString());
         assertEquals("test", shortQuestion.getAnswers().toString());
-        assertEquals("Ken Egawa, Sopheanith Ny, Peter W Madin, All of the above", multiQuestion.getAnswers().toString());
-        assertEquals("Hideo Kojima, Gabe Newell, John Carmack, Shigeru Miyamoto", imageQuestion.getAnswers().toString());
-        assertEquals("Mortal Kombat, Mortal Kombat II, Mortal Kombat 3, Mortal Kombat 11", audioQuestion.getAnswers().toString());
+        assertEquals("All of the above, Ken Egawa, Peter W Madin, Sopheanith Ny", multiQuestion.getAnswers().toString());
+        assertEquals("Gabe Newell, Hideo Kojima, John Carmack, Shigeru Miyamoto", imageQuestion.getAnswers().toString());
+        assertEquals("Mortal Kombat, Mortal Kombat 11, Mortal Kombat 3, Mortal Kombat II", audioQuestion.getAnswers().toString());
     }
 
     @Test
-    void testToString() {
+    void getCorrectAnswer() {
+        assertEquals("False", trueFalseQuestion.getCorrectAnswer());
+        assertEquals("test", shortQuestion.getCorrectAnswer());
+        assertEquals("All of the above", multiQuestion.getCorrectAnswer());
+        assertEquals("Hideo Kojima", imageQuestion.getCorrectAnswer());
+        assertEquals("Mortal Kombat", audioQuestion.getCorrectAnswer());
     }
 }
