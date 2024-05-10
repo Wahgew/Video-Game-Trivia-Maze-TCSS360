@@ -6,6 +6,7 @@ import Model.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.util.jar.JarEntry;
 
 public class GamePanel extends JPanel implements Runnable{
     private transient Thread myGameThread;
@@ -166,10 +167,19 @@ public class GamePanel extends JPanel implements Runnable{
             }
         };
         JPanel topPanel = new JPanel();
-        westPanel.add(topPanel,BorderLayout.CENTER);
+        JPanel southPanel = new JPanel();
+
+        topPanel.setBackground(Color.LIGHT_GRAY);
+        topPanel.setPreferredSize(new Dimension(300, 400));
+
+        southPanel.setBackground(Color.LIGHT_GRAY);
+        southPanel.setPreferredSize(new Dimension(300, 400));
+
+        westPanel.add(topPanel,BorderLayout.NORTH);
+        westPanel.add(southPanel, BorderLayout.SOUTH);
 
         JPanel buttonPanel = new JPanel();
-        //buttonPanel.setBackground(Color.BLACK);
+        buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setLayout(new GridLayout(3,3, 10, 10));
 
         //ImageIcon upArrowIcon = new ImageIcon(getClass().getResource("/Resource/upIcon.png"));
@@ -199,15 +209,15 @@ public class GamePanel extends JPanel implements Runnable{
 
 
         JButton invisButton1 = new JButton(); //invis buttons are to get desired spacing in the grid.
-        invisButton1.setVisible(false);
+        invisButton1.setVisible(true);
         JButton invisButton2 = new JButton();
-        invisButton2.setVisible(false);
+        invisButton2.setVisible(true);
         JButton invisButton3 = new JButton();
         invisButton3.setVisible(false);
         JButton invisButton4 = new JButton();
-        invisButton4.setVisible(false);
+        invisButton4.setVisible(true);
         JButton invisButton5 = new JButton();
-        invisButton5.setVisible(false);
+        invisButton5.setVisible(true);
 
         buttonPanel.add(invisButton1);
         buttonPanel.add(myUpArrowButton);
@@ -218,7 +228,8 @@ public class GamePanel extends JPanel implements Runnable{
         buttonPanel.add(invisButton4);
         buttonPanel.add(myDownArrowButton);
         buttonPanel.add(invisButton5);
-        westPanel.add(buttonPanel, BorderLayout.SOUTH);
+        westPanel.add(buttonPanel, BorderLayout.CENTER);
+        //westPanel.add(buttonPanel,BorderLayout.SOUTH);
 
 
         //this.add(paintComponent(), BorderLayout.WEST);
