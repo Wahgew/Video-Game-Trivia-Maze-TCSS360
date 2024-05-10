@@ -1,5 +1,7 @@
 package Model;
 
+import javax.swing.*;
+
 /**
  * The Door class represents a door object with a lock and attempt status.
  *
@@ -18,10 +20,12 @@ public class Door {
      * Door lock status.
      */
     private boolean myLockStatus;
+
     /**
      * Question objects
      */
     private Question myQuestion;
+
     /**
      * Attempt status.
      */
@@ -29,6 +33,7 @@ public class Door {
 
     private boolean myLeadsOutOfBounds; // not actually useful? maybe remove this
 
+    private final QuestionAnswerDatabase myQdb;
     /**
      * Constructs a new Door object with default lock
      * status as true (locked) and attempt status as false.
@@ -38,6 +43,7 @@ public class Door {
         myAttemptStatus = false;
         myLeadsOutOfBounds = false;
         myQuestion = null;
+        myQdb = new QuestionAnswerDatabase();
     }
 
     /**
@@ -117,6 +123,12 @@ public class Door {
             Maze.getInstance().getMyAdjacentRoom(theDirection, theRow, theCol)
                     .getMyDoor(Direction.getPlayerDirection(theDirection)).setMyLockStatus(true);
         }
+    }
+
+    //TODO: this method may need the row, col, and direction of player
+    public Question askQuestion() {
+        myQuestion = myQdb.getRandomQuestion();
+        return myQuestion;
     }
 
     @Override
