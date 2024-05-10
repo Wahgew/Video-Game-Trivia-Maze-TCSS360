@@ -67,16 +67,16 @@ public class QuestionAnswerDatabase {
             String questionType = getQuestionType(questionID);
 
             question = switch (questionType) {
-                case "Multi" -> new MultipleChoiceQuestion(questionText, answers, questionType);
-                case "T/F" -> new TrueFalseQuestion(questionText, answers, questionType);
-                case "Short" -> new ShortAnswerQuestion(questionText, answers, questionType);
+                case "Multi" -> new MultipleChoiceQuestion(questionText, answers, questionType, questionID);
+                case "T/F" -> new TrueFalseQuestion(questionText, answers, questionType, questionID);
+                case "Short" -> new ShortAnswerQuestion(questionText, answers, questionType, questionID);
                 case "Audio" -> {
                     String questionAudio = getQuestionAudio(questionID);
-                    yield new AuditoryQuestion(questionText, answers, questionAudio, questionType);
+                    yield new AuditoryQuestion(questionText, answers, questionAudio, questionType, questionID);
                 }
                 case "Image" -> {
                     String questionImage = getQuestionImage(questionID);
-                    yield new ImageQuestion(questionText, answers, questionImage, questionType);
+                    yield new ImageQuestion(questionText, answers, questionImage, questionType, questionID);
                 }
                 default -> throw new IllegalArgumentException("Error unknown question type :" + questionType);
             };
