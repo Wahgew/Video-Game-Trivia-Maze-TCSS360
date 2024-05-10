@@ -33,7 +33,8 @@ public class GamePanel extends JPanel implements Runnable{
         this.setLayout(new BorderLayout());
 
 
-        add(createLayeredPanel(), BorderLayout.WEST);
+        //add(createLayeredPanel(), BorderLayout.WEST);
+        createLayeredPanel();
         addButtonListener();
     }
     public void setMyGame(Game game) {
@@ -171,10 +172,15 @@ public class GamePanel extends JPanel implements Runnable{
         //buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setLayout(new GridLayout(3,3, 10, 10));
 
-        myUpArrowButton = new JButton("^");
-        myDownArrowButton = new JButton("v");
-        myLeftArrowButton = new JButton("<");
-        myRightArrowButton = new JButton(">");
+        ImageIcon upArrowIcon = new ImageIcon(getClass().getResource("/Resource/upIcon.png"));
+        ImageIcon downArrowIcon = new ImageIcon(getClass().getResource("/Resource/downIcon.png"));
+        ImageIcon leftArrowIcon = new ImageIcon(getClass().getResource("/Resource/leftIcon.png"));
+        ImageIcon rightArrowIcon = new ImageIcon(getClass().getResource("/Resource/rightIcon.png"));
+
+        myUpArrowButton = new JButton(upArrowIcon);
+        myDownArrowButton = new JButton(downArrowIcon);
+        myLeftArrowButton = new JButton(leftArrowIcon);
+        myRightArrowButton = new JButton(rightArrowIcon);
 
         JButton invisButton1 = new JButton(); //invis buttons are to get desired spacing in the grid.
         invisButton1.setVisible(false);
@@ -197,7 +203,6 @@ public class GamePanel extends JPanel implements Runnable{
         buttonPanel.add(myDownArrowButton);
         buttonPanel.add(invisButton5);
         westPanel.add(buttonPanel, BorderLayout.SOUTH);
-
 
 
         //this.add(paintComponent(), BorderLayout.WEST);
