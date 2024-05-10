@@ -24,6 +24,8 @@ public class QuestionAnswerDatabase {
      */
     private Hashtable<Integer, Question> myQuestionHash;
 
+    private int myQuestionID;
+
     /**
      * Database connection.
      */
@@ -41,6 +43,7 @@ public class QuestionAnswerDatabase {
             System.out.println("Connected to the database.");
             myQuestionHash = new Hashtable<>(100); // update initial capacity as database of Q'A's grows.
             instantiateHash();
+
 
         } catch (Exception e) {
             System.err.println("Error connecting to the database: " + e.getMessage());
@@ -98,6 +101,10 @@ public class QuestionAnswerDatabase {
         return myDB;
     }
 
+    public int getQuestionID() {
+        return myQuestionID;
+    }
+
 
     public Question getRandomQuestion() {
         Question rndQuestion = null;
@@ -112,47 +119,12 @@ public class QuestionAnswerDatabase {
         }
 
         int randomQID = getRandomQuestionID(myQuestionHash.keySet());
+        myQuestionID = randomQID;
+
         rndQuestion = myQuestionHash.remove(randomQID);
 
         return rndQuestion;
     }
-
-
-    //TODO: Probably will delete this but consult with team first.
-    /**
-     * Retrieves a random question from the database.
-     *
-     * @return a Question object representing the random question.
-     */
-//    public Question getRandomQuestionFromDB() {
-//        Question rndQuestion = null;
-//
-//        try {
-//            int randomQID = getRandomQuestionID();
-//            String questionText = getQuestionText(randomQID);
-//            AnswerData answers = getAnswers(randomQID);
-//            String questionType = getQuestionType(randomQID);
-//
-//            rndQuestion = switch (questionType) {
-//                case "Multi" -> new MultipleChoiceQuestion(questionText, answers, questionType);
-//                case "T/F" -> new TrueFalseQuestion(questionText, answers, questionType);
-//                case "Short" -> new ShortAnswerQuestion(questionText, answers, questionType);
-//                case "Audio" -> {
-//                    String questionAudio = getQuestionAudio(randomQID);
-//                    yield new AuditoryQuestion(questionText, answers, questionAudio, questionType);
-//                }
-//                case "Image" -> {
-//                    String questionImage = getQuestionImage(randomQID);
-//                    yield new ImageQuestion(questionText, answers, questionImage, questionType);
-//                }
-//                default -> throw new IllegalArgumentException("Error unknown question type :" + questionType);
-//            };
-//
-//        } catch (SQLException e) {
-//            throw new IllegalArgumentException("Error retrieve random question: " + e.getMessage());
-//        }
-//        return rndQuestion;
-//    }
 
     /**
      * Retrieves a random question ID from the database.
@@ -251,26 +223,20 @@ public class QuestionAnswerDatabase {
      */
 
    private AnswerData getAnswers(int theQuestionID) throws SQLException {
-        List<String> answers = new ArrayList<>();
-        int correctAnswerIndex = -1;
+        TreeMap<String, Boolean> answers = new TreeMap<>();
 
         PreparedStatement statement = myConnection.prepareStatement("SELECT AnswerText, IsCorrect FROM Answers WHERE QuestionID = ?");
         statement.setInt(1, theQuestionID);
         ResultSet resultSet = statement.executeQuery();
 
-        int index = 0;
         while (resultSet.next()) {
             String ansText = resultSet.getString("AnswerText");
             boolean isCorrect = resultSet.getInt("IsCorrect") == 1;
-            answers.add(ansText);
+            answers.put(ansText, isCorrect);
 
-            if (isCorrect) {
-                correctAnswerIndex = index;
-            }
-            index++;
         }
 
-        return new AnswerData(answers, correctAnswerIndex);
+        return new AnswerData(answers);
     }
 
     /**
