@@ -68,11 +68,11 @@ class QuestionTest {
         String questionImage = "Who is this man?";
         String questionAudio = "Testing Audio";
 
-       trueFalseQuestion = new TrueFalseQuestion(questionTF, answerTF, "T/F");
-       shortQuestion = new ShortAnswerQuestion(questionShort, answerShort, "Short");
-       multiQuestion = new MultipleChoiceQuestion(questionMulti, answerMulti, "Multi");
-       imageQuestion = new ImageQuestion(questionImage, answerImage, "None", "Image");
-       audioQuestion = new AuditoryQuestion(questionAudio, answerAudio, "None", "Audio");
+       trueFalseQuestion = new TrueFalseQuestion(questionTF, answerTF, "T/F",1);
+       shortQuestion = new ShortAnswerQuestion(questionShort, answerShort, "Short", 2);
+       multiQuestion = new MultipleChoiceQuestion(questionMulti, answerMulti, "Multi", 3);
+       imageQuestion = new ImageQuestion(questionImage, answerImage, "None", "Image", 4);
+       audioQuestion = new AuditoryQuestion(questionAudio, answerAudio, "None", "Audio", 5);
     }
 
 
@@ -84,7 +84,7 @@ class QuestionTest {
 
         //Create short answer question.
         String question = "Who released the first flight simulator game?";
-        Question shortAnswer = new ShortAnswerQuestion(question, answerData, "Short");
+        Question shortAnswer = new ShortAnswerQuestion(question, answerData, "Short",6);
 
         assertTrue(shortAnswer.checkAnswer("microsoft"));
         assertTrue(shortAnswer.checkAnswer("Microsoft"));
@@ -126,5 +126,14 @@ class QuestionTest {
         assertEquals("All of the above", multiQuestion.getCorrectAnswer());
         assertEquals("Hideo Kojima", imageQuestion.getCorrectAnswer());
         assertEquals("Mortal Kombat", audioQuestion.getCorrectAnswer());
+    }
+
+    @Test
+    void getID() {
+        assertEquals(1, trueFalseQuestion.getID());
+        assertEquals(2, shortQuestion.getID());
+        assertEquals(3, multiQuestion.getID());
+        assertEquals(4, imageQuestion.getID());
+        assertEquals(5, audioQuestion.getID());
     }
 }
