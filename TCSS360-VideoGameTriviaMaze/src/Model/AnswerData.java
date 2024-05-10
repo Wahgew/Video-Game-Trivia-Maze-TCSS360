@@ -1,6 +1,9 @@
 package Model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * AnswerData class represents a set of answer choices and the index of the correct answer.
@@ -11,22 +14,21 @@ import java.util.List;
  * @author Peter Madin
  * @author Ken Egawa
  * @author Sopheanith Ny
- * @version 0.0.1 April 28, 2024
+ * @version 0.0.2 May 9, 2024
  */
-public class AnswerData implements Comparable<String> {
-    private final List<String> myAnswers;
-    private final int myCorrectIndex;
+public class AnswerData {
+    private final TreeMap<String, Boolean> myAnswers;
+    private final String myCorrectAnswer;
 
 
     /**
      * Constructs an AnswerData object with the specified list of answers and correct index.
      *
      * @param theAnswers a list of string answers
-     * @param theCorrectIndex the index of the correct answer in the list
      */
-    public AnswerData(List<String> theAnswers, int theCorrectIndex) {
-        myAnswers = theAnswers;
-        myCorrectIndex = theCorrectIndex;
+    public AnswerData(TreeMap<String, Boolean> theAnswers) {
+        myAnswers = new TreeMap<>(theAnswers);
+        myCorrectAnswer = findCorrectAns();
     }
 
     /**
@@ -34,32 +36,33 @@ public class AnswerData implements Comparable<String> {
      *
      * @return the list of answer choices
      */
-    public List<String> getAnswerChoices() {
+    public TreeMap<String, Boolean> getAnswerChoices() {
         return myAnswers;
     }
 
-    /**
-     * Gets the index of the correct answer in the list of answer choices.
-     *
-     * @return the index of the correct answer
-     */
-    public int getCorrectAnswerIndex() {
-        return myCorrectIndex;
+    public String findCorrectAns() {
+        for (Map.Entry<String, Boolean> entry : myAnswers.entrySet()) {
+            if (entry.getValue()) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
-    @Override
-    public int compareTo(final String theOtherAnswer) {
-        return this.myAnswers.get(myCorrectIndex).compareTo(theOtherAnswer);
+    public String getRightAnswer() {
+        return myCorrectAnswer;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < myAnswers.size(); i++) {
-            sb.append(myAnswers.get(i));
-            if (i < myAnswers.size() - 1) {
-                sb.append(", ");
-            }
+        for (Map.Entry<String, Boolean> entry : myAnswers.entrySet()) {
+            String answer = entry.getKey();
+            sb.append(answer).append(", ");
+        }
+
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 2);
         }
         return sb.toString();
     }
