@@ -19,8 +19,8 @@ public class TrueFalseQuestion extends MultipleChoiceQuestion {
      * @param theAnswer the answer data, including the correct answer index
      * @param theType the type of the question
      */
-    public TrueFalseQuestion(String theQuestion, AnswerData theAnswer, String theType) {
-        super(theQuestion, theAnswer, theType);
+    public TrueFalseQuestion(String theQuestion, AnswerData theAnswer, String theType, int theID) {
+        super(theQuestion, theAnswer, theType, theID);
     }
 
     /**

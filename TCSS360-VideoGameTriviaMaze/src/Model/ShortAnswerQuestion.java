@@ -24,8 +24,8 @@ public class ShortAnswerQuestion extends Question {
      * @param theAnswerData  the data representing the answer choices and correct index
      * @param theType        the type of the question
      */
-    public ShortAnswerQuestion(String theQuestion, AnswerData theAnswerData, String theType) {
-        super(theQuestion, theAnswerData, theType);
+    public ShortAnswerQuestion(String theQuestion, AnswerData theAnswerData, String theType, int theID) {
+        super(theQuestion, theAnswerData, theType, theID);
         myCorrectAnswer = theAnswerData.getRightAnswer();
     }
 

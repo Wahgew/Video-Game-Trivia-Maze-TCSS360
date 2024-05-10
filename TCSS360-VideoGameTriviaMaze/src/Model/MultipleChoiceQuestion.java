@@ -20,8 +20,8 @@ public class MultipleChoiceQuestion extends Question {
      * @param theAnswer     the data representing the answer choices and correct index
      * @param theType       the type of the question
      */
-    public MultipleChoiceQuestion(String theQuestion, AnswerData theAnswer, String theType) {
-        super(theQuestion, theAnswer, theType);
+    public MultipleChoiceQuestion(String theQuestion, AnswerData theAnswer, String theType, int theID) {
+        super(theQuestion, theAnswer, theType, theID);
     }
 
     /**

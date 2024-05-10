@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Abstract Question class represents a generic question with a question text and answer.
@@ -28,22 +29,27 @@ public abstract class Question {
      * The question Type (e.g., "Multi", "T/F", "Short", "Audio", "Image").
      */
     private final String myQuestionType;
+
     /**
-     * Answer option 1
+     * the question ID.
      */
-    private String myAnswerOption1;
-    /**
-     * Answer option 2
-     */
-    private String myAnswerOption2;
-    /**
-     * Answer option 3
-     */
-    private String myAnswerOption3;
-    /**
-     * Answer option 4
-     */
-    private String myAnswerOption4;
+    private final int myID;
+//    /**
+//     * Answer option 1
+//     */
+//    private String myAnswerOption1;
+//    /**
+//     * Answer option 2
+//     */
+//    private String myAnswerOption2;
+//    /**
+//     * Answer option 3
+//     */
+//    private String myAnswerOption3;
+//    /**
+//     * Answer option 4
+//     */
+//    private String myAnswerOption4;
 
     /**
      * Question constructor that creates a question with a question text,
@@ -52,38 +58,40 @@ public abstract class Question {
      * @param theQuestion the question text.
      * @param theAnswer the data representing the answer choices and correct index
      */
-    protected Question(final String theQuestion, final AnswerData theAnswer, final String theType) {
+    protected Question(final String theQuestion, final AnswerData theAnswer, final String theType, final int theID) {
         myQuestion = theQuestion;
         myAnswers = theAnswer;
         myQuestionType = theType;
+        myID = theID;
     }
 
-    /**
-     * Constructor for initialize the fields of the question.
-     * @param theQuestion
-     * @param theAnswer
-     * @param theOption1
-     * @param theOption2
-     * @param theOption3
-     * @param theOption4
-     */
-    public Question(final String theQuestion, final AnswerData theAnswer, String myQuestionType, final String theOption1,
-                    final String theOption2, final String theOption3, final String theOption4) {
-        this.myQuestionType = myQuestionType;
-        if (theQuestion == null || theAnswer == null || theOption1 == null || theOption2 == null) {
-            throw new IllegalArgumentException("Question and Answer are required and cannot be null");
-        }
-        myQuestion = theQuestion;
-        myAnswers = theAnswer;
-        myAnswerOption1 = theOption1;
-        myAnswerOption2 = theOption2;
-        myAnswerOption3 = theOption3;
-        myAnswerOption4 = theOption4;
-    }
+//    /**
+//     * Constructor for initialize the fields of the question.
+//     * @param theQuestion
+//     * @param theAnswer
+//     * @param theOption1
+//     * @param theOption2
+//     * @param theOption3
+//     * @param theOption4
+//     */
+//    public Question(final String theQuestion, final AnswerData theAnswer, String myQuestionType, final String theOption1,
+//                    final String theOption2, final String theOption3, final String theOption4) {
+//        this.myQuestionType = myQuestionType;
+//        if (theQuestion == null || theAnswer == null || theOption1 == null || theOption2 == null) {
+//            throw new IllegalArgumentException("Question and Answer are required and cannot be null");
+//        }
+//        myQuestion = theQuestion;
+//        myAnswers = theAnswer;
+//        myAnswerOption1 = theOption1;
+//        myAnswerOption2 = theOption2;
+//        myAnswerOption3 = theOption3;
+//        myAnswerOption4 = theOption4;
+//    }
 
+    //TODO: For now this just checks the answer of user input
+    // we will need to make check for the four button option the user clicks on.
     boolean checkAnswer(final String userAnswer) {
-        String correctAns = myAnswers.getAnswerChoices().get(myAnswers.getCorrectAnswerIndex());
-        return correctAns.equals(userAnswer.toLowerCase());
+        return  myAnswers.getRightAnswer().equals(userAnswer.toLowerCase());
     }
 
     /**
@@ -105,45 +113,59 @@ public abstract class Question {
     }
 
     /**
-     * Gets the correct answer to the question.
+     * Gets the hash tree of answers to the question.
      *
-     * @return the correct answer
+     * @return hash tree of possible answers
      */
     public AnswerData getAnswers() {
         return myAnswers;
     }
+
     /**
-     * Getter for answer option 1
+     * Gets the correct answer to the question.
      *
-     * @return the answer option
+     * @return the correct answer
      */
-    public String getAnswerOption1() {
-        return myAnswerOption1;
+    public String getCorrectAnswer() {
+        return myAnswers.getRightAnswer();
     }
-    /**
-     * Getter for answer option 2
-     *
-     * @return the answer option 2
-     */
-    public String getAnswerOption2() {
-        return myAnswerOption2;
+
+    public int getID() {
+        return myID;
     }
-    /**
-     * Getter for answer option 3
-     *
-     * @return the answer option 3
-     */
-    public String getAnswerOption3() {
-        return myAnswerOption3;
-    }
-    /**
-     * Getter for answer option 4
-     *
-     * @return the answer option 4
-     */
-    public String getAnswerOption4() {
-        return myAnswerOption4;
-    }
+
+    //    /**
+//     * Getter for answer option 1
+//     *
+//     * @return the answer option
+//     */
+//    public String getAnswerOption1() {
+//        return myAnswerOption1;
+//    }
+//    /**
+//     * Getter for answer option 2
+//     *
+//     * @return the answer option 2
+//     */
+//    public String getAnswerOption2() {
+//        return myAnswerOption2;
+//    }
+//    /**
+//     * Getter for answer option 3
+//     *
+//     * @return the answer option 3
+//     */
+//    public String getAnswerOption3() {
+//        return myAnswerOption3;
+//    }
+//    /**
+//     * Getter for answer option 4
+//     *
+//     * @return the answer option 4
+//     */
+//    public String getAnswerOption4() {
+//        return myAnswerOption4;
+//    }
 
     /**
      * toString displaying question, possible answer with
@@ -154,20 +176,26 @@ public abstract class Question {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("Question ID: ").append(myID).append("\n");
         sb.append("Question Type: ").append(myQuestionType).append("\n");
         sb.append("Question: ").append(myQuestion).append("\n");
         sb.append("Answers:\n");
 
-        List<String> answers = myAnswers.getAnswerChoices();
-        int correctAnswerIndex = myAnswers.getCorrectAnswerIndex();
+        Map<String, Boolean> answerMap = myAnswers.getAnswerChoices();
+        int index = 1;
 
-        for (int i = 0; i < answers.size(); i++) {
-            sb.append("  ").append(i + 1).append(". ").append(answers.get(i));
-            if (i == correctAnswerIndex) {
+        for (Map.Entry<String, Boolean> entry : answerMap.entrySet()) {
+            String answer = entry.getKey();
+            boolean isCorrect = entry.getValue();
+            sb.append(" ").append(index).append(". ").append(answer);
+
+            if (isCorrect) {
                 sb.append(" (Correct)");
             }
             sb.append("\n");
+            index++;
         }
+
         return sb.toString();
     }
 }

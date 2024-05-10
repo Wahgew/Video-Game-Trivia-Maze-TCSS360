@@ -25,8 +25,8 @@ public class ImageQuestion extends MultipleChoiceQuestion {
      * @param theImageFile  the path to the image associated with the question
      * @param theType       the type of the question
      */
-    public ImageQuestion(String theQuestion, AnswerData theAnswer, String theImageFile, String theType) {
-        super(theQuestion, theAnswer, theType);
+    public ImageQuestion(String theQuestion, AnswerData theAnswer, String theImageFile, String theType, int theID) {
+        super(theQuestion, theAnswer, theType, theID);
         myImagePath = theImageFile;
     }
 

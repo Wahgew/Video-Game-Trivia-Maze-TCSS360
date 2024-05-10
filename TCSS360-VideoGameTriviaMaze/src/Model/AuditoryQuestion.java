@@ -24,8 +24,8 @@ public class AuditoryQuestion extends MultipleChoiceQuestion {
      * @param theAudioPath  the path to the audio file associated with the question
      * @param theType       the type of the question
      */
-    public AuditoryQuestion(String theQuestion, AnswerData theAnswer, String theAudioPath, String theType) {
-        super(theQuestion, theAnswer, theType);
+    public AuditoryQuestion(String theQuestion, AnswerData theAnswer, String theAudioPath, String theType, int theID) {
+        super(theQuestion, theAnswer, theType, theID);
         myAudioPath = theAudioPath;
     }
 
