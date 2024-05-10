@@ -1,14 +1,15 @@
 package View;
 
-import Model.AnswerData;
-import Model.Door;
-import Model.Question;
+import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
 
 
 public class QuestionPanel implements ActionListener {
@@ -28,7 +29,7 @@ public class QuestionPanel implements ActionListener {
     private final GamePanel myGamePanel;
     private final Door myDoor;
 
-    private AnswerData myCorrectAnswer; //
+    private String myCorrectAnswer; //
 
 
     public QuestionPanel(final Door theDoor, final GamePanel theGamePanel) {
@@ -45,7 +46,7 @@ public class QuestionPanel implements ActionListener {
         this.myAnswerButton2 = new JButton();
         this.myAnswerButton3 = new JButton();
         this.myAnswerButton4 = new JButton();
-        loadQuestionOption(theDoor.getQuestionObject());
+        loadQuestionOption(theDoor.askQuestion()); //TODO: Load question should only happen when player interacts with a door.
 
         popUpUI();
     }
@@ -54,45 +55,70 @@ public class QuestionPanel implements ActionListener {
         if (theQuestion == null) {
             throw new IllegalArgumentException("Question cannot be null");
         }
+
         myQuestionArea.setText(theQuestion.getQuestion());
-        myAnswerButton1.setText(theQuestion.getAnswerOption1());
-        myAnswerButton2.setText(theQuestion.getAnswerOption2());
-        myAnswerButton3.setText(theQuestion.getAnswerOption3());
-        myAnswerButton4.setText(theQuestion.getAnswerOption4());
-        myCorrectAnswer = theQuestion.getAnswers(); //
+
+        TreeMap<String, Boolean> answerChoices = theQuestion.getAnswers().getAnswerChoices();
+
+        int optionCount = 1;
+        for (Map.Entry<String, Boolean> entry : answerChoices.entrySet()) {
+            switch (optionCount) {
+                case 1:
+                    myAnswerButton1.setText(entry.getKey());
+                    break;
+                case 2:
+                    myAnswerButton2.setText(entry.getKey());
+                    break;
+                case 3:
+                    myAnswerButton3.setText(entry.getKey());
+                    break;
+                case 4:
+                    myAnswerButton4.setText(entry.getKey());
+                default:
+            }
+
+            optionCount++;
+            if (optionCount > 4) {
+                break;
+            }
+        }
+
+        myCorrectAnswer = theQuestion.getCorrectAnswer();
     }
 
     /**
-     * the action perform method for all the answer option button.
+     * The action performed method for all the answer option button.
      *
-     * @param e the event to be processed
+     * @param theEvent the event to be processed
      */
     @Override
-    public void actionPerformed(ActionEvent e) {
-        String playerAnswers;
-        if (e.getSource() == myAnswerButton1) {
-            playerAnswers = myAnswerButton1.getText();
-            checkAnswers(myCorrectAnswer, playerAnswers);
-        } else if (e.getSource() == myAnswerButton2) {
-            playerAnswers = myAnswerButton2.getText();
-            checkAnswers(myCorrectAnswer, playerAnswers);
-        } else if (e.getSource() == myAnswerButton3) {
-            playerAnswers = myAnswerButton3.getText();
-            checkAnswers(myCorrectAnswer, playerAnswers);
-        } else if (e.getSource() == myAnswerButton4) {
-            playerAnswers = myAnswerButton4.getText();
-            checkAnswers(myCorrectAnswer, playerAnswers);
+    public void actionPerformed(ActionEvent theEvent) {
+        String playerAnswer = null;
+        JButton[] answerButtons = {myAnswerButton1, myAnswerButton2, myAnswerButton3, myAnswerButton4};
+
+        for (JButton button : answerButtons) {
+            if (theEvent.getSource() == button) {
+                playerAnswer = button.getText();
+                break;
+            }
+        }
+
+        if (playerAnswer != null) {
+            checkAnswers(playerAnswer);
         }
     }
 
-    public void checkAnswers(final AnswerData theCorrectAnswers, final String thePlayerAnswers) {
-        if (theCorrectAnswers == null || thePlayerAnswers == null) {
-            throw new IllegalArgumentException("The correct answer and the player answer cannot be null");
+    public void checkAnswers(final String thePlayerAnswer) {
+        if (thePlayerAnswer == null) {
+            throw new IllegalArgumentException("The player's answer cannot be null");
         }
-        if (theCorrectAnswers.equals(thePlayerAnswers)) {
+
+        if (thePlayerAnswer.equals(myCorrectAnswer)) {
+            Player.getInstance().getQuestionsAnswered().put(myDoor.getQuestionObject().getID(), true);
             myDoor.setMyLockStatus(true);
             dialogForResult("Correct");
         } else {
+            Player.getInstance().getQuestionsAnswered().put(myDoor.getQuestionObject().getID(), false);
             myDoor.setMyAttemptStatus(true);
             myGamePanel.getMyGame().getMyPlayer().decreaseHealth();
             if (myGamePanel.getMyGame().getMyPlayer().getMyHealth() > 0) {
@@ -105,6 +131,7 @@ public class QuestionPanel implements ActionListener {
             }
         }
     }
+
     public void dialogForResult(final String theCorrectAnswer) {
         resultPanel rePanel = new resultPanel(theCorrectAnswer);
         myDialog.dispose();
