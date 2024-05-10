@@ -3,9 +3,7 @@ package Model;
 import Controller.MazeController;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * The player class represents a player in the game.
@@ -47,13 +45,17 @@ public class Player {
     private int myScore;
 
     /**
+     * Player's facing a direction.
+     */
+    private Direction myFacingDirection;
+    /**
      * Number of correct answers given by the player.
      */
     private int myCorrectAns;
     private int myConsecutiveAns;
-
     private boolean myVictory;
     private int myHealth;
+    private HashMap<Integer,Boolean> myQuestionsAnswered;
 
     /**
      * Constructs a new Player object with default attributes.
@@ -68,6 +70,7 @@ public class Player {
         myCorrectAns = 0;
         myConsecutiveAns = 0;
         myVictory = false;
+        myQuestionsAnswered = new HashMap<>();
     }
 
     /**
@@ -93,8 +96,13 @@ public class Player {
             myHealth--;
         }
     }
+
     public int getMyHealth() {
         return myHealth;
+    }
+
+    public HashMap<Integer, Boolean> getQuestionsAnswered() {
+        return myQuestionsAnswered;
     }
 
     /**
@@ -219,9 +227,9 @@ public class Player {
             } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
 //                Question randQuestion = MazeController.getQuestionDatabase().getRandomQuestion(); // commented out is database connection version
 //                String userAns = JOptionPane.showInputDialog(randQuestion.getQuestion());
-                List<String> tempList = new ArrayList<String>();
-                tempList.add("Andy");
-                ShortAnswerQuestion randQuestion = new ShortAnswerQuestion("What is Andrew Hwang's nickname?",new AnswerData(tempList, 0), "Short");
+                TreeMap<String,Boolean> tempList = new TreeMap<>();
+                tempList.put("Andy", true);
+                ShortAnswerQuestion randQuestion = new ShortAnswerQuestion("What is Andrew Hwang's nickname?",new AnswerData(tempList), "Short",20);
                 String userAns = JOptionPane.showInputDialog(randQuestion.getQuestion());
                 if (userAns.equals(randQuestion.getCorrectAnswer())) { // check player's answer TODO: sanitize user input w/ to lowercase??
                     allowMove = true;
@@ -269,6 +277,7 @@ public class Player {
     }
     public void movePlayer(Direction theDirection) {
         if (attemptMove(theDirection)) {
+            myFacingDirection = theDirection;
             switch (theDirection) {
                 case NORTH -> myLocationRow--;
                 case SOUTH -> myLocationRow++;
@@ -325,6 +334,15 @@ public class Player {
      */
     public int getMyCorrectAns() {
         return myCorrectAns;
+    }
+
+    /**
+     * Gets player direction.
+     *
+     * @return direction of player
+     */
+    public Direction getDirection() {
+       return myFacingDirection;
     }
 
     /**
