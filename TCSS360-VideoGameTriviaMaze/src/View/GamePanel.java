@@ -182,6 +182,20 @@ public class GamePanel extends JPanel implements Runnable{
         buttonPanel.setBackground(Color.BLACK);
         buttonPanel.setLayout(new GridLayout(3,3, 10, 10));
 
+        JPanel playerHealthPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D)g;
+                //myGame.getMyPlayerManager().draw(g2);
+                myPlayerHealth.playerHealthImage();
+                myPlayerHealth.draw(g2);
+
+                g2.dispose();
+            }
+        };
+        playerHealthPanel.setBackground(Color.LIGHT_GRAY);
+        playerHealthPanel.setPreferredSize(new Dimension(300, 100));
+
         //ImageIcon upArrowIcon = new ImageIcon(getClass().getResource("/Resource/upIcon.png"));
         //ImageIcon downArrowIcon = new ImageIcon(getClass().getResource("/Resource/downIcon.png"));
         //ImageIcon leftArrowIcon = new ImageIcon(getClass().getResource("/Resource/leftIcon.png"));
@@ -228,8 +242,10 @@ public class GamePanel extends JPanel implements Runnable{
         buttonPanel.add(invisButton4);
         buttonPanel.add(myDownArrowButton);
         buttonPanel.add(invisButton5);
+
+        westPanel.add(playerHealthPanel,BorderLayout.NORTH);
         westPanel.add(buttonPanel, BorderLayout.CENTER);
-        //westPanel.add(buttonPanel,BorderLayout.SOUTH);
+
 
 
         //this.add(paintComponent(), BorderLayout.WEST);

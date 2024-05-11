@@ -94,20 +94,20 @@ class QuestionTest {
 
     @Test
     void getType() {
-        assertEquals(trueFalseQuestion.getType(), "T/F");
-        assertEquals(shortQuestion.getType(), "Short");
-        assertEquals(multiQuestion.getType(), "Multi");
-        assertEquals(imageQuestion.getType(), "Image");
-        assertEquals(audioQuestion.getType(), "Audio");
+        assertEquals("T/F", trueFalseQuestion.getType());
+        assertEquals("Short", shortQuestion.getType());
+        assertEquals("Multi", multiQuestion.getType());
+        assertEquals("Image", imageQuestion.getType());
+        assertEquals("Audio", audioQuestion.getType());
     }
 
     @Test
     void getQuestion() {
-        assertEquals(trueFalseQuestion.getQuestion(), "Sims can take a job as a taxi driver?");
-        assertEquals(shortQuestion.getQuestion(),"Just type test");
-        assertEquals(multiQuestion.getQuestion(),"Who are the devs of this trivia game?");
-        assertEquals(imageQuestion.getQuestion(),"Who is this man?");
-        assertEquals(audioQuestion.getQuestion(),"Testing Audio");
+        assertEquals("Sims can take a job as a taxi driver?", trueFalseQuestion.getQuestion());
+        assertEquals("Just type test", shortQuestion.getQuestion());
+        assertEquals("Who are the devs of this trivia game?", multiQuestion.getQuestion());
+        assertEquals("Who is this man?", imageQuestion.getQuestion());
+        assertEquals("Testing Audio", audioQuestion.getQuestion());
     }
 
     @Test

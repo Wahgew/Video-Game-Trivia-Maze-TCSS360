@@ -12,7 +12,7 @@ class AuditoryQuestionTest {
 
     private AnswerData answerAudio;
 
-    private Question audioQuestion;
+    private AuditoryQuestion audioQuestion;
 
     @BeforeEach
     void setUp() {
@@ -30,18 +30,21 @@ class AuditoryQuestionTest {
 
     @Test
     void getAudioPath() {
-        assertEquals();
+        assertEquals("Resource/Sounds/Katamari_damacy_intro.mp3", audioQuestion.getAudioPath());
     }
 
     @Test
     void getType() {
+        assertEquals("Audio", audioQuestion.getType());
     }
 
     @Test
     void getQuestion() {
+        assertEquals("Which video theme song is this?", audioQuestion.getQuestion());
     }
 
     @Test
     void getAnswers() {
+        assertEquals("Battlefield 4, Fallout 4, Little Big Planet 2, Pay Day 2", audioQuestion.getAnswers().toString());
     }
 }
