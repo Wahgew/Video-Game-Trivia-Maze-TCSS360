@@ -1,4 +1,7 @@
 package Model;
+import com.fasterxml.jackson.core.JsonToken;
+
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.util.*;
 
@@ -151,7 +154,27 @@ public class Player {
 //                tempList.put("Andy", true);
 //                ShortAnswerQuestion randQuestion = new ShortAnswerQuestion("What is Andrew Hwang's nickname?",new AnswerData(tempList), "Short",20);
                 Question randQuestion = Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).askQuestion();
-                String userAns = JOptionPane.showInputDialog(randQuestion.getQuestion()).toLowerCase(); // temporary testing
+                if (Objects.equals(randQuestion.getType(), "Audio")) {
+                    AuditoryQuestion audioQuestion = (AuditoryQuestion) randQuestion;
+                    Clip audio = audioQuestion.playMusic();
+                    audio.start();
+                    JOptionPane.showMessageDialog(null, audioQuestion.getQuestion() + "\nPress OK to stop playing."); // temporary testing
+                    audio.stop();
+                }
+                String userAns;
+                if (Objects.equals(randQuestion.getType(), "Multi")) {
+                    userAns = JOptionPane.showInputDialog(randQuestion.getQuestion() + "\n" + randQuestion.getAnswers()).toLowerCase();
+                } else if (Objects.equals(randQuestion.getType(), "Image")) { // TODO: DEBUG THIS
+                    assert randQuestion instanceof ImageQuestion;
+                    ImageQuestion imgQ = (ImageQuestion) randQuestion;
+                    System.out.println("Debug IMAGE: " + "src/" + imgQ.getImagePath());
+                    //ImageIcon imageIcon = new ImageIcon("src/" + imgQ.getImagePath());
+                    ImageIcon imageIcon = new ImageIcon(getClass().getResource("src/" + imgQ.getImagePath())); // TODO: SPECIFICALLY DEBUG THIS
+                    JOptionPane.showMessageDialog(null, imageIcon);
+                    userAns = JOptionPane.showInputDialog(randQuestion.getQuestion()).toLowerCase();
+                } else {
+                    userAns = JOptionPane.showInputDialog(randQuestion.getQuestion()).toLowerCase(); // temporary testing
+                }
                 if (userAns.equals(randQuestion.getCorrectAnswer().toLowerCase())) { // check player's answer
                     allowMove = true;
                     Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);

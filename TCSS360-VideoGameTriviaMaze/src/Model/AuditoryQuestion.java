@@ -1,5 +1,10 @@
 package Model;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
+
 /**
  * AuditoryQuestion represents a question that includes audio content.
  *
@@ -29,6 +34,27 @@ public class AuditoryQuestion extends MultipleChoiceQuestion {
         myAudioPath = theAudioPath;
     }
 
+    /**
+     * Code comes from:
+     * https://www.youtube.com/watch?v=wJO_cq5XeSA
+     */
+    Clip playMusic() {
+        try {
+            System.out.println("Debug AUDI0: " + "src/" + myAudioPath);
+            File musicPath = new File("src/" + myAudioPath);
+            if (musicPath.exists()) {
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                Clip audioClip = AudioSystem.getClip();
+                audioClip.open(audioInput);
+                return audioClip;
+            } else {
+                System.out.println("Can't find file at " + myAudioPath);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
     /**
      * Gets the path to the audio file associated with the question.
      *

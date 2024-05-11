@@ -2,17 +2,15 @@ package Controller;
 
 import Model.Maze;
 import Model.Player;
-import Model.QuestionAnswerDatabase;
 import View.GameFrame;
-import View.WelcomeScreen;
-import View.GamePanel;
 
 import javax.swing.*;
 
 public class MazeController {
     public static void main(String[] args) {
         // Instantiating Singleton Instances for first time.
-        Maze.getInstance("ZigZagLayout.txt"); // testing layout generation from .txt
+        Maze.getInstance("MaxDoorsLayout.txt");
+        //Maze.getInstance("ZigZagLayout.txt"); // testing layout generation from .txt
         //Maze.getInstance();
         Player.getInstance();
         GameFrame mazeFrame = new GameFrame();
