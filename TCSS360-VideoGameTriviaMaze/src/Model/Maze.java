@@ -245,7 +245,7 @@ public class Maze {
         mazeCol = theScan.nextInt();
         char[][] inputMaze = new char[(mazeRow * 2) + 1][(mazeCol * 2) + 1];
         Room[][] outputMaze = new Room[mazeRow][mazeCol];
-        String inputRow = "";
+        String inputRow;
         theScan.nextLine();
         int inputRowCounter = -1;
         while (theScan.hasNextLine()) {
@@ -255,20 +255,23 @@ public class Maze {
                 inputMaze[inputRowCounter][i] = inputRow.charAt(i);
             }
         }
-            int mazeRowCount = -1;
-            for (int i = 0; i < inputMaze.length; i++) {
-                boolean rowHasRooms = false;
-                int mazeColCount = -1;
-                for (int j = 0; j < inputMaze[0].length; j++) {
-                    char charGrab = inputMaze[i][j];
-                    switch (charGrab) {
+        return readLayoutMaze(inputMaze, outputMaze);
+    }
+    private Room[][] readLayoutMaze(char[][] theInputMaze, Room[][] theOutputMaze) {
+        int mazeRowCount = -1;
+        for (int i = 0; i < theInputMaze.length; i++) {
+            boolean rowHasRooms = false;
+            int mazeColCount = -1;
+            for (int j = 0; j < theInputMaze[0].length; j++) {
+                char charGrab = theInputMaze[i][j];
+                switch (charGrab) {
                     case '□' -> {
                         if (!rowHasRooms) {
                             mazeRowCount++;
                         }
                         mazeColCount++;
                         rowHasRooms = true;
-                        outputMaze[mazeRowCount][mazeColCount] = roomAdjacent(inputMaze, new Room(), i, j);
+                        theOutputMaze[mazeRowCount][mazeColCount] = roomAdjacent(theInputMaze, new Room(), i, j);
                     }
                     case 'E' -> {
                         if (!rowHasRooms) {
@@ -276,7 +279,7 @@ public class Maze {
                         }
                         rowHasRooms = true;
                         mazeColCount++;
-                        outputMaze[mazeRowCount][mazeColCount] = roomAdjacent(inputMaze, new Room(), i, j);
+                        theOutputMaze[mazeRowCount][mazeColCount] = roomAdjacent(theInputMaze, new Room(), i, j);
                         myEntranceRow = mazeRowCount;
                         myEntranceColumn = mazeColCount;
                     }
@@ -286,15 +289,16 @@ public class Maze {
                         }
                         rowHasRooms = true;
                         mazeColCount++;
-                        outputMaze[mazeRowCount][mazeColCount] = roomAdjacent(inputMaze, new Room(), i, j);
+                        theOutputMaze[mazeRowCount][mazeColCount] = roomAdjacent(theInputMaze, new Room(), i, j);
                         myExitRow = mazeRowCount;
                         myExitColumn = mazeColCount;
                     }
                 }
             }
         }
-        return outputMaze;
+        return theOutputMaze;
     }
+
     private Room roomAdjacent(char[][] theMaze, Room theRoom, int theRow, int theCol) {
         if (theRow - 1 < 0 || theMaze[theRow - 1][theCol] != '|') { // north door
             theRoom.getMyDoor(Direction.NORTH).setNonPassable(true);
