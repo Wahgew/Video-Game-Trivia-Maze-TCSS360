@@ -1,5 +1,6 @@
 package Model;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -35,12 +36,12 @@ public class Maze {
     /**
      * Random object used for generating random numbers.
      */
-    private final int myEntranceRow;
+    private int myEntranceRow;
 
     /**
      * Row index of the entrance location in the maze.
      */
-    private final int myEntranceColumn;
+    private int myEntranceColumn;
 
     /**
      * Column index of the entrance location in the maze.
@@ -64,6 +65,9 @@ public class Maze {
      * @param theYSize the number of columns in the maze
      */
     public Maze(int theXSize, int theYSize) {
+        if (theXSize < 4 || theYSize < 4) {
+            throw new IllegalArgumentException();
+        }
         myMaze = new Room[theXSize][theYSize];
         myRandom = new Random();
         myEntranceRow = generateNumber(theXSize);
@@ -73,11 +77,16 @@ public class Maze {
         checkEntExitGen();
         mazeInstantiate();
     }
-//    private Maze(String theFileName) {
-//        Scanner fileScan = new Scanner("src/Resource/MazeLayouts/" + theFileName);
-//        //myMaze = new Room[theXSize][theYSize];
-//        fileMazeInstantiate(fileScan, theFileName);
-//    }
+    public Maze(String theFileName) {
+        Scanner fileScan = null;
+        myRandom = null;
+        try {
+            fileScan = new Scanner(new File("src/Resource/MazeLayouts/" + theFileName));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        myMaze = fileMazeInstantiate(fileScan);
+    }
 
     /**
      * Getter for Singleton instance of Maze,
@@ -92,13 +101,12 @@ public class Maze {
         }
         return mySingleton;
     }
-//    public static synchronized Maze getInstance(String theFileName) {
-//        if (mySingleton == null) {
-//            mySingleton = new Maze(theFileName);
-//        }
-//        return mySingleton;
-//    }
-
+    public static synchronized Maze getInstance(String theFileName) {
+        if (mySingleton == null) {
+            mySingleton = new Maze(theFileName);
+        }
+        return mySingleton;
+    }
     /**
      * Returns the Singleton instance of Maze with custom dimensions.
      * If no instance exists, a maze with the specified dimensions is created.
@@ -221,7 +229,7 @@ public class Maze {
         return myMaze[0].length;
     }
 
-    void mazeInstantiate() { // TODO: instantiates the maze fine, roomOutOfBounds is broken? check it
+    void mazeInstantiate() { //
         for (int i = 0; i < getMyMazeRows(); i++) {
             for (int j = 0; j < getMyMazeCols(); j++) {
                 myMaze[i][j] = new Room();
@@ -231,17 +239,77 @@ public class Maze {
             }
         }
     }
-//    void fileMazeInstantiate(Scanner theScan, String theFileName) {
-//        int mazeRow, mazeCol;
-//        mazeRow = theScan.nextInt();
-//        mazeCol = theScan.nextInt();
-//        myMaze = new Room[mazeRow][mazeCol];
-//        // myEntranceRow = generateNumber(theXSize);
-//        // myEntranceColumn = generateNumber(theYSize);
-//        // myExitRow = generateNumber(theXSize);
-//        // myExitColumn = generateNumber(theYSize);
-//        // TODO: needs to set entrance/exit fields, obviously the rooms and doors as well.
-//    }
+    private Room[][] fileMazeInstantiate(Scanner theScan) {
+        int mazeRow, mazeCol;
+        mazeRow = theScan.nextInt();
+        mazeCol = theScan.nextInt();
+        char[][] inputMaze = new char[(mazeRow * 2) + 1][(mazeCol * 2) + 1];
+        Room[][] outputMaze = new Room[mazeRow][mazeCol];
+        String inputRow = "";
+        theScan.nextLine();
+        int inputRowCounter = -1;
+        while (theScan.hasNextLine()) {
+            inputRow = theScan.nextLine();
+            inputRowCounter++;
+            for (int i = 0; i < inputRow.length(); i++) {
+                inputMaze[inputRowCounter][i] = inputRow.charAt(i);
+            }
+        }
+            int mazeRowCount = -1;
+            for (int i = 0; i < inputMaze.length; i++) {
+                boolean rowHasRooms = false;
+                int mazeColCount = -1;
+                for (int j = 0; j < inputMaze[0].length; j++) {
+                    char charGrab = inputMaze[i][j];
+                    switch (charGrab) {
+                    case '□' -> {
+                        if (!rowHasRooms) {
+                            mazeRowCount++;
+                        }
+                        mazeColCount++;
+                        rowHasRooms = true;
+                        outputMaze[mazeRowCount][mazeColCount] = roomAdjacent(inputMaze, new Room(), i, j);
+                    }
+                    case 'E' -> {
+                        if (!rowHasRooms) {
+                            mazeRowCount++;
+                        }
+                        rowHasRooms = true;
+                        mazeColCount++;
+                        outputMaze[mazeRowCount][mazeColCount] = roomAdjacent(inputMaze, new Room(), i, j);
+                        myEntranceRow = mazeRowCount;
+                        myEntranceColumn = mazeColCount;
+                    }
+                    case '▨' -> {
+                        if (!rowHasRooms) {
+                            mazeRowCount++;
+                        }
+                        rowHasRooms = true;
+                        mazeColCount++;
+                        outputMaze[mazeRowCount][mazeColCount] = roomAdjacent(inputMaze, new Room(), i, j);
+                        myExitRow = mazeRowCount;
+                        myExitColumn = mazeColCount;
+                    }
+                }
+            }
+        }
+        return outputMaze;
+    }
+    private Room roomAdjacent(char[][] theMaze, Room theRoom, int theRow, int theCol) {
+        if (theRow - 1 < 0 || theMaze[theRow - 1][theCol] != '|') { // north door
+            theRoom.getMyDoor(Direction.NORTH).setNonPassable(true);
+        }
+        if (theRow + 1 >= theMaze.length || theMaze[theRow + 1][theCol] != '|') { // south door
+            theRoom.getMyDoor(Direction.SOUTH).setNonPassable(true);
+        }
+        if (theCol - 1 < 0 || theMaze[theRow][theCol - 1] != '-') { // west door
+            theRoom.getMyDoor(Direction.WEST).setNonPassable(true);
+        }
+        if (theCol + 1 >= theMaze[0].length || theMaze[theRow][theCol + 1] != '-') { // east door
+            theRoom.getMyDoor(Direction.EAST).setNonPassable(true);
+        }
+        return theRoom;
+    }
 
     void checkEntExitGen() {
         while (myEntranceRow == myExitRow && myEntranceColumn == myExitColumn) {

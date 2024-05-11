@@ -227,11 +227,12 @@ public class Player {
             } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
 //                Question randQuestion = MazeController.getQuestionDatabase().getRandomQuestion(); // commented out is database connection version
 //                String userAns = JOptionPane.showInputDialog(randQuestion.getQuestion());
-                TreeMap<String,Boolean> tempList = new TreeMap<>();
-                tempList.put("Andy", true);
-                ShortAnswerQuestion randQuestion = new ShortAnswerQuestion("What is Andrew Hwang's nickname?",new AnswerData(tempList), "Short",20);
-                String userAns = JOptionPane.showInputDialog(randQuestion.getQuestion());
-                if (userAns.equals(randQuestion.getCorrectAnswer())) { // check player's answer TODO: sanitize user input w/ to lowercase??
+//                TreeMap<String,Boolean> tempList = new TreeMap<>();
+//                tempList.put("Andy", true);
+//                ShortAnswerQuestion randQuestion = new ShortAnswerQuestion("What is Andrew Hwang's nickname?",new AnswerData(tempList), "Short",20);
+                Question randQuestion = Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).askQuestion();
+                String userAns = JOptionPane.showInputDialog(randQuestion.getQuestion()).toLowerCase();
+                if (userAns.equals(randQuestion.getCorrectAnswer().toLowerCase())) { // check player's answer TODO: sanitize user input w/ to lowercase??
                     allowMove = true;
                     Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
                     myCorrectAns++;

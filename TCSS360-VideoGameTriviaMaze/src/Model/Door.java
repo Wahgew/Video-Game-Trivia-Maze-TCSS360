@@ -27,7 +27,8 @@ public class Door {
     private Question myQuestion;
 
     /**
-     * Attempt status.
+     * Attempt status of the Door
+     * Player can only attempt to pass through Door if attempt status is false.
      */
     private boolean myAttemptStatus;
 
@@ -39,7 +40,7 @@ public class Door {
      * status as true (locked) and attempt status as false.
      */
     Door() {
-        myLockStatus = false;
+        myLockStatus = true;
         myAttemptStatus = false;
         myLeadsOutOfBounds = false;
         myQuestion = null;
@@ -75,8 +76,8 @@ public class Door {
 
     /**
      * Sets the attempt status of the door.
-     *
-     * @param theAttemptStatus true if an attempt has been made to interact with the door, false otherwise
+     * Player can only attempt to pass through Door if attempt status is false.
+     * @param theAttemptStatus if the Door has been attempted.
      */
     public void setMyAttemptStatus(boolean theAttemptStatus) {
         myAttemptStatus = theAttemptStatus;
@@ -96,6 +97,10 @@ public class Door {
         myAttemptStatus = theOOBStatus;
     }
 
+    public void setNonPassable(boolean thePassability) {
+        myLockStatus = thePassability;
+        myAttemptStatus = thePassability;
+    }
 
     /**
      * Should be called when a question has been attempted, "syncs" the state of
