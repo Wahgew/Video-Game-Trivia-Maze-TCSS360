@@ -10,7 +10,6 @@ import View.GamePanel;
 import javax.swing.*;
 
 public class MazeController {
-    static QuestionAnswerDatabase myQuestionAnswerDatabase;
     public static void main(String[] args) {
         // Instantiating Singleton Instances for first time.
         Maze.getInstance("ZigZagLayout.txt"); // testing layout generation from .txt
@@ -18,9 +17,6 @@ public class MazeController {
         Player.getInstance();
         GameFrame mazeFrame = new GameFrame();
         mazeFrame.getMyGamePanel().updateButtonStatus(); // need to run updateButtonStatus when player location changes.
-    }
-    public static QuestionAnswerDatabase getQuestionDatabase() {
-        return myQuestionAnswerDatabase;
     }
 
     /**

@@ -18,7 +18,7 @@ public class Room {
     /**
      * Array of doors in the room.
      */
-    private Door[] myDoors;
+    private final Door[] myDoors;
 
     /**
      * Constructs a new Room object with four doors.
@@ -46,8 +46,8 @@ public class Room {
     public String toString() {
         StringBuilder roomString = new StringBuilder();
         for (int i = 0; i < 4; i++) {
-            //roomString.append("Door ").append().append(" Attempt Status: ").append(door.getMyAttemptStatus()).append("\n");
-            roomString.append(i + " = ").append("Door ").append(Direction.getDirectionInt(i)).append(" Attempt Status: ").append(getMyDoor(Direction.getDirectionInt(i))).append("\n");
+            roomString.append(i).append(" = ").append("Door ").append(Direction.getDirectionInt(i))
+                    .append(" Attempt Status: ").append(getMyDoor(Direction.getDirectionInt(i))).append("\n");
         }
         return roomString.toString();
     }

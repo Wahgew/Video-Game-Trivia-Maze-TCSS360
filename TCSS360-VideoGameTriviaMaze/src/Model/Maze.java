@@ -107,20 +107,6 @@ public class Maze {
         }
         return mySingleton;
     }
-    /**
-     * Returns the Singleton instance of Maze with custom dimensions.
-     * If no instance exists, a maze with the specified dimensions is created.
-     *
-     * @param theX the number of rows in the maze
-     * @param theY the number of columns in the maze
-     * @return Singleton instance of Maze with custom dimensions
-     */
-    public static synchronized Maze getInstance(int theX, int theY) {
-        if (mySingleton == null) {
-            mySingleton = new Maze(theX, theY);
-        }
-        return mySingleton;
-    }
 
     /**
      * Generates an int, greater than or equal to zero and less than the upper bound.
