@@ -44,7 +44,7 @@ public class Door {
         myAttemptStatus = false;
         myLeadsOutOfBounds = false;
         myQuestion = null;
-        myQdb = new QuestionAnswerDatabase();
+        myQdb = QuestionAnswerDatabase.getInstance();
     }
 
     /**
@@ -132,7 +132,7 @@ public class Door {
 
     //TODO: this method may need the row, col, and direction of player
     public Question askQuestion() {
-        myQuestion = myQdb.getRandomQuestion();
+        myQuestion = QuestionAnswerDatabase.getInstance().getRandomQuestion();
         return myQuestion;
     }
 

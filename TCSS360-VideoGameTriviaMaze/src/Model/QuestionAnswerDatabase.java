@@ -15,6 +15,12 @@ import org.sqlite.SQLiteDataSource;
  * @version 0.0.2 April 29, 2024
  */
 public class QuestionAnswerDatabase {
+
+    /**
+     * Singleton instance of a database.
+     */
+    private static QuestionAnswerDatabase myDatabase;
+
     /**
      * Create SQLite data source.
      */
@@ -101,8 +107,20 @@ public class QuestionAnswerDatabase {
         return myDB;
     }
 
+    /**
+     * Getter for the database question ID.
+     *
+     * @return the integer question id.
+     */
     public int getQuestionID() {
         return myQuestionID;
+    }
+
+    public static synchronized QuestionAnswerDatabase getInstance() {
+        if (myDatabase == null) {
+            myDatabase = new QuestionAnswerDatabase();
+        }
+        return myDatabase;
     }
 
 
