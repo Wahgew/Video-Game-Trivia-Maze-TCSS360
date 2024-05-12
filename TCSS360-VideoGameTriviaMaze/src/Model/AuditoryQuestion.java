@@ -38,7 +38,7 @@ public class AuditoryQuestion extends MultipleChoiceQuestion {
      * Code comes from:
      * https://www.youtube.com/watch?v=wJO_cq5XeSA
      */
-    Clip playMusic() {
+    public Clip playMusic() {
         try {
             System.out.println("Debug AUDI0: " + "src/" + myAudioPath);
             File musicPath = new File("src/" + myAudioPath);

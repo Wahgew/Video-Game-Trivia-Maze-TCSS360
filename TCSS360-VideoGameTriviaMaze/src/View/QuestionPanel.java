@@ -2,11 +2,16 @@ package View;
 
 import Model.*;
 
+import javax.imageio.ImageIO;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
@@ -25,6 +30,7 @@ public class QuestionPanel implements ActionListener {
     private final JButton myAnswerButton2;
     private final JButton myAnswerButton3;
     private final JButton myAnswerButton4;
+    private final JTextField myTextAnswer;
 
     private final GamePanel myGamePanel;
     private final Door myDoor;
@@ -46,8 +52,8 @@ public class QuestionPanel implements ActionListener {
         this.myAnswerButton2 = new JButton();
         this.myAnswerButton3 = new JButton();
         this.myAnswerButton4 = new JButton();
+        this.myTextAnswer = new JTextField();
         loadQuestionOption(theDoor.askQuestion()); //TODO: Load question should only happen when player interacts with a door.
-
         popUpUI();
     }
 
@@ -64,30 +70,114 @@ public class QuestionPanel implements ActionListener {
 
         TreeMap<String, Boolean> answerChoices = theQuestion.getAnswers().getAnswerChoices();
 
-        int optionCount = 1;
-        for (Map.Entry<String, Boolean> entry : answerChoices.entrySet()) {
-            switch (optionCount) {
-                case 1:
-                    myAnswerButton1.setText(entry.getKey());
-                    break;
-                case 2:
-                    myAnswerButton2.setText(entry.getKey());
-                    break;
-                case 3:
-                    myAnswerButton3.setText(entry.getKey());
-                    break;
-                case 4:
-                    myAnswerButton4.setText(entry.getKey());
-                default:
-            }
+        String questionType = theQuestion.getType();
+        switch(questionType) {
+            case "Multi":
+                setButton(true);
+                int optionCount = 1;
+                for (Map.Entry<String, Boolean> entry : answerChoices.entrySet()) {
+                    switch (optionCount) {
+                        case 1:
+                            myAnswerButton1.setText(entry.getKey());
+                            break;
+                        case 2:
+                            myAnswerButton2.setText(entry.getKey());
+                            break;
+                        case 3:
+                            myAnswerButton3.setText(entry.getKey());
+                            break;
+                        case 4:
+                            myAnswerButton4.setText(entry.getKey());
+                        default:
+                    }
+                    optionCount++;
+                    if (optionCount > 4) {
+                        break;
+                    }
+                }
+            case "T/F":
+                myAnswerButton3.setEnabled(false);
+                myAnswerButton4.setEnabled(false);
+                myAnswerButton3.setVisible(false);
+                myAnswerButton4.setVisible(false);
+            case "Short":
+                setButton(false);
+            case "Audio":
+                setButton(true);
+                AuditoryQuestion audioQuestion = (AuditoryQuestion) theQuestion;
+                Clip audio = audioQuestion.playMusic();
+                audio.start();
+                JOptionPane.showMessageDialog(null, audioQuestion.getQuestion() + "\nPress OK to stop playing."); // temporary testing
+                audio.stop();
 
-            optionCount++;
-            if (optionCount > 4) {
-                break;
-            }
+                int optionCount3 = 1;
+                for (Map.Entry<String, Boolean> entry : answerChoices.entrySet()) {
+                    switch (optionCount3) {
+                        case 1:
+                            myAnswerButton1.setText(entry.getKey());
+                            break;
+                        case 2:
+                            myAnswerButton2.setText(entry.getKey());
+                            break;
+                        case 3:
+                            myAnswerButton3.setText(entry.getKey());
+                            break;
+                        case 4:
+                            myAnswerButton4.setText(entry.getKey());
+                        default:
+                    }
+                    optionCount3++;
+                    if (optionCount3 > 4) {
+                        break;
+                    }
+                }
+            case "Image":
+                setButton(true);
+                assert theQuestion instanceof ImageQuestion;
+                ImageQuestion imgQ = (ImageQuestion) theQuestion;
+                try {
+                    BufferedImage buffImage = ImageIO.read(new File("src/" + imgQ.getImagePath()));
+                    JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(buffImage)),
+                            imgQ.getQuestion(), JOptionPane.PLAIN_MESSAGE);
+                    // Cannot invoke "java.awt.Image.getProperty(String, java.awt.image.ImageObserver)" because "image" is null <-- FILE FORMAT OR COLOR PROFILE ERROR
+                    // NEED TO RE-EXPORT IN PHOTOSHOP OR GIMP AS sRGB, ASK KEN IF YOU NEED HELP
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                int optionCount2 = 1;
+                for (Map.Entry<String, Boolean> entry : answerChoices.entrySet()) {
+                    switch (optionCount2) {
+                        case 1:
+                            myAnswerButton1.setText(entry.getKey());
+                            break;
+                        case 2:
+                            myAnswerButton2.setText(entry.getKey());
+                            break;
+                        case 3:
+                            myAnswerButton3.setText(entry.getKey());
+                            break;
+                        case 4:
+                            myAnswerButton4.setText(entry.getKey());
+                        default:
+                    }
+                    optionCount2++;
+                    if (optionCount2 > 4) {
+                        break;
+                    }
+                }
         }
-
         myCorrectAnswer = theQuestion.getCorrectAnswer();
+    }
+
+    private void setButton(boolean theState) {
+        myAnswerButton1.setEnabled(theState);
+        myAnswerButton2.setEnabled(theState);
+        myAnswerButton3.setEnabled(theState);
+        myAnswerButton4.setEnabled(theState);
+        myAnswerButton1.setVisible(theState);
+        myAnswerButton2.setVisible(theState);
+        myAnswerButton3.setVisible(theState);
+        myAnswerButton4.setVisible(theState);
     }
 
     /**

@@ -66,7 +66,7 @@ public class MazeController {
         SwingUtilities.invokeLater(() -> {
             // Create and display the question panel
             QuestionPanel questionPanel = new QuestionPanel(door, gamePanel);
-            questionPanel.popUpUI();
+            //questionPanel.popUpUI();
         });
     }
 
