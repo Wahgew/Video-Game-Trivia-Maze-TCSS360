@@ -20,7 +20,7 @@ public class QuestionPanel implements ActionListener {
     private final JDialog myDialog;
     private final JPanel myQuestionPanel;
     private final JPanel myAnswerOptionPanel;
-    private final JTextArea myQuestionArea;
+    private final JLabel myQuestionArea;
     private final JButton myAnswerButton1;
     private final JButton myAnswerButton2;
     private final JButton myAnswerButton3;
@@ -41,7 +41,7 @@ public class QuestionPanel implements ActionListener {
         this.myDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(theGamePanel), false);
         this.myQuestionPanel = new JPanel();
         this.myAnswerOptionPanel = new JPanel();
-        this.myQuestionArea = new JTextArea();
+        this.myQuestionArea = new JLabel();
         this.myAnswerButton1 = new JButton();
         this.myAnswerButton2 = new JButton();
         this.myAnswerButton3 = new JButton();
@@ -49,6 +49,10 @@ public class QuestionPanel implements ActionListener {
         loadQuestionOption(theDoor.askQuestion()); //TODO: Load question should only happen when player interacts with a door.
 
         popUpUI();
+    }
+
+    public String getPlayerAnswer() {
+        return myCorrectAnswer;
     }
 
     private void loadQuestionOption(final Question theQuestion) {
@@ -122,7 +126,7 @@ public class QuestionPanel implements ActionListener {
             myDoor.setMyAttemptStatus(true);
             myGamePanel.getMyGame().getMyPlayer().decreaseHealth();
             if (myGamePanel.getMyGame().getMyPlayer().getMyHealth() > 0) {
-                dialogForResult("Incorrect Answer :(");
+                dialogForResult("Incorrect");
             } else {
                 myDialog.dispose();
                 GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
@@ -145,57 +149,137 @@ public class QuestionPanel implements ActionListener {
     /**
      * Set up the GUI pop up when the player stand infront of the doors
      */
+//    public void popUpUI() {
+//        //Pop up dialog
+//        int radiusCorner = 40;
+//        int gapTop = 25;
+//        int gapSides = 45;
+//        myDialog.setTitle("Do you want to be our Maze expert? Type beat!");
+//        myDialog.setSize(400,300);
+//        myDialog.setLayout(new BorderLayout());
+//        myDialog.setUndecorated(true);
+//        myDialog.setShape(new RoundRectangle2D.Double(0,0,400,300,radiusCorner, radiusCorner));
+//        myQuestionPanel.setBackground(White);
+//        myQuestionPanel.setLayout(null);
+//
+//        myDialog.setLocationRelativeTo(myGamePanel);
+//
+//        //Text area the question
+//        myQuestionPanel.setFont(new Font("Berlin Sans FB",Font.BOLD, 20));
+//        myQuestionPanel.setBackground(Color.BLACK);
+//        myQuestionArea.setBounds(gapSides, gapTop,
+//                myDialog.getWidth() - 2 * gapSides, 180 - gapTop);
+//        myQuestionArea.setLineWrap(true);
+//        myQuestionArea.setWrapStyleWord(true);
+//        myQuestionArea.setEditable(false);
+//        myQuestionArea.setFocusable(false);
+//        myQuestionPanel.add(myQuestionArea);
+//
+//        //
+//        Font fontForEachButtons = new Font("Berlin Sans FB",Font.PLAIN, 16);
+//        myAnswerButton1.addActionListener(this);
+//        myAnswerButton1.setFont(fontForEachButtons);
+//        myAnswerButton1.setBackground(Blue);
+//
+//        myAnswerButton2.addActionListener(this);
+//        myAnswerButton2.setFont(fontForEachButtons);
+//        myAnswerButton2.setBackground(LightBlue);
+//
+//        myAnswerButton3.addActionListener(this);
+//        myAnswerButton3.setFont(fontForEachButtons);
+//        myAnswerButton3.setBackground(LightBlue);
+//
+//        myAnswerButton4.addActionListener(this);
+//        myAnswerButton4.setFont(fontForEachButtons);
+//        myAnswerButton4.setBackground(Blue);
+//
+//        myAnswerOptionPanel.add(myAnswerButton1);
+//        myAnswerOptionPanel.add(myAnswerButton2);
+//        myAnswerOptionPanel.add(myAnswerButton3);
+//        myAnswerOptionPanel.add(myAnswerButton4);
+//        myQuestionPanel.setLayout(new GridLayout(2,2));
+//        myQuestionPanel.setPreferredSize(new Dimension(100,120));
+//
+//        myDialog.add(myQuestionPanel, BorderLayout.CENTER);
+//        myDialog.add(myAnswerOptionPanel, BorderLayout.SOUTH);
+//
+//        myDialog.setVisible(true);
+//        myDialog.pack();
+//    }
     public void popUpUI() {
-        //Pop up dialog
+        // Pop-up dialog
         int radiusCorner = 40;
         int gapTop = 25;
         int gapSides = 45;
         myDialog.setTitle("Do you want to be our Maze expert? Type beat!");
-        myDialog.setSize(400,300);
+        myDialog.setPreferredSize(new Dimension(700, 200)); // Increased width for better button layout
         myDialog.setLayout(new BorderLayout());
         myDialog.setUndecorated(true);
-        myDialog.setShape(new RoundRectangle2D.Double(0,0,400,300,radiusCorner, radiusCorner));
-        myQuestionPanel.setBackground(White);
-        myQuestionPanel.setLayout(null);
+        myDialog.setShape(new RoundRectangle2D.Double(0, 0, 700, 200, radiusCorner, radiusCorner));
+        myQuestionPanel.setBackground(new Color(51, 51, 51)); // Dark gray background
+        myQuestionPanel.setLayout(new BorderLayout());
+        myAnswerOptionPanel.setPreferredSize(new Dimension(400, 120));
 
-        //Text area the question
-        myQuestionPanel.setFont(new Font("Berlin Sans FB",Font.BOLD, 20));
-        myQuestionPanel.setBackground(Color.BLACK);
-        myQuestionArea.setBounds(gapSides, gapTop,
-                myDialog.getWidth() - 2 * gapSides, 180 - gapTop);
-        myQuestionArea.setLineWrap(true);
-        myQuestionArea.setWrapStyleWord(true);
-        myQuestionArea.setEditable(false);
+        // Pack the dialog to the preferred size and center it relative to the game panel
+        myDialog.pack();
+        myDialog.setLocationRelativeTo(myGamePanel);
+
+        // Text area for the question
+        myQuestionArea.setFont(new Font("Arial", Font.PLAIN, 16));
+        myQuestionArea.setForeground(Color.WHITE); // White text color
+        myQuestionArea.setBackground(new Color(51, 51, 51)); // Dark gray background
+        myQuestionArea.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the question text
+        //myQuestionArea.setLineWrap(true);
+        //myQuestionArea.setWrapStyleWord(true);
+        //myQuestionArea.setEditable(false);
         myQuestionArea.setFocusable(false);
-        myQuestionPanel.add(myQuestionArea);
+        //myQuestionArea.setBounds(gapSides, gapTop, myDialog.getWidth() - 2 * gapSides, 120); // Adjusted height for better layout
+        //myQuestionArea.setBounds(gapSides, gapTop,
+                //myDialog.getWidth() - 2 * gapSides, 180 - gapTop);
+        myQuestionPanel.add(myQuestionArea, BorderLayout.NORTH);
+        //myQuestionPanel.add(myQuestionArea);
+        //myQuestionPanel.add(myQuestionArea, BorderLayout.CENTER); // Add to the center of the panel
 
-        //
-        Font fontForEachButtons = new Font("Berlin Sans FB",Font.PLAIN, 16);
+        // Set up the answer option panel
+//        myAnswerOptionPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Use FlowLayout with horizontal and vertical gaps
+//        myAnswerOptionPanel.setBackground(new Color(51, 51, 51)); // Dark gray background
+
+        myAnswerOptionPanel.setLayout(new GridLayout(2, 2)); // 2x2 grid layout with gaps
+        myAnswerOptionPanel.setBackground(new Color(51, 51, 51)); // Dark gray background
+
+        // Add the answer buttons to the answer option panel
         myAnswerButton1.addActionListener(this);
-        myAnswerButton1.setFont(fontForEachButtons);
-        myAnswerButton1.setBackground(Blue);
+        myAnswerButton1.setBackground(new Color(102, 102, 102)); // Grayish button color
+        myAnswerButton1.setForeground(Color.WHITE); // White text color
+        myAnswerButton1.setFont(new Font("Arial", Font.PLAIN, 20)); // Adjust the font size as needed
+        myAnswerButton1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true)); // Rounded button border
 
         myAnswerButton2.addActionListener(this);
-        myAnswerButton2.setFont(fontForEachButtons);
-        myAnswerButton2.setBackground(LightBlue);
+        myAnswerButton2.setBackground(new Color(102, 102, 102));
+        myAnswerButton2.setForeground(Color.WHITE);
+        myAnswerButton2.setFont(new Font("Arial", Font.PLAIN, 20));
+        myAnswerButton2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
 
         myAnswerButton3.addActionListener(this);
-        myAnswerButton3.setFont(fontForEachButtons);
-        myAnswerButton3.setBackground(LightBlue);
+        myAnswerButton3.setBackground(new Color(102, 102, 102));
+        myAnswerButton3.setForeground(Color.WHITE);
+        myAnswerButton3.setFont(new Font("Arial", Font.PLAIN, 20));
+        myAnswerButton3.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
 
         myAnswerButton4.addActionListener(this);
-        myAnswerButton4.setFont(fontForEachButtons);
-        myAnswerButton4.setBackground(Blue);
+        myAnswerButton4.setBackground(new Color(102, 102, 102));
+        myAnswerButton4.setForeground(Color.WHITE);
+        myAnswerButton4.setFont(new Font("Arial", Font.PLAIN, 20));
+        myAnswerButton4.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
 
         myAnswerOptionPanel.add(myAnswerButton1);
         myAnswerOptionPanel.add(myAnswerButton2);
         myAnswerOptionPanel.add(myAnswerButton3);
         myAnswerOptionPanel.add(myAnswerButton4);
-        myQuestionPanel.setLayout(new GridLayout(2,2));
-        myQuestionPanel.setPreferredSize(new Dimension(400,120));
 
-        myDialog.add(myQuestionPanel, BorderLayout.CENTER);
-        myDialog.add(myAnswerOptionPanel, BorderLayout.SOUTH);
+        // Add the question panel and answer option panel to the dialog
+        myDialog.add(myQuestionPanel, BorderLayout.NORTH);
+        myDialog.add(myAnswerOptionPanel, BorderLayout.CENTER);
 
         myDialog.setVisible(true);
     }
