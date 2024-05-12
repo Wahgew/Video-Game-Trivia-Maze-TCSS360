@@ -1,10 +1,14 @@
 package Controller;
 
-import Model.Maze;
-import Model.Player;
+import Model.*;
 import View.GameFrame;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class MazeController {
     public static void main(String[] args) {
@@ -15,6 +19,15 @@ public class MazeController {
         Player.getInstance();
         GameFrame mazeFrame = new GameFrame();
         mazeFrame.getMyGamePanel().updateButtonStatus(); // need to run updateButtonStatus when player location changes.
+//        try { // testing image popup on image question
+//            BufferedImage buffImage = ImageIO.read(new File("src/Resource/Images/Pokemon_Pikachu.png"));
+//            BufferedImage buffImage = ImageIO.read(new File("src/Resource/Images/YoRHa_No.2_Type_B.png"));
+//            JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(buffImage)));
+//            JLabel picLabel = new JLabel(new ImageIcon(buffImage));
+//            JOptionPane.showMessageDialog(null, picLabel);
+//        } catch (IOException e){
+//            throw new RuntimeException(e);
+//        }
     }
 
     /**

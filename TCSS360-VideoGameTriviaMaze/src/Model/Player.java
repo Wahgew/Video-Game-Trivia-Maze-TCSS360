@@ -1,8 +1,12 @@
 package Model;
 import com.fasterxml.jackson.core.JsonToken;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -148,11 +152,6 @@ public class Player {
             if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyLockStatus()) { // check if door is locked
                 allowMove = true;
             } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
-//                Question randQuestion = MazeController.getQuestionDatabase().getRandomQuestion(); // commented out is database connection version
-//                String userAns = JOptionPane.showInputDialog(randQuestion.getQuestion());
-//                TreeMap<String,Boolean> tempList = new TreeMap<>();
-//                tempList.put("Andy", true);
-//                ShortAnswerQuestion randQuestion = new ShortAnswerQuestion("What is Andrew Hwang's nickname?",new AnswerData(tempList), "Short",20);
                 Question randQuestion = Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).askQuestion();
                 if (Objects.equals(randQuestion.getType(), "Audio")) {
                     AuditoryQuestion audioQuestion = (AuditoryQuestion) randQuestion;
@@ -164,14 +163,20 @@ public class Player {
                 String userAns;
                 if (Objects.equals(randQuestion.getType(), "Multi")) {
                     userAns = JOptionPane.showInputDialog(randQuestion.getQuestion() + "\n" + randQuestion.getAnswers()).toLowerCase();
-                } else if (Objects.equals(randQuestion.getType(), "Image")) { // TODO: DEBUG THIS
+                } else if (Objects.equals(randQuestion.getType(), "Image")) {
                     assert randQuestion instanceof ImageQuestion;
                     ImageQuestion imgQ = (ImageQuestion) randQuestion;
                     System.out.println("Debug IMAGE: " + "src/" + imgQ.getImagePath());
-                    //ImageIcon imageIcon = new ImageIcon("src/" + imgQ.getImagePath());
-                    ImageIcon imageIcon = new ImageIcon(getClass().getResource("src/" + imgQ.getImagePath())); // TODO: SPECIFICALLY DEBUG THIS
-                    JOptionPane.showMessageDialog(null, imageIcon);
-                    userAns = JOptionPane.showInputDialog(randQuestion.getQuestion()).toLowerCase();
+                    try {
+                        BufferedImage buffImage = ImageIO.read(new File("src/" + imgQ.getImagePath()));
+                        JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(buffImage)),
+                                imgQ.getQuestion(), JOptionPane.PLAIN_MESSAGE);
+                        // Cannot invoke "java.awt.Image.getProperty(String, java.awt.image.ImageObserver)" because "image" is null <-- FILE FORMAT OR COLOR PROFILE ERROR
+                        // NEED TO RE-EXPORT IN PHOTOSHOP OR GIMP AS sRGB, ASK KEN IF YOU NEED HELP
+                        userAns = JOptionPane.showInputDialog(randQuestion.getQuestion()).toLowerCase();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 } else {
                     userAns = JOptionPane.showInputDialog(randQuestion.getQuestion()).toLowerCase(); // temporary testing
                 }
