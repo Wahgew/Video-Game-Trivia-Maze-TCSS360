@@ -130,7 +130,7 @@ public class Player {
             if (!Maze.getInstance().getMyRoom(playerRow, playerCol) // if door is not locked
                     .getMyDoor(Direction.getPlayerDirection(theDirection)).getMyLockStatus()) {
                 moveAllowed = true;
-            } else if (Maze.getInstance().getMyRoom(playerRow, playerCol) // if door hasn't been attempted yet.
+            } else if (!Maze.getInstance().getMyRoom(playerRow, playerCol) // if door hasn't been attempted yet.
                     .getMyDoor(Direction.getPlayerDirection(theDirection)).getMyAttemptStatus()) {
                 moveAllowed = true;
             }
@@ -216,7 +216,7 @@ public class Player {
         }
     }
     public void movePlayer(Direction theDirection) {
-        if (attemptMove(theDirection)) {
+        if (validPlayerMove(theDirection)) {
             myFacingDirection = theDirection;
             switch (theDirection) {
                 case NORTH -> myLocationRow--;
@@ -228,7 +228,7 @@ public class Player {
         }
     }
     public void movePlayer(int theMove) { //TESTING VERSION
-        if (attemptMove(Direction.getDirectionInt(theMove))) {
+        if (validPlayerMove(Direction.getDirectionInt(theMove))) {
             switch (theMove) {
                 case 0 -> myLocationRow--; // North
                 case 1 -> myLocationCol++; // East
