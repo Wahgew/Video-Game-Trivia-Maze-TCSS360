@@ -44,42 +44,40 @@ public class GameFrame extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-        myGamePanel = new GamePanel();
+        //myGamePanel = new GamePanel();
         myGamePanelFocus = false; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
     }
 
     public GamePanel getMyGamePanel() {
         return myGamePanel;
     }
+
     public void switchToGamePanel(final GamePanel theGamePanel) {
         myGamePanel = theGamePanel;
         resumeButton();
         menuBar();
 
-        JPanel mainPanel = new JPanel (new BorderLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel centerPanel = new JPanel();
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        centerPanel.setLayout(new BorderLayout());
-        leftPanel.setBackground(Color.GRAY);
         centerPanel.setBackground(Color.GRAY);
-        // Add left and center panels to main panel
-        mainPanel.add(myGamePanel.createLayeredPanel(), BorderLayout.WEST);
-        mainPanel.add(centerPanel, BorderLayout.CENTER);
-        leftPanel.setPreferredSize(new Dimension(200,200));
 
-        mainPanel.add(theGamePanel);
+        // Create and add the movement buttons panel
+        MovementButtonPanel movementButtonsPanel = new MovementButtonPanel(theGamePanel);
+
+        // Add the game panel and movement buttons panel to the main panel
+        mainPanel.add(theGamePanel, BorderLayout.CENTER);
+        mainPanel.add(movementButtonsPanel, BorderLayout.WEST);
+
         setContentPane(mainPanel);
-
-
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //setUndecorated(true);
         revalidate();
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
-        //showDialog(new instructionPanel());
         myGamePanelFocus = true; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
     }
+
+
+
     public void switchToWelcomeScreen() {
         setContentPane(myWelcomeScreen);
         revalidate();

@@ -2,6 +2,8 @@ package Controller;
 
 import Model.*;
 import View.GameFrame;
+import View.GamePanel;
+import View.QuestionPanel;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
@@ -44,4 +46,30 @@ public class MazeController {
             theMazeFrame.getMyGamePanel().updateButtonStatus();
         }
     }
+
+    public void handlePlayerMovement(Direction direction, GamePanel gamePanel) {
+        Player player = Player.getInstance();
+        int playerRow = player.getMyLocationRow();
+        int playerCol = player.getMyLocationCol();
+        Door door = Maze.getInstance().getMyRoom(playerRow, playerCol).getMyDoor(direction);
+            // Door is unlocked or question not attempted, allow movement
+            player.movePlayer(direction);
+
+            // Check if the move was towards a door
+            if (!door.getMyAttemptStatus()) {
+                // Door hasn't been attempted, display the question panel
+                displayQuestionPanel(door, gamePanel);
+            }
+    }
+
+    private void displayQuestionPanel(Door door, GamePanel gamePanel) {
+        SwingUtilities.invokeLater(() -> {
+            // Create and display the question panel
+            QuestionPanel questionPanel = new QuestionPanel(door, gamePanel);
+            questionPanel.popUpUI();
+        });
+    }
+
+
+
 }
