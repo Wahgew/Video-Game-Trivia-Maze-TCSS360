@@ -40,7 +40,7 @@ public class Room {
      * @param theDirection the direction of the door to retrieve
      * @return the door in the specified direction
      */
-    Door getMyDoor(Direction theDirection) {
+    public Door getMyDoor(Direction theDirection) {
         return myDoors[theDirection.getMyValue()];
     }
 
