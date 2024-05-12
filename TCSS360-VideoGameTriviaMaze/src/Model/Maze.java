@@ -87,7 +87,6 @@ public class Maze {
         }
         myMaze = fileMazeInstantiate(fileScan);
     }
-
     /**
      * Getter for Singleton instance of Maze,
      * with no parameter creates a default size of 4x4 rooms if
@@ -325,6 +324,17 @@ public class Maze {
         } else if (theCol + 1 >= myMaze[0].length) {
             myMaze[theRow][theCol].getMyDoor(Direction.EAST).setMyLeadsOutOfBounds(true);
         }
+    }
+    /**
+     * Getter method for the Tile
+     * @param num index of Tile
+     * @return Tile
+     */
+    public Room[] getTile(final int num) {
+        if (myMaze[num] == null) {
+            throw new IllegalArgumentException("Tile cannot be null");
+        }
+        return myMaze[num];
     }
 
     /**

@@ -19,11 +19,6 @@ public class PlayerHealth {
             throw new IllegalArgumentException("Please enter non-null player object");
         }
         myPlayer = thePlayer;
-//        try {
-//            myImage = (ImageIO.read(getClass().getResourceAsStream("/Resource/Heart.png")));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
     public void playerHealthImage() {
         try {
@@ -39,7 +34,7 @@ public class PlayerHealth {
             g.setColor(Color.BLACK);
             g.drawImage(myImage, ScreenSetting.TILE_SIZE / 2, ScreenSetting.TILE_SIZE / 2,
                     ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE, null);
-            g.drawString("X " + myPlayer.getMyHealth(), 100, 65);
+            g.drawString("\nX" + myPlayer.getMyHealth(), 100, 65);
         }
     }
     /**

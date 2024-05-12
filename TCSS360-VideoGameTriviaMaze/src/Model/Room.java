@@ -1,6 +1,8 @@
 package Model;
 
 
+import java.awt.image.BufferedImage;
+
 /**
  * Room class represents a room withing a maze
  * Each room has multiple doors max 4, allowing access to adjective rooms.
@@ -50,5 +52,9 @@ public class Room {
                     .append(" Attempt Status: ").append(getMyDoor(Direction.getDirectionInt(i))).append("\n");
         }
         return roomString.toString();
+    }
+
+    public void setImage(BufferedImage read) {
+
     }
 }

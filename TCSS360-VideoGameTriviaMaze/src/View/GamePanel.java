@@ -186,7 +186,6 @@ public class GamePanel extends JPanel implements Runnable{
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D)g;
-                //myGame.getMyPlayerManager().draw(g2);
                 myPlayerHealth.playerHealthImage();
                 myPlayerHealth.draw(g2);
 
@@ -244,7 +243,7 @@ public class GamePanel extends JPanel implements Runnable{
         buttonPanel.add(invisButton5);
 
         westPanel.add(playerHealthPanel,BorderLayout.NORTH);
-        westPanel.add(buttonPanel, BorderLayout.CENTER);
+        westPanel.add(buttonPanel, BorderLayout.SOUTH);
 
 
 
