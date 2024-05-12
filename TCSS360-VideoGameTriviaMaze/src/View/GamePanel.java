@@ -1,5 +1,6 @@
 package View;
 
+import Controller.MazeController;
 import Model.Direction;
 import Model.Player;
 
@@ -8,7 +9,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.jar.JarEntry;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
     private transient Thread myGameThread;
     private boolean myGameOver;
 
@@ -20,11 +21,13 @@ public class GamePanel extends JPanel implements Runnable{
     public Game myGame;
     private transient PlayerHealth myPlayerHealth;
     KeyboardsHandler keyboardsHandler = new KeyboardsHandler();
+    MazeController myController;
 
 
     public GamePanel() {
         setMyGame(new Game(this));
         myGameOver = false;
+        myController = new MazeController();
 
         this.setPreferredSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
         this.setBackground(Color.white);
@@ -32,11 +35,6 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyboardsHandler);
         this.setFocusable(true);
         this.setLayout(new BorderLayout());
-
-
-        //add(createLayeredPanel(), BorderLayout.WEST);
-        createLayeredPanel();
-        addButtonListener();
     }
     public void setMyGame(Game game) {
         //System.out.println("1"); // TODO: should this be printing 1 to console randomly?
@@ -116,20 +114,7 @@ public class GamePanel extends JPanel implements Runnable{
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
-    public void addButtonListener() {
-        myUpArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.NORTH);
-        });
-        myDownArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.SOUTH);
-        });
-        myLeftArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.WEST);
-        });
-        myRightArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.EAST);
-        });
-    }
+
     @Override
     public void run() {
         //Setting up game loop with better FPS
@@ -158,115 +143,19 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
     }
-    protected JPanel createLayeredPanel() {
-        JPanel westPanel = new JPanel(new BorderLayout()) {
-            @Override
-            public Dimension getPreferredSize() {
-                // Set the desired width and height for the westPanel
-                return new Dimension(300, 300);
-            }
-        };
-        JPanel topPanel = new JPanel();
-        JPanel southPanel = new JPanel();
 
-        topPanel.setBackground(Color.LIGHT_GRAY);
-        topPanel.setPreferredSize(new Dimension(300, 400));
-
-        southPanel.setBackground(Color.LIGHT_GRAY);
-        southPanel.setPreferredSize(new Dimension(300, 400));
-
-        westPanel.add(topPanel,BorderLayout.NORTH);
-        westPanel.add(southPanel, BorderLayout.SOUTH);
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(Color.BLACK);
-        buttonPanel.setLayout(new GridLayout(3,3, 10, 10));
-
-        JPanel playerHealthPanel = new JPanel() {
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D)g;
-                myPlayerHealth.playerHealthImage();
-                myPlayerHealth.draw(g2);
-
-                g2.dispose();
-            }
-        };
-        playerHealthPanel.setBackground(Color.LIGHT_GRAY);
-        playerHealthPanel.setPreferredSize(new Dimension(300, 100));
-
-        //ImageIcon upArrowIcon = new ImageIcon(getClass().getResource("/Resource/upIcon.png"));
-        //ImageIcon downArrowIcon = new ImageIcon(getClass().getResource("/Resource/downIcon.png"));
-        //ImageIcon leftArrowIcon = new ImageIcon(getClass().getResource("/Resource/leftIcon.png"));
-        //ImageIcon rightArrowIcon = new ImageIcon(getClass().getResource("/Resource/rightIcon.png"));
-        ImageIcon upArrowIcon = resizeImage("/Resource/upIcon.png", 60, 60);
-        ImageIcon downArrowIcon = resizeImage("/Resource/downIcon.png", 60, 60);
-        ImageIcon rightArrowIcon = resizeImage("/Resource/rightIcon.png", 70, 50);
-        ImageIcon leftArrowIcon = resizeImage("/Resource/leftIcon.png", 70, 50);
-
-
-        myUpArrowButton = new JButton(upArrowIcon);
-        myDownArrowButton = new JButton(downArrowIcon);
-        myLeftArrowButton = new JButton(leftArrowIcon);
-        myRightArrowButton = new JButton(rightArrowIcon);
-
-        myUpArrowButton.setBorderPainted(false);
-        myDownArrowButton.setBorderPainted(false);
-        myLeftArrowButton.setBorderPainted(false);
-        myRightArrowButton.setBorderPainted(false);
-
-        myUpArrowButton.setContentAreaFilled(false);
-        myDownArrowButton.setContentAreaFilled(false);
-        myLeftArrowButton.setContentAreaFilled(false);
-        myRightArrowButton.setContentAreaFilled(false);
-
-
-        JButton invisButton1 = new JButton(); //invis buttons are to get desired spacing in the grid.
-        invisButton1.setVisible(true);
-        JButton invisButton2 = new JButton();
-        invisButton2.setVisible(true);
-        JButton invisButton3 = new JButton();
-        invisButton3.setVisible(false);
-        JButton invisButton4 = new JButton();
-        invisButton4.setVisible(true);
-        JButton invisButton5 = new JButton();
-        invisButton5.setVisible(true);
-
-        buttonPanel.add(invisButton1);
-        buttonPanel.add(myUpArrowButton);
-        buttonPanel.add(invisButton2);
-        buttonPanel.add(myLeftArrowButton);
-        buttonPanel.add(invisButton3);
-        buttonPanel.add(myRightArrowButton);
-        buttonPanel.add(invisButton4);
-        buttonPanel.add(myDownArrowButton);
-        buttonPanel.add(invisButton5);
-
-        westPanel.add(playerHealthPanel,BorderLayout.NORTH);
-        westPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-
-
-        //this.add(paintComponent(), BorderLayout.WEST);
-
-        return westPanel;
-    }
-    private ImageIcon resizeImage(String path, int width, int height) {
-        ImageIcon icon = new ImageIcon(getClass().getResource(path));
-        Image img = icon.getImage();
-        Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        return new ImageIcon(resizedImg);
-    }
     public void updateButtonStatus() {
         myUpArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.NORTH));
         myDownArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.SOUTH));
         myLeftArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.WEST));
         myRightArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.EAST));
     }
+
     public void startGameThread() {
         myGameThread = new Thread(this);
         myGameThread.start();
     }
+
     public PlayerCollision getCollision() {
         return myGame.getMyCollisionChecker();
     }
