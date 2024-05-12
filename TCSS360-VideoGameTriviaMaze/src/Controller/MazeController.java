@@ -41,6 +41,7 @@ public class MazeController {
                     + Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(),
                     Player.getInstance().getMyLocationCol()));
             Player.getInstance().movePlayer(Integer.parseInt(movement));
+            theMazeFrame.getMyGamePanel().updateButtonStatus();
         }
     }
 }
