@@ -3,6 +3,7 @@ package View;
 import Model.Direction;
 import Model.Player;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -18,6 +19,10 @@ public class GamePanel extends JPanel implements Runnable{
     private JButton myRightArrowButton;
 
     private JButton mytestButton;
+
+    private JButton mySwitchToWelcomeScreenButton;
+    private JButton mySaveGameButton;
+    private JButton myExitGameButton;
 
     public Game myGame;
     private transient PlayerHealth myPlayerHealth;
@@ -168,21 +173,6 @@ public class GamePanel extends JPanel implements Runnable{
                 return new Dimension(300, 300);
             }
         };
-//        JPanel topPanel = new JPanel();
-//        JPanel southPanel = new JPanel();
-//
-//        topPanel.setBackground(Color.LIGHT_GRAY);
-//        topPanel.setPreferredSize(new Dimension(300, 400));
-//
-//        southPanel.setBackground(Color.LIGHT_GRAY);
-//        southPanel.setPreferredSize(new Dimension(300, 400));
-//
-//        westPanel.add(topPanel,BorderLayout.NORTH);
-//        westPanel.add(southPanel, BorderLayout.SOUTH);
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(Color.RED);
-        buttonPanel.setPreferredSize(new Dimension(300, 700));
 
         JPanel playerHealthPanel = new JPanel() {
             protected void paintComponent(Graphics g) {
@@ -197,12 +187,42 @@ public class GamePanel extends JPanel implements Runnable{
         playerHealthPanel.setBackground(Color.white);
         playerHealthPanel.setPreferredSize(new Dimension(300, 135));
 
+
         ImageIcon upArrowIcon = resizeImage("/Resource/upIcon.png", 60, 60);
         ImageIcon downArrowIcon = resizeImage("/Resource/downIcon.png", 60, 60);
         ImageIcon rightArrowIcon = resizeImage("/Resource/rightIcon.png", 70, 50);
         ImageIcon leftArrowIcon = resizeImage("/Resource/leftIcon.png", 70, 50);
+        ImageIcon saveGameIcon = resizeImage("/Resource/SaveGame.png", 170, 50);
+        ImageIcon welcomeScreenIcon = resizeImage("/Resource/WelcomeScreen.png", 170, 50);
+        ImageIcon exitIcon = resizeImage("/Resource/Exit.jpg", 170, 50);
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.RED);
+        buttonPanel.setPreferredSize(new Dimension(300, 700));
+
+        mySwitchToWelcomeScreenButton = new JButton(welcomeScreenIcon);
+        mySaveGameButton = new JButton(saveGameIcon);
+        myExitGameButton = new JButton(exitIcon);
 
 
+        myExitGameButton.setBorderPainted(false);
+        mySaveGameButton.setBorderPainted(false);
+        mySwitchToWelcomeScreenButton.setBorderPainted(false);
+
+        myExitGameButton.setContentAreaFilled(false);
+        mySaveGameButton.setContentAreaFilled(false);
+        mySwitchToWelcomeScreenButton.setContentAreaFilled(false);
+
+
+        mySwitchToWelcomeScreenButton.setBounds(120,50,170,50);
+        //mySaveGameButton.setBounds(170,50);
+        //myExitGameButton.setBounds(170,50);
+
+        buttonPanel.add(mySaveGameButton);
+        buttonPanel.add(mySwitchToWelcomeScreenButton);
+        buttonPanel.add(myExitGameButton);
+
+        //Movement button and panel.
         JPanel testbuttonPanel = new JPanel(null); // Use null layout
         testbuttonPanel.setBackground(Color.LIGHT_GRAY);
         testbuttonPanel.setPreferredSize(new Dimension(300, 100));
@@ -240,9 +260,8 @@ public class GamePanel extends JPanel implements Runnable{
 
 
         westPanel.add(playerHealthPanel,BorderLayout.NORTH);
-        westPanel.add(buttonPanel, BorderLayout.SOUTH);
         westPanel.add(testbuttonPanel);
-
+        westPanel.add(buttonPanel,BorderLayout.SOUTH);
 
         return westPanel;
     }
