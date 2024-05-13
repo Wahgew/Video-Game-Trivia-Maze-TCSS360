@@ -32,9 +32,10 @@ public class PlayerHealth {
         if (myPlayer.getMyHealth() > 0) {
             g.setFont(ARIAL_30);
             g.setColor(Color.BLACK);
-            g.drawImage(myImage, ScreenSetting.TILE_SIZE / 2, ScreenSetting.TILE_SIZE / 2,
+            g.drawImage(myImage, ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE/2 ,
                     ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE, null);
-            g.drawString("\nX" + myPlayer.getMyHealth(), 100, 65);
+            g.drawString("\nX" + myPlayer.getMyHealth(), 135, 72);
+
         }
     }
     /**
