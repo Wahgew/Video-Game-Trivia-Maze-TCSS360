@@ -6,10 +6,12 @@ import Model.Player;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.jar.JarEntry;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
     private transient Thread myGameThread;
     private boolean myGameOver;
 
@@ -25,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable{
     private JButton myExitGameButton;
 
     public Game myGame;
+    public GameFrame myGameFrame;
     private transient PlayerHealth myPlayerHealth;
     KeyboardsHandler keyboardsHandler = new KeyboardsHandler();
 
@@ -32,7 +35,6 @@ public class GamePanel extends JPanel implements Runnable{
     public GamePanel() {
         setMyGame(new Game(this));
         myGameOver = false;
-
         this.setPreferredSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
         this.setBackground(Color.white);
         this.setDoubleBuffered(true);
@@ -102,7 +104,6 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
-
     public void update(){
         myGame.getMyPlayerManager().updateSpriteKeyPressed();
     }
@@ -123,20 +124,7 @@ public class GamePanel extends JPanel implements Runnable{
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
-    public void addButtonListener() {
-        myUpArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.NORTH);
-        });
-        myDownArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.SOUTH);
-        });
-        myLeftArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.WEST);
-        });
-        myRightArrowButton.addActionListener(e -> {
-            Player.getInstance().movePlayer(Direction.EAST);
-        });
-    }
+
     @Override
     public void run() {
         //Setting up game loop with better FPS
@@ -147,6 +135,7 @@ public class GamePanel extends JPanel implements Runnable{
         while (myGameThread != null) {
             // Update information player movement postions
             update();
+            addButtonListener();
             //Draw the screen with updated information
             repaint();
             try {
@@ -165,7 +154,7 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
     }
-    protected JPanel createLayeredPanel() {
+    public JPanel createLayeredPanel() {
         JPanel westPanel = new JPanel(new BorderLayout()) {
             @Override
             public Dimension getPreferredSize() {
@@ -204,7 +193,6 @@ public class GamePanel extends JPanel implements Runnable{
         mySaveGameButton = new JButton(saveGameIcon);
         myExitGameButton = new JButton(exitIcon);
 
-
         myExitGameButton.setBorderPainted(false);
         mySaveGameButton.setBorderPainted(false);
         mySwitchToWelcomeScreenButton.setBorderPainted(false);
@@ -213,8 +201,7 @@ public class GamePanel extends JPanel implements Runnable{
         mySaveGameButton.setContentAreaFilled(false);
         mySwitchToWelcomeScreenButton.setContentAreaFilled(false);
 
-
-        mySwitchToWelcomeScreenButton.setBounds(120,50,170,50);
+        //mySwitchToWelcomeScreenButton.setBounds(120,50,170,50);
         //mySaveGameButton.setBounds(170,50);
         //myExitGameButton.setBounds(170,50);
 
@@ -257,14 +244,49 @@ public class GamePanel extends JPanel implements Runnable{
         testbuttonPanel.add(myLeftArrowButton);
         testbuttonPanel.add(myRightArrowButton);
 
-
-
         westPanel.add(playerHealthPanel,BorderLayout.NORTH);
         westPanel.add(testbuttonPanel);
         westPanel.add(buttonPanel,BorderLayout.SOUTH);
 
         return westPanel;
     }
+    private void addButtonListener() {
+        myUpArrowButton.addActionListener(e -> {
+            keyboardsHandler.setMyUpKeyPressed(true);
+            myGame.getMyPlayer().movePlayer(Direction.NORTH);
+        });
+        myDownArrowButton.addActionListener(e -> {
+            keyboardsHandler.setMyDownKeyPressed(true);
+            myGame.getMyPlayer().movePlayer(Direction.SOUTH);
+        });
+        myLeftArrowButton.addActionListener(e -> {
+            keyboardsHandler.setMyLeftKeyPressed(true);
+            myGame.getMyPlayer().movePlayer(Direction.WEST);
+        });
+        myRightArrowButton.addActionListener(e -> {
+            keyboardsHandler.setMyRightKeyPressed(true);
+            myGame.getMyPlayer().movePlayer(Direction.EAST);
+        });
+        mySwitchToWelcomeScreenButton.addActionListener(e -> {
+            JPanel thisP = this;
+            GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(thisP);
+            frame.switchToWelcomeScreen();
+        });
+        myExitGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final int jOption = JOptionPane.showConfirmDialog(GamePanel.this,
+                        "Are you sure you want to Exit?", "Exit",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (jOption == JOptionPane.YES_NO_OPTION) {
+                    //showDialog(new GameFrame.exitPanel());
+                    System.exit(0);
+                }
+            }
+        });
+
+    }
+
     private ImageIcon resizeImage(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(getClass().getResource(path));
         Image img = icon.getImage();

@@ -16,13 +16,7 @@ public class GameFrame extends JFrame {
     private JMenuItem myExitGame;
     private JMenuItem myHintGame;
     private JMenuItem myInstructionGame;
-
     private JButton myResumeGameButton;
-
-//    private JButton myUpArrowButton;
-//    private JButton myDownArrowButton;
-//    private JButton myLeftArrowButton;
-//    private JButton myRightArrowButton;
 
     private final ImageIcon logoIcon = new ImageIcon(getClass().getResource("/Resource/Logo1.png"));
     private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
@@ -70,15 +64,13 @@ public class GameFrame extends JFrame {
 
         mainPanel.add(theGamePanel);
         setContentPane(mainPanel);
-
-
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         //setUndecorated(true);
         revalidate();
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
         //showDialog(new instructionPanel());
-        myGamePanelFocus = true; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
+        //myGamePanelFocus = true; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
     }
     public void switchToWelcomeScreen() {
         setContentPane(myWelcomeScreen);

@@ -28,7 +28,6 @@ public class KeyboardsHandler implements KeyListener , Serializable {
         if (keyCode == KeyEvent.VK_D) {
             setMyRightKeyPressed(true);
         }
-
     }
 
     @Override
@@ -46,7 +45,6 @@ public class KeyboardsHandler implements KeyListener , Serializable {
         if (keyCode == KeyEvent.VK_D) {
             setMyRightKeyPressed(false);
         }
-
     }
     public void setAllKeys() {
         myLeftKeyPressed = false;
