@@ -187,7 +187,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.RED);
-        buttonPanel.setPreferredSize(new Dimension(300, 700));
+        buttonPanel.setPreferredSize(new Dimension(300, 500));
 
         mySwitchToWelcomeScreenButton = new JButton(welcomeScreenIcon);
         mySaveGameButton = new JButton(saveGameIcon);
@@ -284,14 +284,6 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
         });
-
-    }
-
-    private ImageIcon resizeImage(String path, int width, int height) {
-        ImageIcon icon = new ImageIcon(getClass().getResource(path));
-        Image img = icon.getImage();
-        Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        return new ImageIcon(resizedImg);
     }
     public void updateButtonStatus() {
         myUpArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.NORTH));
@@ -299,6 +291,13 @@ public class GamePanel extends JPanel implements Runnable {
         myLeftArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.WEST));
         myRightArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.EAST));
     }
+    private ImageIcon resizeImage(String path, int width, int height) {
+        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+        Image img = icon.getImage();
+        Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImg);
+    }
+
     public void startGameThread() {
         myGameThread = new Thread(this);
         myGameThread.start();
