@@ -18,10 +18,6 @@ import Resource.R;
 
 
 public class QuestionPanel implements ActionListener {
-    private final static Color White = new Color(255,255, 255);
-    private final static Color Blue = new Color(210, 246, 250);
-    private final static Color LightBlue = new Color(123, 195, 203);
-
     private final JDialog myDialog;
     private final JPanel myQuestionPanel;
     private final JPanel myAnswerOptionPanel;
