@@ -2,6 +2,7 @@ package View;
 
 import Model.*;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -54,13 +55,17 @@ public class QuestionPanel implements ActionListener {
         this.myTextAnswer = new JTextField();
         loadQuestionOption(theDoor.askQuestion()); //TODO: Load question should only happen when player interacts with a door.
 
-        if (myDoor.getQuestionObject().getType().equals("Short")) {
-            popUpForShort();
-        } else if (myDoor.getQuestionObject().getType().equals("Image")) {
-            popUpUI();
-            myDialog.add(loadImage(), BorderLayout.NORTH);
-        } else {
-            popUpUI();
+        switch (myDoor.getQuestionObject().getType()) {
+            case "Short" -> popUpForShort();
+            case "Image" -> {
+                popUpUI();
+                myDialog.add(loadImage(), BorderLayout.NORTH);
+            }
+            case "Audio" -> {
+                popUpUI();
+                myDialog.add(loadAudio(), BorderLayout.NORTH);
+            }
+            default -> popUpUI();
         }
     }
 
@@ -101,6 +106,46 @@ public class QuestionPanel implements ActionListener {
         imagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding around the image
         return imagePanel;
     }
+
+    private JPanel loadAudio() {
+        assert myDoor.getQuestionObject() instanceof AuditoryQuestion;
+        AuditoryQuestion audioQuestion = (AuditoryQuestion) myDoor.getQuestionObject();
+
+        JPanel audioPanel = new JPanel(new BorderLayout());
+        JButton playButton = new JButton("Play Audio");
+        audioPanel.setBackground(R.Colors.QUESTION_PANEL_BG);
+        audioPanel.setBackground(Color.RED);
+        Clip[] audio = {null};
+
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (audio[0] != null && audio[0].isRunning()) {
+                    audio[0].stop();
+                }
+                audio[0] = audioQuestion.playMusic();
+                audio[0].start();
+            }
+        });
+
+        playButton.setPreferredSize(new Dimension(150, 150));
+
+        // Make the button circular
+        playButton.setBorder(BorderFactory.createEmptyBorder());
+        playButton.setContentAreaFilled(false);
+        playButton.setFocusPainted(false);
+        playButton.setOpaque(true);
+        playButton.setBackground(Color.WHITE);
+        playButton.setForeground(Color.BLACK);
+
+        // Add a border around the circular button
+        playButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
+        audioPanel.add(playButton, BorderLayout.CENTER);
+        audioPanel.setPreferredSize(new Dimension(700, 100));
+        return audioPanel;
+    }
+
 
 
 //    private void loadQuestionOption(final Question theQuestion) {
@@ -233,19 +278,6 @@ public class QuestionPanel implements ActionListener {
                 break;
             default:
                 throw new IllegalArgumentException("Invalid question type");
-        }
-
-        // Additional setup or handling for special cases
-        switch (questionType) {
-            case "Image":
-                // Display the image
-                // ...
-                break;
-            case "Audio":
-                // Set up audio playback
-                // ...
-                break;
-            // Add more cases if needed
         }
     }
 
@@ -596,6 +628,8 @@ public class QuestionPanel implements ActionListener {
 
         if (myDoor.getQuestionObject() instanceof ImageQuestion) {
             myDialog.setSize(new Dimension(700, 600));
+        } else if (myDoor.getQuestionObject() instanceof AuditoryQuestion) {
+            myDialog.setSize(new Dimension(700, 400));
         } else {
             myDialog.setSize(new Dimension(700, 300));
         }
