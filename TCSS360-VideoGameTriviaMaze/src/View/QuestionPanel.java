@@ -146,116 +146,6 @@ public class QuestionPanel implements ActionListener {
         return audioPanel;
     }
 
-
-
-//    private void loadQuestionOption(final Question theQuestion) {
-//        if (theQuestion == null) {
-//            throw new IllegalArgumentException("Question cannot be null");
-//        }
-//
-//        myQuestionArea.setText(theQuestion.getQuestion());
-//
-//        TreeMap<String, Boolean> answerChoices = theQuestion.getAnswers().getAnswerChoices();
-//
-//        String questionType = theQuestion.getType();
-//        switch(questionType) {
-//            case "Multi":
-//                setButton(true);
-//                int optionCount = 1;
-//                for (Map.Entry<String, Boolean> entry : answerChoices.entrySet()) {
-//                    switch (optionCount) {
-//                        case 1:
-//                            myAnswerButton1.setText(entry.getKey());
-//                            break;
-//                        case 2:
-//                            myAnswerButton2.setText(entry.getKey());
-//                            break;
-//                        case 3:
-//                            myAnswerButton3.setText(entry.getKey());
-//                            break;
-//                        case 4:
-//                            myAnswerButton4.setText(entry.getKey());
-//                        default:
-//                    }
-//                    optionCount++;
-//                    if (optionCount > 4) {
-//                        break;
-//                    }
-//                }
-//            case "T/F":
-//                myAnswerButton3.setEnabled(false);
-//                myAnswerButton4.setEnabled(false);
-//                myAnswerButton3.setVisible(false);
-//                myAnswerButton4.setVisible(false);
-//            case "Short":
-//                setButton(false);
-//            case "Audio":
-//                setButton(true);
-//                AuditoryQuestion audioQuestion = (AuditoryQuestion) theQuestion;
-//                Clip audio = audioQuestion.playMusic();
-//                audio.start();
-//                JOptionPane.showMessageDialog(null, audioQuestion.getQuestion() + "\nPress OK to stop playing."); // temporary testing
-//                audio.stop();
-//
-//                int optionCount3 = 1;
-//                for (Map.Entry<String, Boolean> entry : answerChoices.entrySet()) {
-//                    switch (optionCount3) {
-//                        case 1:
-//                            myAnswerButton1.setText(entry.getKey());
-//                            break;
-//                        case 2:
-//                            myAnswerButton2.setText(entry.getKey());
-//                            break;
-//                        case 3:
-//                            myAnswerButton3.setText(entry.getKey());
-//                            break;
-//                        case 4:
-//                            myAnswerButton4.setText(entry.getKey());
-//                        default:
-//                    }
-//                    optionCount3++;
-//                    if (optionCount3 > 4) {
-//                        break;
-//                    }
-//                }
-//            case "Image":
-//                setButton(true);
-//                assert theQuestion instanceof ImageQuestion;
-//                ImageQuestion imgQ = (ImageQuestion) theQuestion;
-//                try {
-//                    BufferedImage buffImage = ImageIO.read(new File("src/" + imgQ.getImagePath()));
-//                    JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(buffImage)),
-//                            imgQ.getQuestion(), JOptionPane.PLAIN_MESSAGE);
-//                    // Cannot invoke "java.awt.Image.getProperty(String, java.awt.image.ImageObserver)" because "image" is null <-- FILE FORMAT OR COLOR PROFILE ERROR
-//                    // NEED TO RE-EXPORT IN PHOTOSHOP OR GIMP AS sRGB, ASK KEN IF YOU NEED HELP
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                int optionCount2 = 1;
-//                for (Map.Entry<String, Boolean> entry : answerChoices.entrySet()) {
-//                    switch (optionCount2) {
-//                        case 1:
-//                            myAnswerButton1.setText(entry.getKey());
-//                            break;
-//                        case 2:
-//                            myAnswerButton2.setText(entry.getKey());
-//                            break;
-//                        case 3:
-//                            myAnswerButton3.setText(entry.getKey());
-//                            break;
-//                        case 4:
-//                            myAnswerButton4.setText(entry.getKey());
-//                        default:
-//                    }
-//                    optionCount2++;
-//                    if (optionCount2 > 4) {
-//                        break;
-//                    }
-//                }
-//        }
-//        myCorrectAnswer = theQuestion.getCorrectAnswer();
-//    }
-
     private void loadQuestionOption(final Question theQuestion) {
         if (theQuestion == null) {
             throw new IllegalArgumentException("Question cannot be null");
@@ -342,21 +232,6 @@ public class QuestionPanel implements ActionListener {
         myTextAnswer.addActionListener(this);
     }
 
-
-
-
-
-//    private void setButton(boolean theState) {
-//        myAnswerButton1.setEnabled(theState);
-//        myAnswerButton2.setEnabled(theState);
-//        myAnswerButton3.setEnabled(theState);
-//        myAnswerButton4.setEnabled(theState);
-//        myAnswerButton1.setVisible(theState);
-//        myAnswerButton2.setVisible(theState);
-//        myAnswerButton3.setVisible(theState);
-//        myAnswerButton4.setVisible(theState);
-//    }
-
     /**
      * The action performed method for all the answer option button.
      *
@@ -384,21 +259,6 @@ public class QuestionPanel implements ActionListener {
             }
         }
     }
-//    @Override
-//    public void actionPerformed(ActionEvent event) {
-//        Object source = event.getSource();
-//
-//        if (source == myTextAnswer) {
-//            // Handle user's input for short answer question
-//            String userAnswer = myTextAnswer.getText();
-//            checkAnswers(userAnswer);
-//        } else {
-//            // Handle button clicks for other question types
-//            JButton clickedButton = (JButton) source;
-//            String userAnswer = clickedButton.getText();
-//            checkAnswers(userAnswer);
-//        }
-//    }
 
     public void checkAnswers(final String thePlayerAnswer) {
         if (thePlayerAnswer == null) {
@@ -434,194 +294,10 @@ public class QuestionPanel implements ActionListener {
         dialog.setLocationRelativeTo(myGamePanel);
         dialog.setVisible(true);
     }
+
     /**
-     * Set up the GUI pop up when the player stand infront of the doors
+     * Sets up GUI display for questions when the player interacts with a door.
      */
-//    public void popUpUI() {
-//        //Pop up dialog
-//        int radiusCorner = 40;
-//        int gapTop = 25;
-//        int gapSides = 45;
-//        myDialog.setTitle("Do you want to be our Maze expert? Type beat!");
-//        myDialog.setSize(400,300);
-//        myDialog.setLayout(new BorderLayout());
-//        myDialog.setUndecorated(true);
-//        myDialog.setShape(new RoundRectangle2D.Double(0,0,400,300,radiusCorner, radiusCorner));
-//        myQuestionPanel.setBackground(White);
-//        myQuestionPanel.setLayout(null);
-//
-//        myDialog.setLocationRelativeTo(myGamePanel);
-//
-//        //Text area the question
-//        myQuestionPanel.setFont(new Font("Berlin Sans FB",Font.BOLD, 20));
-//        myQuestionPanel.setBackground(Color.BLACK);
-//        myQuestionArea.setBounds(gapSides, gapTop,
-//                myDialog.getWidth() - 2 * gapSides, 180 - gapTop);
-//        myQuestionArea.setLineWrap(true);
-//        myQuestionArea.setWrapStyleWord(true);
-//        myQuestionArea.setEditable(false);
-//        myQuestionArea.setFocusable(false);
-//        myQuestionPanel.add(myQuestionArea);
-//
-//        //
-//        Font fontForEachButtons = new Font("Berlin Sans FB",Font.PLAIN, 16);
-//        myAnswerButton1.addActionListener(this);
-//        myAnswerButton1.setFont(fontForEachButtons);
-//        myAnswerButton1.setBackground(Blue);
-//
-//        myAnswerButton2.addActionListener(this);
-//        myAnswerButton2.setFont(fontForEachButtons);
-//        myAnswerButton2.setBackground(LightBlue);
-//
-//        myAnswerButton3.addActionListener(this);
-//        myAnswerButton3.setFont(fontForEachButtons);
-//        myAnswerButton3.setBackground(LightBlue);
-//
-//        myAnswerButton4.addActionListener(this);
-//        myAnswerButton4.setFont(fontForEachButtons);
-//        myAnswerButton4.setBackground(Blue);
-//
-//        myAnswerOptionPanel.add(myAnswerButton1);
-//        myAnswerOptionPanel.add(myAnswerButton2);
-//        myAnswerOptionPanel.add(myAnswerButton3);
-//        myAnswerOptionPanel.add(myAnswerButton4);
-//        myQuestionPanel.setLayout(new GridLayout(2,2));
-//        myQuestionPanel.setPreferredSize(new Dimension(100,120));
-//
-//        myDialog.add(myQuestionPanel, BorderLayout.CENTER);
-//        myDialog.add(myAnswerOptionPanel, BorderLayout.SOUTH);
-//
-//        myDialog.setVisible(true);
-//        myDialog.pack();
-//    }
-//    public void popUpUI() {
-//        // Pop-up dialog
-//        int radiusCorner = 40;
-//        int gapTop = 25;
-//        int gapSides = 45;
-//        myDialog.setTitle("Do you want to be our Maze expert? Type beat!");
-//        myDialog.setPreferredSize(new Dimension(700, 200)); // Increased width for better button layout
-//        myDialog.setLayout(new BorderLayout());
-//        myDialog.setUndecorated(true);
-//        myDialog.setShape(new RoundRectangle2D.Double(0, 0, 700, 200, radiusCorner, radiusCorner));
-//        myQuestionPanel.setBackground(new Color(51, 51, 51)); // Dark gray background
-//        myQuestionPanel.setLayout(new BorderLayout());
-//        myAnswerOptionPanel.setPreferredSize(new Dimension(400, 120));
-//
-//        // Pack the dialog to the preferred size and center it relative to the game panel
-//        myDialog.pack();
-//        myDialog.setLocationRelativeTo(myGamePanel);
-//
-//        // Text area for the question
-//        myQuestionArea.setFont(new Font("Arial", Font.PLAIN, 16));
-//        myQuestionArea.setForeground(Color.WHITE); // White text color
-//        myQuestionArea.setBackground(new Color(51, 51, 51)); // Dark gray background
-//        myQuestionArea.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the question text
-//        //myQuestionArea.setLineWrap(true);
-//        //myQuestionArea.setWrapStyleWord(true);
-//        //myQuestionArea.setEditable(false);
-//        myQuestionArea.setFocusable(false);
-//        //myQuestionArea.setBounds(gapSides, gapTop, myDialog.getWidth() - 2 * gapSides, 120); // Adjusted height for better layout
-//        //myQuestionArea.setBounds(gapSides, gapTop,
-//                //myDialog.getWidth() - 2 * gapSides, 180 - gapTop);
-//        myQuestionPanel.add(myQuestionArea, BorderLayout.NORTH);
-//        //myQuestionPanel.add(myQuestionArea);
-//        //myQuestionPanel.add(myQuestionArea, BorderLayout.CENTER); // Add to the center of the panel
-//
-//        // Set up the answer option panel
-////        myAnswerOptionPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Use FlowLayout with horizontal and vertical gaps
-////        myAnswerOptionPanel.setBackground(new Color(51, 51, 51)); // Dark gray background
-//
-//        myAnswerOptionPanel.setLayout(new GridLayout(2, 2)); // 2x2 grid layout with gaps
-//        myAnswerOptionPanel.setBackground(new Color(51, 51, 51)); // Dark gray background
-//
-//        // Add the answer buttons to the answer option panel
-//        myAnswerButton1.setBackground(new Color(102, 102, 102)); // Grayish button color
-//        myAnswerButton1.setForeground(Color.WHITE); // White text color
-//        myAnswerButton1.setFont(new Font("Arial", Font.PLAIN, 20)); // Adjust the font size as needed
-//        myAnswerButton1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true)); // Rounded button border
-//
-//        myAnswerButton2.setBackground(new Color(102, 102, 102));
-//        myAnswerButton2.setForeground(Color.WHITE);
-//        myAnswerButton2.setFont(new Font("Arial", Font.PLAIN, 20));
-//        myAnswerButton2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
-//
-//        myAnswerButton3.setBackground(new Color(102, 102, 102));
-//        myAnswerButton3.setForeground(Color.WHITE);
-//        myAnswerButton3.setFont(new Font("Arial", Font.PLAIN, 20));
-//        myAnswerButton3.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
-//
-//        myAnswerButton4.setBackground(new Color(102, 102, 102));
-//        myAnswerButton4.setForeground(Color.WHITE);
-//        myAnswerButton4.setFont(new Font("Arial", Font.PLAIN, 20));
-//        myAnswerButton4.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
-//
-//        myAnswerOptionPanel.add(myAnswerButton1);
-//        myAnswerOptionPanel.add(myAnswerButton2);
-//        myAnswerOptionPanel.add(myAnswerButton3);
-//        myAnswerOptionPanel.add(myAnswerButton4);
-//        myAnswerOptionPanel.add(myTextAnswer);
-//
-//        // Add the question panel and answer option panel to the dialog
-//        myDialog.add(myQuestionPanel, BorderLayout.NORTH);
-//        myDialog.add(myAnswerOptionPanel, BorderLayout.CENTER);
-//
-//        myDialog.setVisible(true);
-//    }
-
-//    private void popUpUI () {
-//        // JDialog for the pop up.
-//        myDialog.setTitle("Who want to be Disney Expert");
-//        myDialog.setSize(700, 300);
-//        myDialog.setLayout(new BorderLayout());
-//        myDialog.setUndecorated(true);
-//        myDialog.setLocationRelativeTo(myGamePanel);
-//        int cornerRadius = 50; // Adjust the value as per your preference
-//        myDialog.setShape(new RoundRectangle2D.Double(0, 0, 700, 300, cornerRadius, cornerRadius));
-//        myQuestionPanel.setBackground(Blue);
-//        myQuestionPanel.setLayout(null);
-//        // Text Area to contain the question.
-//        myQuestionArea.setFont(new Font("Berlin Sans FB", Font.PLAIN, 20));
-//        myQuestionArea.setBackground(Color.GREEN);
-//        int GaponBothSides = 45;
-//        int GaponTop = 25;
-//        myQuestionArea.setBounds(GaponBothSides, GaponTop,
-//                myDialog.getWidth() - 2 * GaponBothSides, 180 - GaponTop);
-////        myQuestionArea.setLineWrap(true);
-////        myQuestionArea.setWrapStyleWord(true);
-//        myQuestionArea.setEditable(false);
-//        myQuestionArea.setFocusable(false);
-//        SimpleAttributeSet center = new SimpleAttributeSet();
-//        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-//        myQuestionArea.setParagraphAttributes(center, false);
-//
-//
-//        myQuestionPanel.add(myQuestionArea);
-//        //------------------------------------------------------------------------------------------------------------
-//        Font fontForButtons = new Font("Berlin Sans FB", Font.PLAIN, 16);
-//        // All the Radio button to select the answer from.
-//        myAnswerButton1.setFont(fontForButtons);
-//        myAnswerButton1.setBackground(Color.yellow);
-//        myAnswerButton2.setFont(fontForButtons);
-//        myAnswerButton2.setBackground(Color.WHITE);
-//        myAnswerButton3.setFont(fontForButtons);
-//        myAnswerButton3.setBackground(Color.WHITE);
-//        myAnswerButton4.setFont(fontForButtons);
-//        myAnswerButton4.setBackground(Color.white);
-//        myAnswerOptionPanel.add(myAnswerButton1);
-//        myAnswerOptionPanel.add(myAnswerButton2);
-//        myAnswerOptionPanel.add(myAnswerButton3);
-//        myAnswerOptionPanel.add(myAnswerButton4);
-//        myAnswerOptionPanel.setLayout(new GridLayout(2, 2));
-//        myAnswerOptionPanel.setPreferredSize(new Dimension(400, 120));
-//        //myOptionPanel.setOpaque(true);
-//        // Add the question panel and option panel to the dialog
-//        myDialog.add(myQuestionPanel, BorderLayout.CENTER);
-//        myDialog.add(myAnswerOptionPanel, BorderLayout.SOUTH);
-//        // Set the dialog to be visible
-//        myDialog.setVisible(true);
-//    }
-
     private void popUpUI() {
         // JDialog for the pop up.
         myDialog.setTitle("Gamers Rise");
@@ -706,13 +382,9 @@ public class QuestionPanel implements ActionListener {
         myAnswerOptionPanel.add(myAnswerButton4);
 
         // Add the question panel and answer option panel to the dialog
-//        JPanel image = new JPanel();
-//        myDialog.add(image,BorderLayout.NORTH);
         myDialog.add(myQuestionPanel, BorderLayout.CENTER);
         myDialog.add(myAnswerOptionPanel, BorderLayout.SOUTH);
 
-        // Set the dialog to be visible
-        //myDialog.pack();
         myDialog.setVisible(true);
     }
 
@@ -769,7 +441,6 @@ public class QuestionPanel implements ActionListener {
         myDialog.add(myQuestionPanel, BorderLayout.CENTER);
         myDialog.add(myAnswerOptionPanel, BorderLayout.SOUTH);
 
-        // Set the dialog to be visible
         myDialog.setVisible(true);
         myAnswerOptionPanel.requestFocus();
     }
@@ -795,14 +466,6 @@ public class QuestionPanel implements ActionListener {
             }
         });
     }
-
-
-
-
-
-
-
-
 
     static class resultPanel extends JPanel {
         private static final int border = 15;
@@ -864,6 +527,4 @@ public class QuestionPanel implements ActionListener {
 
         }
     }
-
-
 }
