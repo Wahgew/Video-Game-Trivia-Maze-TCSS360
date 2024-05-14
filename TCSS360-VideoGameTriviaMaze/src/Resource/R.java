@@ -25,5 +25,10 @@ public class R {
 
         /** Header color for UI elements. */
         public static final Color HEADER = new Color(133, 41, 40);
+
+        public static final Color White = new Color(255,255, 255);
+        public static final Color Blue = new Color(210, 246, 250);
+        public static final Color LightBlue = new Color(123, 195, 203);
+
     }
 }
