@@ -1,9 +1,8 @@
 package Model;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * AuditoryQuestion represents a question that includes audio content.
@@ -40,21 +39,28 @@ public class AuditoryQuestion extends MultipleChoiceQuestion {
      */
     public Clip playMusic() {
         try {
-            System.out.println("Debug AUDI0: " + "src/" + myAudioPath);
             File musicPath = new File("src/" + myAudioPath);
             if (musicPath.exists()) {
-                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-                Clip audioClip = AudioSystem.getClip();
-                audioClip.open(audioInput);
-                return audioClip;
+                try (AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath)) {
+                    Clip audioClip = AudioSystem.getClip();
+                    audioClip.open(audioInput);
+                    return audioClip;
+                }
             } else {
                 System.out.println("Can't find file at " + myAudioPath);
             }
+        } catch (UnsupportedAudioFileException e) {
+            System.out.println("Unsupported audio file format: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error reading audio file: " + e.getMessage());
+        } catch (LineUnavailableException e) {
+            System.out.println("Audio line is unavailable: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Error playing audio: " + e.getMessage());
         }
         return null;
     }
+
     /**
      * Gets the path to the audio file associated with the question.
      *
