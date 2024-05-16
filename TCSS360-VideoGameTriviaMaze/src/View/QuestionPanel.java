@@ -34,7 +34,7 @@ public class QuestionPanel implements ActionListener {
     private String myCorrectAnswer; //
 
 
-    public QuestionPanel(final Door theDoor, final GamePanel theGamePanel) {
+    public QuestionPanel(final Door theDoor,final GamePanel theGamePanel) {
         if (theDoor == null || theGamePanel == null) {
             throw new IllegalArgumentException("The doors and game panel cannot be null");
         }

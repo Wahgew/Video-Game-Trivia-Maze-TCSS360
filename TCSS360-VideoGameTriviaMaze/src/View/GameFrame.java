@@ -62,7 +62,6 @@ public class GameFrame extends JFrame {
 
         //TODO: This main panel here is testing for seeing question pop up UIs
         mainPanel.add(new MovementButtonPanel(theGamePanel), BorderLayout.WEST);// comment this out and uncomment above to switch back to other UI
-
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         leftPanel.setPreferredSize(new Dimension(200,200));
 
@@ -81,6 +80,7 @@ public class GameFrame extends JFrame {
         revalidate();
     }
     public void switchToEndGamePanel() {
+        setContentPane(new EndPanel(myGamePanel.getMyGame().getMyPlayer(), myGamePanel));
         myMenuBar.removeAll();
         revalidate();
     }
