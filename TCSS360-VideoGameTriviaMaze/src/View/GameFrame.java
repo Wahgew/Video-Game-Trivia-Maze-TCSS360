@@ -1,5 +1,8 @@
 package View;
 
+import Model.GameDataManger;
+import Model.Player;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -22,6 +25,7 @@ public class GameFrame extends JFrame {
     private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
 
     private GamePanel myGamePanel;
+    private GameDataManger myGameData;
     private WelcomeScreen myWelcomeScreen;
 
     private boolean myGamePanelFocus;
@@ -29,6 +33,7 @@ public class GameFrame extends JFrame {
 
 
     public GameFrame() {
+        Player p = Player.getInstance();
         setIconImage(logoIcon.getImage());
         myWelcomeScreen = new WelcomeScreen();
         setContentPane(myWelcomeScreen);
@@ -40,6 +45,8 @@ public class GameFrame extends JFrame {
         setVisible(true);
         myGamePanel = new GamePanel();
         myGamePanelFocus = false; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
+        //myGameData = new GameDataManger(p.getMyHealth(), p.getMyScore(),p.getCorrectAns(),p.getCorrectTotal(),p.getIncorrectTotal(),p.getQuestionsAnswered());
+        myGameData = new GameDataManger();
     }
 
     public GamePanel getMyGamePanel() {
@@ -80,7 +87,7 @@ public class GameFrame extends JFrame {
         revalidate();
     }
     public void switchToEndGamePanel() {
-        setContentPane(new EndPanel(myGamePanel.getMyGame().getMyPlayer(), myGamePanel));
+        setContentPane(new EndPanel(Player.getInstance(), myGamePanel));
         myMenuBar.removeAll();
         revalidate();
     }
@@ -164,8 +171,10 @@ public class GameFrame extends JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
             }
         });
-        mySaveGame.addActionListener(e -> myGamePanel.saveGame());
-        myLoadGame.addActionListener(e -> myGamePanel.loadGame());
+//        mySaveGame.addActionListener(e -> myGamePanel.saveGame());
+//        myLoadGame.addActionListener(e -> myGamePanel.loadGame());
+        mySaveGame.addActionListener(e -> myGameData.saveGameData());
+        myLoadGame.addActionListener(e -> myGameData.loadGameData());
 
     }
     public void showDialog(final JPanel thePanel) {
