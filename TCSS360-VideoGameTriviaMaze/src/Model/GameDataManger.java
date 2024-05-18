@@ -49,7 +49,17 @@ public class GameDataManger {
         File loadFile = new File(SAVE_FILE_PATH);
 
         try {
-            objectMapper.readValue(loadFile, Player.class);
+            Player loadedPlayer = objectMapper.readValue(loadFile, Player.class);
+            Player instance = Player.getInstance();
+            instance.setMyLocationRow(loadedPlayer.getMyLocationRow());
+            instance.setMyLocationCol(loadedPlayer.getMyLocationCol());
+            instance.setMyScore(loadedPlayer.getMyScore());
+            instance.setMyDirection(loadedPlayer.getMyDirection());
+            instance.setMyCorrectTotal(loadedPlayer.getMyCorrectTotal());
+            instance.setMyIncorrectTotal(loadedPlayer.getMyIncorrectTotal());
+            instance.setMyVictory(loadedPlayer.getMyVictory());
+            instance.setMyHealth(loadedPlayer.getMyHealth());
+            instance.setMyQuestionsAnswered(loadedPlayer.getMyQuestionsAnswered());
         } catch (IOException e) {
             e.printStackTrace();
         }
