@@ -307,6 +307,47 @@ public class Player {
     public boolean getMyVictory() {
         return myVictory;
     }
+
+    public void setMyScore(int myScore) {
+        this.myScore = myScore;
+    }
+
+    public void setMyCorrectTotal(int myCorrectTotal) {
+        this.myCorrectTotal = myCorrectTotal;
+    }
+
+    public void setMyIncorrectTotal(int myIncorrectTotal) {
+        this.myIncorrectTotal = myIncorrectTotal;
+    }
+
+    public void setMyConsecutiveAns(int myConsecutiveAns) {
+        this.myConsecutiveAns = myConsecutiveAns;
+    }
+
+    public void setMyHealth(int myHealth) {
+        this.myHealth = myHealth;
+    }
+
+    public void setMyDirection(Direction myDirection) {
+        this.myDirection = myDirection;
+    }
+
+    public void setMyLocationCol(int myLocationCol) {
+        this.myLocationCol = myLocationCol;
+    }
+
+    public void setMyLocationRow(int myLocationRow) {
+        this.myLocationRow = myLocationRow;
+    }
+
+    public void setMyQuestionsAnswered(HashMap<Integer, Boolean> myQuestionsAnswered) {
+        this.myQuestionsAnswered = myQuestionsAnswered;
+    }
+
+    public void setMyVictory(boolean myVictory) {
+        this.myVictory = myVictory;
+    }
+
     boolean checkVictory() {
         return (Maze.getInstance().getMyExitRow() == getMyLocationRow()
                 && Maze.getInstance().getMyExitColumn() == getMyLocationCol());
