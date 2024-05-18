@@ -86,6 +86,7 @@ public class Maze {
             throw new RuntimeException(e);
         }
         myMaze = fileMazeInstantiate(fileScan);
+        checkOOBMaze();
     }
     /**
      * Getter for Singleton instance of Maze,
@@ -224,6 +225,15 @@ public class Maze {
             }
         }
     }
+    void checkOOBMaze() {
+        for (int i = 0; i < getMyMazeRows(); i++) {
+            for (int j = 0; j < getMyMazeCols(); j++) {
+                if (i == 0 || i == getMyMazeRows() - 1 || j == 0 || j == getMyMazeCols() - 1) { // check if on edge of maze rows.
+                    roomOutOfBounds(i, j);
+                }
+            }
+        }
+    }
     private Room[][] fileMazeInstantiate(Scanner theScan) {
         int mazeRow, mazeCol;
         mazeRow = theScan.nextInt();
@@ -315,14 +325,14 @@ public class Maze {
      */
     void roomOutOfBounds(int theRow, int theCol) {
         if (theRow - 1 < 0) {
-            myMaze[theRow][theCol].getMyDoor(Direction.NORTH).setMyLeadsOutOfBounds(true);
+            myMaze[theRow][theCol].getMyDoor(Direction.NORTH).setNonPassable(true);
         } else if (theRow + 1 >= myMaze.length) {
-            myMaze[theRow][theCol].getMyDoor(Direction.SOUTH).setMyLeadsOutOfBounds(true);
+            myMaze[theRow][theCol].getMyDoor(Direction.SOUTH).setNonPassable(true);
         }
         if (theCol - 1 < 0) {
-            myMaze[theRow][theCol].getMyDoor(Direction.WEST).setMyLeadsOutOfBounds(true);
+            myMaze[theRow][theCol].getMyDoor(Direction.WEST).setNonPassable(true);
         } else if (theCol + 1 >= myMaze[0].length) {
-            myMaze[theRow][theCol].getMyDoor(Direction.EAST).setMyLeadsOutOfBounds(true);
+            myMaze[theRow][theCol].getMyDoor(Direction.EAST).setNonPassable(true);
         }
     }
 

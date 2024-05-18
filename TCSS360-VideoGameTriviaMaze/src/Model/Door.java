@@ -64,6 +64,9 @@ public class Door {
     public boolean getMyAttemptStatus() {
         return myAttemptStatus;
     }
+    public boolean getMyLeadsOutOfBounds() {
+        return myLeadsOutOfBounds;
+    }
 
     /**
      * Sets the lock status of the door.
@@ -97,9 +100,10 @@ public class Door {
         myAttemptStatus = theOOBStatus;
     }
 
-    public void setNonPassable(boolean thePassability) {
-        myLockStatus = thePassability;
-        myAttemptStatus = thePassability;
+    public void setNonPassable(boolean thePassibility) {
+        myLockStatus = thePassibility ;
+        myAttemptStatus = thePassibility ;
+        myLeadsOutOfBounds = thePassibility ;
     }
 
     /**

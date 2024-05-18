@@ -54,6 +54,22 @@ public class Room {
         return roomString.toString();
     }
 
+    public String getRoomFileName() {
+        String mazeFile = "src/Resource/MazeRooms/maze_";
+        if (!getMyDoor(Direction.NORTH).getMyLeadsOutOfBounds()) {
+            mazeFile += "N";
+        }
+        if (!getMyDoor(Direction.SOUTH).getMyLeadsOutOfBounds()) {
+            mazeFile += "S";
+        }
+        if (!getMyDoor(Direction.EAST).getMyLeadsOutOfBounds()) {
+            mazeFile += "E";
+        }
+        if (!getMyDoor(Direction.WEST).getMyLeadsOutOfBounds()) {
+            mazeFile += "W";
+        }
+        return mazeFile;
+    }
     public void setImage(BufferedImage read) {
 
     }
