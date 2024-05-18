@@ -59,11 +59,11 @@ public class Room {
         if (!getMyDoor(Direction.NORTH).getMyLeadsOutOfBounds()) {
             mazeFile += "N";
         }
-        if (!getMyDoor(Direction.SOUTH).getMyLeadsOutOfBounds()) {
-            mazeFile += "S";
-        }
         if (!getMyDoor(Direction.EAST).getMyLeadsOutOfBounds()) {
             mazeFile += "E";
+        }
+        if (!getMyDoor(Direction.SOUTH).getMyLeadsOutOfBounds()) {
+            mazeFile += "S";
         }
         if (!getMyDoor(Direction.WEST).getMyLeadsOutOfBounds()) {
             mazeFile += "W";
