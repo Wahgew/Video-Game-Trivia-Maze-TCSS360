@@ -1,5 +1,4 @@
 package Model;
-import com.fasterxml.jackson.core.JsonToken;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
@@ -51,15 +50,16 @@ public class Player {
     /**
      * Player's facing a direction.
      */
-    private Direction myFacingDirection;
+    private Direction myDirection;
     /**
      * Number of correct answers given by the player.
      */
-    private int myCorrectAns;
+    private int myCorrectTotal;
+    private int myIncorrectTotal;
     private int myConsecutiveAns;
     private boolean myVictory;
     private int myHealth;
-    private HashMap<Integer,Boolean> myQuestionsAnswered;
+    private HashMap<Integer, Boolean> myQuestionsAnswered;
 
     /**
      * Constructs a new Player object with default attributes.
@@ -71,8 +71,9 @@ public class Player {
         myLocationCol = Maze.getInstance().getMyEntranceColumn();
         myHealth = 3;
         myScore = 0;
-        myCorrectAns = 0;
         myConsecutiveAns = 0;
+        myCorrectTotal = 0;
+        myIncorrectTotal = 0;
         myVictory = false;
         myQuestionsAnswered = new HashMap<>();
     }
@@ -105,8 +106,24 @@ public class Player {
         return myHealth;
     }
 
-    public HashMap<Integer, Boolean> getQuestionsAnswered() {
-        return myQuestionsAnswered;
+    /**
+     * Get the question the player answer during their session.
+     *
+     * @param theID          the question ID.
+     * @param theCorrectness the correctness of their answer.
+     */
+    public void QuestionsAnswered(int theID, Boolean theCorrectness) {
+        myQuestionsAnswered.put(theID, theCorrectness);
+        HashMap<Integer, Boolean> tempStats = new HashMap<>();
+        tempStats.put(theID, theCorrectness);
+
+        if (tempStats.get(theID)) {
+            myCorrectTotal++;
+            tempStats.remove(theID);
+        } else {
+            myIncorrectTotal++;
+            tempStats.remove(theID);
+        }
     }
 
     /**
@@ -183,7 +200,6 @@ public class Player {
                 if (userAns.equals(randQuestion.getCorrectAnswer().toLowerCase())) { // check player's answer
                     allowMove = true;
                     Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
-                    myCorrectAns++;
                     scoreUpdate(true);
                 } else { // player failed to answer correctly
                     Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
@@ -201,14 +217,13 @@ public class Player {
      * however, the multiplier does not apply to losing points.
      * @param theSuccess if the question was answered correctly.
      */
-    void scoreUpdate(boolean theSuccess) {
+    public void scoreUpdate(boolean theSuccess) {
         if (theSuccess) {
             myConsecutiveAns++;
-            myCorrectAns++;
             if (myConsecutiveAns >= 5) {
                 myScore += (100 * 5);
             } else {
-                myScore += (100 * myConsecutiveAns);
+                myScore += (100 * myConsecutiveAns); // -1 if you want the number to be synced up.
             }
         } else {
             myConsecutiveAns = 0;
@@ -217,7 +232,7 @@ public class Player {
     }
     public void movePlayer(Direction theDirection) {
         if (validPlayerMove(theDirection)) {
-            myFacingDirection = theDirection;
+            myDirection = theDirection;
             switch (theDirection) {
                 case NORTH -> myLocationRow--;
                 case SOUTH -> myLocationRow++;
@@ -260,8 +275,16 @@ public class Player {
      *
      * @return the number of correct answers given by the player
      */
-    public int getMyCorrectAns() {
-        return myCorrectAns;
+    public int getMyCorrectTotal() {
+        return myCorrectTotal;
+    }
+
+    public int getMyIncorrectTotal() {
+        return myIncorrectTotal;
+    }
+
+    public HashMap<Integer, Boolean> getMyQuestionsAnswered() {
+        return myQuestionsAnswered;
     }
 
     /**
@@ -269,8 +292,8 @@ public class Player {
      *
      * @return direction of player
      */
-    public Direction getDirection() {
-       return myFacingDirection;
+    public Direction getMyDirection() {
+       return myDirection;
     }
 
     /**
