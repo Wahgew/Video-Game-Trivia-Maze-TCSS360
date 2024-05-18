@@ -325,6 +325,7 @@ public class Maze {
             myMaze[theRow][theCol].getMyDoor(Direction.EAST).setMyLeadsOutOfBounds(true);
         }
     }
+
     /**
      * Getter method for the Tile
      * @param num index of Tile
