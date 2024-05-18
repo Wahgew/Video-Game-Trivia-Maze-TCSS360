@@ -1,6 +1,7 @@
 package View;
 
 import Controller.MazeController;
+import Model.GameDataManger;
 import Model.Maze;
 import Model.Player;
 
@@ -20,11 +21,15 @@ public class WelcomeScreen extends JPanel {
     private final Image myBackground;
     private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
     private final ImageIcon backgroundIcon= new ImageIcon(getClass().getResource("/Resource/Background.jpg"));
+    private final GameDataManger myGameData;
 
     public WelcomeScreen() {
         setPreferredSize(new Dimension(Screen_Width, Screen_Height));
 
         myBackground = backgroundIcon.getImage();
+        Player p = Player.getInstance();
+        //myGameData = new GameDataManger(p.getMyHealth(), p.getMyScore(),p.getCorrectAns(),p.getCorrectTotal(),p.getIncorrectTotal(),p.getQuestionsAnswered());
+        myGameData = new GameDataManger();
 
         setLayout(null);
         setUpButtons();
@@ -85,9 +90,11 @@ public class WelcomeScreen extends JPanel {
         });
         myLoadGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
-            if (gameFrame.getMyGamePanel().loadGame()) {
-                gameFrame.switchToGamePanel(gameFrame.getMyGamePanel());
-            }
+//            if (gameFrame.getMyGamePanel().loadGame()) {
+//                gameFrame.switchToGamePanel(gameFrame.getMyGamePanel());
+//            }
+            myGameData.loadGameData();
+            gameFrame.switchToGamePanel(gameFrame.getMyGamePanel());
         });
         myAboutUsButton.addActionListener(new ActionListener() {
             @Override
