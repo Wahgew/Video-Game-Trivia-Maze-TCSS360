@@ -262,14 +262,15 @@ public class QuestionPanel implements ActionListener {
         }
 
         if (thePlayerAnswer.equals(myCorrectAnswer)) {
-            Player.getInstance().getQuestionsAnswered().put(myDoor.getQuestionObject().getID(), true);
+            Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), true);
             myDoor.setMyLockStatus(true);
             dialogForResult("Correct");
         } else {
-            Player.getInstance().getQuestionsAnswered().put(myDoor.getQuestionObject().getID(), false);
+            Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), false);
             myDoor.setMyAttemptStatus(true);
-            myGamePanel.getMyGame().getMyPlayer().decreaseHealth();
-            if (myGamePanel.getMyGame().getMyPlayer().getMyHealth() > 0) {
+            //myGamePanel.getMyGame().getMyPlayer().decreaseHealth();
+            Player.getInstance().decreaseHealth();
+            if (Player.getInstance().getMyHealth() > 0) { //myGamePanel.getMyGame().getMyPlayer().getMyHealth()
                 dialogForResult("Incorrect");
             } else {
                 myDialog.dispose();
@@ -480,6 +481,7 @@ public class QuestionPanel implements ActionListener {
             JLabel resultLabel2;
 
             if (thePanel.equalsIgnoreCase("Correct")) {
+                Player.getInstance().scoreUpdate(true);
                 setBackground(LIGHT_GRAY);
                 resultLabel1 = new JLabel("THE ANSWER IS CORRECT!");
                 resultLabel1.setForeground(DARK_GREEN);
@@ -489,6 +491,7 @@ public class QuestionPanel implements ActionListener {
                 continueButton.setForeground(DARK_GREEN);
                 continueButton.setBorder(BorderFactory.createLineBorder(GREEN,1));
             } else if (thePanel.equalsIgnoreCase("Incorrect")) {
+                Player.getInstance().scoreUpdate(false);
                 setBackground(DARK_GRAY);
                 resultLabel1 = new JLabel("THE ANSWER IS INCORRECT!");
                 resultLabel1.setForeground(RED);
