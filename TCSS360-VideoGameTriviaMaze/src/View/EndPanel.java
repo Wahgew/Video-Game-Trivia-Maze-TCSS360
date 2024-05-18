@@ -41,7 +41,7 @@ public class EndPanel extends JPanel {
         }
         else if(myPlayer.getMyHealth() > 0 && myGamePanel.isGameOver()) {
             text = "Game Over" + "\nAll doors to the exit has been locked...";
-        } else {
+        } else { //this check should be for reaching the last exit door.
             text = "Let go... You Made it!\n\n" +
                     "Congratulation on the crazy journey through TRIVIA LABYRINTH MAZE.\n" +
                     "You have made it through the end! YEEEEEE!\n" +
