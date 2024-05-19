@@ -156,23 +156,21 @@ public class GameFrame extends JFrame {
         //myHintGame.addActionListener(e -> showDialog(new hintPanel()));
         myInstructionGame.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) { // TODO: REWRITE THIS WITH UPDATED INSTRUCTIONS
                 final int jOption = JOptionPane.showConfirmDialog(null, "<html><p align='justify'>Objective:<br>"
                                 + "Navigate through the maze, answer the trivia questions as prompted when you reach a door to open the pathway, and reach the exit!<br><br>"
                                 + "Controls:<br>"
                                 + "Use arrow key buttons or keyboard arrows to navigate through the maze.<br>"
-                                + "Load the game at the 'File' tab to enable the start button to begin game play.<br>"
-                                + "Press 'Start' to begin the game.<br>"
-                                + "Press 'Play Again' or 'Reset' to restart the game.<br><br>"
+                                + "Press 'New Game' to begin the game.<br>"
+                                + "Press 'Load Game' or 'Reset' to restart the game.<br><br>"
                                 + "Gameplay:<br>"
                                 + "Move the player using arrow key buttons or keyboard arrows.<br>"
-                                + "When the player encounters a door, a Marvel trivia question will be prompted on the screen.<br>"
-                                + "Trivia questions will be short answer, multiple choice, and true/false.<br>"
-                                + "Answer the question correctly, and the door color will change to white meaning the player is free to continue on the maze,<br>"
-                                + "or else the door will turn grey if the player answers incorrectly and the door is now locked.<br>"
+                                + "When the player encounters a door, a video game based trivia question will be prompted on the screen.<br>"
+                                + "Trivia question types include short answer, multiple choice, true/false, audio and image.<br>"
+                                + "Answer the question correctly, and the player is free to continue on the maze,<br>"
+                                + "otherwise if the player answers incorrectly, the door is now locked.<br>"
                                 + "The player must find another route to exit the maze.<br>"
                                 + "Reach the exit to win the game!<br>"
-                                + "Otherwise, if there are no other possible pathways out of the maze, the player loses!<br>"
                                 + "Good luck and have fun!</p></html>", "Instruction",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
             }

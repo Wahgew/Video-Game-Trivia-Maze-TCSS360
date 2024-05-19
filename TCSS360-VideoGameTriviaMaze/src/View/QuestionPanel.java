@@ -240,7 +240,7 @@ public class QuestionPanel implements ActionListener {
 
         if (theEvent.getSource() == myTextAnswer) {
             // Handle user's input for short answer question
-            String userAnswer = myTextAnswer.getText();
+            String userAnswer = myTextAnswer.getText().toLowerCase(); // sanitize user input to lower
             checkAnswers(userAnswer);
         } else {
             for (JButton button : answerButtons) {

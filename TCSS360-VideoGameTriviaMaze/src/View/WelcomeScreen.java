@@ -85,6 +85,7 @@ public class WelcomeScreen extends JPanel {
     public void addButtonListener() {
         myNewGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
+            MazeLayoutPanel mazeLayout = new MazeLayoutPanel(gameFrame.getMyGamePanel()); // TODO: ??? idk what im doing - Ken
             gameFrame.switchToGamePanel(new GamePanel());
             //MazeController.promptAnswer(gameFrame);
         });

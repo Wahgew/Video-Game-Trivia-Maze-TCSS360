@@ -68,6 +68,7 @@ public class Room {
         if (!getMyDoor(Direction.WEST).getMyLeadsOutOfBounds()) {
             mazeFile += "W";
         }
+        mazeFile += ".png";
         return mazeFile;
     }
     public void setImage(BufferedImage read) {

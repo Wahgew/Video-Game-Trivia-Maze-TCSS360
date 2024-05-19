@@ -68,7 +68,7 @@ public class GamePanel extends JPanel implements Runnable {
             System.out.println("Game have been saved successfully.");
             showDialog(new SaveLoadGamePanel("Saved"));
         } catch (Exception e) {
-            System.out.println("Error occured while saving the game state: " + e.getMessage());
+            System.out.println("Error occurred while saving the game state: " + e.getMessage());
         }
     }
     public boolean loadGame() {
@@ -87,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
             return true;
         } catch (Exception exception) {
             showDialog(new SaveLoadGamePanel("No Saved File."));
-            System.out.println("Error occured while loading the game state: " + exception.getMessage());
+            System.out.println("Error occurred while loading the game state: " + exception.getMessage());
             return false;
         }
     }
