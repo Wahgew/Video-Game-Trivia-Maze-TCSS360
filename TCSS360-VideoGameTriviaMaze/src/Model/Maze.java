@@ -57,6 +57,7 @@ public class Maze {
      * Column index of the exit location in the maze.
      */
     private final Random myRandom;
+    private final String myLayout;
 
     /**
      * Constructs a new Maze object with the specified dimensions.
@@ -74,6 +75,7 @@ public class Maze {
         myEntranceColumn = generateNumber(theYSize);
         myExitRow = generateNumber(theXSize);
         myExitColumn = generateNumber(theYSize);
+        myLayout = "default";
         checkEntExitGen();
         mazeInstantiate();
     }
@@ -85,6 +87,7 @@ public class Maze {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        myLayout = theFileName;
         myMaze = fileMazeInstantiate(fileScan);
         checkOOBMaze();
     }
