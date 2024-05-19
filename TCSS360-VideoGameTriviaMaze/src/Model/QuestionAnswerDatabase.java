@@ -89,6 +89,16 @@ public class QuestionAnswerDatabase {
             myQuestionHash.put(questionID, question);
         }
     }
+
+    public void removeSeenQuestions() {
+        Player player = Player.getInstance();
+        HashMap<Integer, Boolean> answeredQuestions = player.getMyQuestionsAnswered();
+
+        for (Integer questionId : answeredQuestions.keySet()) {
+            myQuestionHash.remove(questionId);
+        }
+    }
+
     /**
      * Getter for database connection.
      *
