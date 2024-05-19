@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -93,6 +94,35 @@ public abstract class Question {
 
     public int getID() {
         return myID;
+    }
+
+    public String getHint() {
+        switch (myQuestionType) {
+            case "Multi", "Image", "Audio" -> {
+                List<String> possibleAnswers = new ArrayList<>();
+                boolean falseAns = false;
+                boolean trueAns = false;
+                for (Map.Entry<String, Boolean> entryMap : myAnswers.getAnswerChoices().entrySet()) {
+                    if (entryMap.getValue() && !trueAns) {
+                        trueAns = true;
+                        possibleAnswers.add(entryMap.getKey());
+                    }
+                    if (!entryMap.getValue() && !falseAns) {
+                        falseAns = true;
+                        possibleAnswers.add(entryMap.getKey());
+                    }
+                }
+                return possibleAnswers.toString();
+            }
+            case "T/F" -> { // TODO: figure out another way to do T/F hints?
+                return myAnswers.getRightAnswer();
+            }
+            case "Short" -> {
+                String shortAns = myAnswers.getRightAnswer();
+                return shortAns.substring(0, shortAns.length() / 2);
+            }
+            default -> throw new IllegalArgumentException("Error unknown question type: " + myQuestionType);
+        }
     }
 
     public void setQuestion(final String theQuestion) {

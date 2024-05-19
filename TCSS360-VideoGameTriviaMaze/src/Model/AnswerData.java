@@ -66,5 +66,4 @@ public class AnswerData {
         }
         return sb.toString();
     }
-
 }
