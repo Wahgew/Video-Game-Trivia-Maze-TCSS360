@@ -2,6 +2,7 @@ package View;
 
 import Model.GameDataManger;
 import Model.Player;
+import Model.QuestionAnswerDatabase;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -178,7 +179,11 @@ public class GameFrame extends JFrame {
 //        mySaveGame.addActionListener(e -> myGamePanel.saveGame());
 //        myLoadGame.addActionListener(e -> myGamePanel.loadGame());
         mySaveGame.addActionListener(e -> myGameData.saveGameData());
-        myLoadGame.addActionListener(e -> myGameData.loadGameData());
+        myLoadGame.addActionListener(e -> {
+            myGameData.loadGameData();
+            QuestionAnswerDatabase.getInstance().removeSeenQuestions();
+        });
+
 
     }
     public void showDialog(final JPanel thePanel) {
