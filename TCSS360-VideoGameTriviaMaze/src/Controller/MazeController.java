@@ -29,16 +29,6 @@ public class MazeController {
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
-        //System.out.println(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol()).getRoomFileName());
-//        try { // testing image popup on image question
-//            BufferedImage buffImage = ImageIO.read(new File("src/Resource/Images/Pokemon_Pikachu.png"));
-//            BufferedImage buffImage = ImageIO.read(new File("src/Resource/Images/YoRHa_No.2_Type_B.png"));
-//            JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(buffImage)));
-//            JLabel picLabel = new JLabel(new ImageIcon(buffImage));
-//            JOptionPane.showMessageDialog(null, picLabel);
-//        } catch (IOException e){
-//            throw new RuntimeException(e);
-//        }
     }
 
     /**
