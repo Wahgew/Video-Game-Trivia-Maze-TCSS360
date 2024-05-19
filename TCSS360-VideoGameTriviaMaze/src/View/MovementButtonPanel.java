@@ -10,22 +10,22 @@ public class MovementButtonPanel extends JPanel {
     private JButton myDownArrowButton;
     private JButton myLeftArrowButton;
     private JButton myRightArrowButton;
+    private JButton myTestButton;
 
     private final MazeController myController;
     private final GamePanel myGamePanel;
-    private transient PlayerHealth myPlayerHealth;
 
     public MovementButtonPanel(GamePanel theGamePanel) {
         myGamePanel = theGamePanel;
         myController = new MazeController();
-        setLayout(new GridLayout(3, 3, 10, 10));
-        //setLayout(new BorderLayout());
-
-        JPanel mainPanel = new JPanel (new BorderLayout());
-        JPanel centerPanel = new JPanel();
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        centerPanel.setLayout(new BorderLayout());
+        //setLayout(new GridLayout(3, 3, 10, 10));
+        setLayout(null);
+        setPreferredSize(new Dimension(300, 200));
+//        JPanel mainPanel = new JPanel (new BorderLayout());
+//        JPanel centerPanel = new JPanel();
+//        JPanel leftPanel = new JPanel();
+//        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+//        centerPanel.setLayout(new BorderLayout());
 
         createButtons();
         addButtonListeners();
@@ -36,30 +36,45 @@ public class MovementButtonPanel extends JPanel {
         ImageIcon rightArrowIcon = resizeImage("/Resource/rightIcon.png", 70, 50);
         ImageIcon leftArrowIcon = resizeImage("/Resource/leftIcon.png", 70, 50);
 
+        myTestButton = new JButton("");
         myUpArrowButton = new JButton(upArrowIcon);
         myDownArrowButton = new JButton(downArrowIcon);
         myLeftArrowButton = new JButton(leftArrowIcon);
         myRightArrowButton = new JButton(rightArrowIcon);
 
+        myTestButton.setBounds(120, 85, 40, 30); // Set the bounds of the button
+        myUpArrowButton.setBounds(110, 25, 60, 60);
+        myDownArrowButton.setBounds(110, 115, 60, 60);
+        myLeftArrowButton.setBounds(50, 75, 70, 50);
+        myRightArrowButton.setBounds(160, 76, 70, 50);
+
+
         // Configure button appearance
         configureButtons();
 
-        // Add buttons to the panel
-        add(new JPanel()); // Empty panel for spacing
-        add(myUpArrowButton);
-        add(new JPanel()); // Empty panel for spacing
-        add(myLeftArrowButton);
-        add(new JPanel()); // Empty panel for spacing
-        add(myRightArrowButton);
-        add(new JPanel()); // Empty panel for spacing
-        add(myDownArrowButton);
-        add(new JPanel()); // Empty panel for spacing
+        myTestButton.setBounds(120, 85, 40, 30); // Set the bounds of the button
+        myUpArrowButton.setBounds(110, 25, 60, 60);
+        myDownArrowButton.setBounds(110, 115, 60, 60);
+        myLeftArrowButton.setBounds(50, 75, 70, 50);
+        myRightArrowButton.setBounds(160, 76, 70, 50);
 
-//        mytestButton.setBounds(120, 85, 40, 30); // Set the bounds of the button
-//        myUpArrowButton.setBounds(110, 25, 60, 60);
-//        myDownArrowButton.setBounds(110, 115, 60, 60);
-//        myLeftArrowButton.setBounds(50, 75, 70, 50);
-//        myRightArrowButton.setBounds(160, 76, 70, 50);
+        add(myTestButton);
+        add(myUpArrowButton);
+        add(myDownArrowButton);
+        add(myLeftArrowButton);
+        add(myRightArrowButton);
+
+//        // Add buttons to the panel
+//        add(new JPanel()); // Empty panel for spacing
+//        add(myUpArrowButton);
+//        add(new JPanel()); // Empty panel for spacing
+//        add(myLeftArrowButton);
+//        add(new JPanel()); // Empty panel for spacing
+//        add(myRightArrowButton);
+//        add(new JPanel()); // Empty panel for spacing
+//        add(myDownArrowButton);
+//        add(new JPanel()); // Empty panel for spacing
+
     }
     private void configureButtons() {
         myUpArrowButton.setBorderPainted(false);

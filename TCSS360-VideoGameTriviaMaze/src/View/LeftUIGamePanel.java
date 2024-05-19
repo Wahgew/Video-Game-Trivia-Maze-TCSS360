@@ -17,10 +17,11 @@ public class LeftUIGamePanel extends JPanel {
 
     public LeftUIGamePanel(GamePanel theGamePanel) {
         myGamePanel= theGamePanel;
-        JPanel leftPanel = new JPanel(new BorderLayout());
+        JPanel leftPanel = new JPanel(new BorderLayout()) ;
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
         JPanel topLeftPanel = new JPanel();
+
 //        JPanel playerHealthPanel = new JPanel() {
 //            @Override
 //            protected void paintComponent(Graphics g) {

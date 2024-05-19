@@ -43,11 +43,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyboardsHandler);
         this.setFocusable(true);
         this.setLayout(new BorderLayout());
-
-
-        //add(createLayeredPanel(), BorderLayout.WEST);
-        createLayeredPanel();
-        addButtonListener();
     }
     public void setMyGame(Game game) {
         //System.out.println("1"); // TODO: should this be printing 1 to console randomly?
@@ -55,7 +50,6 @@ public class GamePanel extends JPanel implements Runnable {
         addKeyListener(myGame.getKeyHandler());
         myPlayerHealth = new PlayerHealth(myGame.getMyPlayer());
         createLayeredPanel();
-        addButtonListener();
         this.setFocusable(true);
     }
 
@@ -140,7 +134,7 @@ public class GamePanel extends JPanel implements Runnable {
             // Update information player movement postions
             update();
             createLayeredPanel();
-            addButtonListener();
+            //addButtonListener();
             //Draw the screen with updated information
             repaint();
             try {
@@ -250,43 +244,12 @@ public class GamePanel extends JPanel implements Runnable {
         testbuttonPanel.add(myRightArrowButton);
 
         westPanel.add(playerHealthPanel,BorderLayout.NORTH);
-        westPanel.add(testbuttonPanel);
-        westPanel.add(buttonPanel,BorderLayout.SOUTH);
+//        westPanel.add(testbuttonPanel);
+//        westPanel.add(buttonPanel,BorderLayout.SOUTH);
 
         return westPanel;
     }
 
-    private void addButtonListener() {
-        myUpArrowButton.addActionListener(e -> {
-            myMovementButtonPanel.handleMovement(Direction.NORTH);
-        });
-        myDownArrowButton.addActionListener(e -> {
-            myMovementButtonPanel.handleMovement(Direction.SOUTH);
-        });
-        myLeftArrowButton.addActionListener(e -> {
-            myMovementButtonPanel.handleMovement(Direction.WEST);
-        });
-        myRightArrowButton.addActionListener(e -> {
-            myMovementButtonPanel.handleMovement(Direction.EAST);
-        });
-        mySwitchToWelcomeScreenButton.addActionListener(e -> {
-            JPanel thisP = this;
-            GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(thisP);
-            frame.switchToWelcomeScreen();
-        });
-        myExitGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final int jOption = JOptionPane.showConfirmDialog(GamePanel.this,
-                        "Are you sure you want to Exit?", "Exit",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if (jOption == JOptionPane.YES_NO_OPTION) {
-                    //showDialog(new GameFrame.exitPanel());
-                    System.exit(0);
-                }
-            }
-        });
-    }
     public void updateButtonStatus() {
         myUpArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.NORTH));
         myDownArrowButton.setEnabled(Player.getInstance().validPlayerMove(Direction.SOUTH));

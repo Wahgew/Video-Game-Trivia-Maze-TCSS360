@@ -90,7 +90,10 @@ public class GameFrame extends JFrame {
         //myGamePanelFocus = true; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
     }
     public void switchToWelcomeScreen() {
+        setExtendedState(JFrame.NORMAL);
         setContentPane(myWelcomeScreen);
+        pack(); // Reset to preferred size
+        setLocationRelativeTo(null);
         revalidate();
     }
     public void switchToEndGamePanel() {
