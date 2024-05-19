@@ -10,17 +10,31 @@ public class MovementButtonPanel extends JPanel {
     private JButton myDownArrowButton;
     private JButton myLeftArrowButton;
     private JButton myRightArrowButton;
+
     private final MazeController myController;
     private final GamePanel myGamePanel;
+    private transient PlayerHealth myPlayerHealth;
+
+
+    private JButton mySaveGameButton;
+    private JButton mySwitchToWelcomeScreenButton;
+    private JButton myExitGameButton;
 
     public MovementButtonPanel(GamePanel theGamePanel) {
         myGamePanel = theGamePanel;
         myController = new MazeController();
         setLayout(new GridLayout(3, 3, 10, 10));
+        //setLayout(new BorderLayout());
+
+        JPanel mainPanel = new JPanel (new BorderLayout());
+        JPanel centerPanel = new JPanel();
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        centerPanel.setLayout(new BorderLayout());
+
         createButtons();
         addButtonListeners();
     }
-
     private void createButtons() {
         ImageIcon upArrowIcon = resizeImage("/Resource/upIcon.png", 60, 60);
         ImageIcon downArrowIcon = resizeImage("/Resource/downIcon.png", 60, 60);
@@ -46,7 +60,6 @@ public class MovementButtonPanel extends JPanel {
         add(myDownArrowButton);
         add(new JPanel()); // Empty panel for spacing
     }
-
     private void configureButtons() {
         myUpArrowButton.setBorderPainted(false);
         myDownArrowButton.setBorderPainted(false);
@@ -66,17 +79,17 @@ public class MovementButtonPanel extends JPanel {
         myRightArrowButton.addActionListener(e -> handleMovement(Direction.EAST));
     }
 
-    private void handleMovement(Direction theDirection) {
+    public void handleMovement(Direction theDirection) {
         myController.handlePlayerMovement(theDirection, myGamePanel);
         if (!myGamePanel.isGameOver()) {
             MazeController.promptAnswer((GameFrame) SwingUtilities.getWindowAncestor(this));
         }
     }
-
     private ImageIcon resizeImage(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(getClass().getResource(path));
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
     }
+
 }

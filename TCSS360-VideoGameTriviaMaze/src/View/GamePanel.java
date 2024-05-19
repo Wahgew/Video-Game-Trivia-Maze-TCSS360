@@ -1,5 +1,6 @@
 package View;
 
+import Controller.MazeController;
 import Model.Direction;
 import Model.Player;
 
@@ -30,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
     public GameFrame myGameFrame;
     private transient PlayerHealth myPlayerHealth;
     KeyboardsHandler keyboardsHandler = new KeyboardsHandler();
+    public MovementButtonPanel myMovementButtonPanel;
 
 
     public GamePanel() {
@@ -52,6 +54,8 @@ public class GamePanel extends JPanel implements Runnable {
         myGame = game;
         addKeyListener(myGame.getKeyHandler());
         myPlayerHealth = new PlayerHealth(myGame.getMyPlayer());
+        createLayeredPanel();
+        addButtonListener();
         this.setFocusable(true);
     }
 
@@ -135,6 +139,7 @@ public class GamePanel extends JPanel implements Runnable {
         while (myGameThread != null) {
             // Update information player movement postions
             update();
+            createLayeredPanel();
             addButtonListener();
             //Draw the screen with updated information
             repaint();
@@ -250,22 +255,19 @@ public class GamePanel extends JPanel implements Runnable {
 
         return westPanel;
     }
+
     private void addButtonListener() {
         myUpArrowButton.addActionListener(e -> {
-            keyboardsHandler.setMyUpKeyPressed(true);
-            myGame.getMyPlayer().movePlayer(Direction.NORTH);
+            myMovementButtonPanel.handleMovement(Direction.NORTH);
         });
         myDownArrowButton.addActionListener(e -> {
-            keyboardsHandler.setMyDownKeyPressed(true);
-            myGame.getMyPlayer().movePlayer(Direction.SOUTH);
+            myMovementButtonPanel.handleMovement(Direction.SOUTH);
         });
         myLeftArrowButton.addActionListener(e -> {
-            keyboardsHandler.setMyLeftKeyPressed(true);
-            myGame.getMyPlayer().movePlayer(Direction.WEST);
+            myMovementButtonPanel.handleMovement(Direction.WEST);
         });
         myRightArrowButton.addActionListener(e -> {
-            keyboardsHandler.setMyRightKeyPressed(true);
-            myGame.getMyPlayer().movePlayer(Direction.EAST);
+            myMovementButtonPanel.handleMovement(Direction.EAST);
         });
         mySwitchToWelcomeScreenButton.addActionListener(e -> {
             JPanel thisP = this;

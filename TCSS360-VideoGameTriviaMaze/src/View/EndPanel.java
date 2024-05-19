@@ -37,7 +37,8 @@ public class EndPanel extends JPanel {
 
         String text = "";
         if (myPlayer.getMyHealth() == 0) {
-            text = "Game Over!" + "\nYou've lost all your health points...";
+            text = "Game Over!" + "\nYou've lost all your health points..." +
+                    "\n\n\n\n\n\n\n         Developed by: Peter W Madin, Ken Egawa and Sopheanith Ny (Below Average 2.0)";
         }
         else if(myPlayer.getMyHealth() > 0 && myGamePanel.isGameOver()) {
             text = "Game Over" + "\nAll doors to the exit has been locked...";

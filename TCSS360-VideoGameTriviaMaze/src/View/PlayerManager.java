@@ -17,6 +17,8 @@ public class PlayerManager implements Serializable {
     private Player myPlayer;
     private int myX;
     private int myY;
+    private int myWorldX;
+    private int myWorldY;
     private String myDirection;
 
     private Rectangle mySolidAreas;
@@ -46,6 +48,8 @@ public class PlayerManager implements Serializable {
         mySolidAreas = new Rectangle(6,14,44,44);
         mySolidAreasDefaultX = mySolidAreas.x;
         mySolidAreasDefaultY = mySolidAreas.y;
+        //myWorldX = myPlayer.;
+        //myWorldX = myPlayer.;
         myX = myPlayer.getMyLocationCol(); //
         myY = myPlayer.getMyLocationRow(); //
         myDirection = "DOWN";

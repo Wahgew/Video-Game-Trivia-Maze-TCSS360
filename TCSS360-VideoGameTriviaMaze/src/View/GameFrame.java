@@ -64,11 +64,12 @@ public class GameFrame extends JFrame {
         centerPanel.setLayout(new BorderLayout());
         leftPanel.setBackground(Color.GRAY);
         centerPanel.setBackground(Color.GRAY);
+
         // Add left and center panels to main panel
         //mainPanel.add(myGamePanel.createLayeredPanel(), BorderLayout.WEST);
-
         //TODO: This main panel here is testing for seeing question pop up UIs
         mainPanel.add(new MovementButtonPanel(theGamePanel), BorderLayout.WEST);// comment this out and uncomment above to switch back to other UI
+
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         leftPanel.setPreferredSize(new Dimension(200,200));
 
