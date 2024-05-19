@@ -15,11 +15,6 @@ public class MovementButtonPanel extends JPanel {
     private final GamePanel myGamePanel;
     private transient PlayerHealth myPlayerHealth;
 
-
-    private JButton mySaveGameButton;
-    private JButton mySwitchToWelcomeScreenButton;
-    private JButton myExitGameButton;
-
     public MovementButtonPanel(GamePanel theGamePanel) {
         myGamePanel = theGamePanel;
         myController = new MazeController();
@@ -59,6 +54,12 @@ public class MovementButtonPanel extends JPanel {
         add(new JPanel()); // Empty panel for spacing
         add(myDownArrowButton);
         add(new JPanel()); // Empty panel for spacing
+
+//        mytestButton.setBounds(120, 85, 40, 30); // Set the bounds of the button
+//        myUpArrowButton.setBounds(110, 25, 60, 60);
+//        myDownArrowButton.setBounds(110, 115, 60, 60);
+//        myLeftArrowButton.setBounds(50, 75, 70, 50);
+//        myRightArrowButton.setBounds(160, 76, 70, 50);
     }
     private void configureButtons() {
         myUpArrowButton.setBorderPainted(false);
