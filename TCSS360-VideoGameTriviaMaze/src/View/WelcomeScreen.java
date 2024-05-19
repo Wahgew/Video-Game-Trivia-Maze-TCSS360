@@ -4,6 +4,7 @@ import Controller.MazeController;
 import Model.GameDataManger;
 import Model.Maze;
 import Model.Player;
+import Model.QuestionAnswerDatabase;
 
 import javax.swing.*;
 import java.awt.*;
@@ -95,6 +96,7 @@ public class WelcomeScreen extends JPanel {
 //                gameFrame.switchToGamePanel(gameFrame.getMyGamePanel());
 //            }
             myGameData.loadGameData();
+            QuestionAnswerDatabase.getInstance().removeSeenQuestions();
             gameFrame.switchToGamePanel(gameFrame.getMyGamePanel());
         });
         myAboutUsButton.addActionListener(new ActionListener() {
