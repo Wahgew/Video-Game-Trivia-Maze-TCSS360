@@ -45,7 +45,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.setLayout(new BorderLayout());
     }
     public void setMyGame(Game game) {
-        //System.out.println("1"); // TODO: should this be printing 1 to console randomly?
         myGame = game;
         addKeyListener(myGame.getKeyHandler());
         myPlayerHealth = new PlayerHealth(myGame.getMyPlayer());
@@ -110,7 +109,6 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) theGraph;
         myGame.getMyPlayerManager().draw(g2);
         //myPlayerHealth.draw(g2);
-
         g2.dispose();
     }
     private void showDialog(final JPanel thePanel) {

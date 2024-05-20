@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LeftUIGamePanel extends JPanel {
-    private transient PlayerHealth myPlayerHealth;
+    private  transient PlayerHealth myPlayerHealth;
 
     private JButton mySaveGameButton;
     private JButton mySwitchToWelcomeScreenButton;
@@ -21,20 +21,6 @@ public class LeftUIGamePanel extends JPanel {
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
         JPanel topLeftPanel = new JPanel();
-
-//        JPanel playerHealthPanel = new JPanel() {
-//            @Override
-//            protected void paintComponent(Graphics g) {
-//                super.paintComponent(g);
-//                Graphics2D g2 = (Graphics2D) g;
-//                myPlayerHealth.playerHealthImage();
-//                myPlayerHealth.draw(g2);
-//                g2.dispose();
-//            }
-//        }
-        //playerHealthPanel.setBackground(Color.WHITE);
-        //playerHealthPanel.setPreferredSize(new Dimension(300, 135));
-        //topLeftPanel.add(playerHealthPanel, BorderLayout.CENTER);
         topLeftPanel.setBackground(Color.BLACK);
         topLeftPanel.setPreferredSize(new Dimension(300, 135));
 
@@ -111,5 +97,9 @@ public class LeftUIGamePanel extends JPanel {
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
+    }
+    public void setPlayerHealth(PlayerHealth playerHealth) {
+        myPlayerHealth = playerHealth;
+        repaint(); // Repaint to reflect the updated player health
     }
 }
