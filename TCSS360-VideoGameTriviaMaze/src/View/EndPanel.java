@@ -1,5 +1,6 @@
 package View;
 
+import Model.HighScore;
 import Model.Player;
 
 import javax.swing.*;
@@ -17,10 +18,12 @@ public class EndPanel extends JPanel {
     private Timer myTime;
     private Player myPlayer;
     private GamePanel myGamePanel;
+    private HighScore myHighScore;
 
-    public EndPanel(Player player, GamePanel gamePanel) {
-        myPlayer = player;
-        myGamePanel = gamePanel;
+    public EndPanel(Player thePlayer, GamePanel theGamePanel) {
+        myPlayer = thePlayer;
+        myGamePanel = theGamePanel;
+        myHighScore = new HighScore();
         setPreferredSize(new Dimension(ScreenWidth, ScreenHeight));
         setBackground(Color.BLACK);
         setLayout(null);
@@ -33,22 +36,41 @@ public class EndPanel extends JPanel {
         myText.setLineWrap(true);
         myText.setWrapStyleWord(true);
         myText.setEditable(false);
+        myText.setFocusable(false);
         add(myText);
 
-        String text = "";
+        int score = myPlayer.getMyScore();
+        int correctTotal = myPlayer.getMyCorrectTotal();
+        int incorrectTotal = myPlayer.getMyIncorrectTotal();
+        int totalQuestions = correctTotal + incorrectTotal;
+        double correctPercentage = totalQuestions > 0 ? (correctTotal * 100.0 / totalQuestions) : 0.0;
+
+        String systemUserName = HighScore.getSystemUserName();
+        myHighScore.saveHighScore(score, systemUserName);
+
+        String highScoreMessage = String.format("\n\nHigh Score: %d by %s on %s\n",
+                myHighScore.getScore(),
+                myHighScore.getPlayerName(),
+                myHighScore.getDate());
+
+        String statistics = String.format("\n\nPlayer Statistics:\n\nScore: %d\nCorrect Answers: %d\nIncorrect Answers: %d\nOverall Percentage: %.2f%%\n\n",
+                score, correctTotal, incorrectTotal, correctPercentage);
+
+        String endMessage = "";
         if (myPlayer.getMyHealth() == 0) {
-            text = "Game Over!" + "\nYou've lost all your health points..." +
-                    "\n\n\n\n\n\n\n         Developed by: Peter W Madin, Ken Egawa and Sopheanith Ny (Below Average 2.0)";
+            endMessage = "Game Over!" + "\nYou've lost all your health points...";
         }
         else if(myPlayer.getMyHealth() > 0 && myGamePanel.isGameOver()) {
-            text = "Game Over" + "\nAll doors to the exit has been locked...";
-        } else { //this check should be for reaching the last exit door.
-            text = "Let go... You Made it!\n\n" +
+            endMessage = "Game Over" + "\nAll doors to the exit has been locked...";
+        } else if (myPlayer.getMyVictory()) { //this check should be for reaching the last exit door.
+            endMessage = "Lets go... You Made it!\n\n" +
                     "Congratulation on the crazy journey through TRIVIA LABYRINTH MAZE.\n" +
-                    "You have made it through the end! YEEEEEE!\n" +
-                    "\n\n\n\n\n\n\n         Developed by: Peter W Madin, Ken Egawa and Sopheanith Ny (Below Average 2.0)";
+                    "You have made it through the end! YEEEEEE!\n";
         }
-        myStringBuilder = new StringBuilder(text);
+
+        String credits = "\n\n\n\n\n\n\nDeveloped by: Peter W Madin, Ken Egawa and Sopheanith Ny (Below Average 2.0)";
+
+        myStringBuilder = new StringBuilder(endMessage + highScoreMessage + statistics + credits);
         myIndex = 0;
         startTimer();
     }
