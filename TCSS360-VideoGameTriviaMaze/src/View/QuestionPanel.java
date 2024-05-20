@@ -109,7 +109,7 @@ public class QuestionPanel implements ActionListener {
         JButton playButton = new JButton("Play Audio");
         audioPanel.setBackground(R.Colors.QUESTION_PANEL_BG);
         audioPanel.setBackground(Color.RED);
-        myAudio = new Clip[]{null};
+        myAudio = new Clip[]{audioQuestion.playMusic()};
 
         playButton.addActionListener(new ActionListener() {
             @Override
