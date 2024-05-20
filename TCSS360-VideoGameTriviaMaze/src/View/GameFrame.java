@@ -179,8 +179,8 @@ public class GameFrame extends JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
             }
         });
-//        mySaveGame.addActionListener(e -> myGamePanel.saveGame());
-//        myLoadGame.addActionListener(e -> myGamePanel.loadGame());
+        //mySaveGame.addActionListener(e -> myGamePanel.saveGame());
+        //myLoadGame.addActionListener(e -> myGamePanel.loadGame());
         mySaveGame.addActionListener(e -> myGameData.saveGameData());
         myLoadGame.addActionListener(e -> {
             myGameData.loadGameData();

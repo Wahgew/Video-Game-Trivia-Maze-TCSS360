@@ -1,5 +1,8 @@
 package View;
 
+import Model.GameDataManger;
+import Model.Player;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -8,20 +11,22 @@ import java.awt.event.ActionListener;
 
 public class LeftUIGamePanel extends JPanel {
     private  transient PlayerHealth myPlayerHealth;
-
+    private GameDataManger myGameData;
     private JButton mySaveGameButton;
     private JButton mySwitchToWelcomeScreenButton;
     private JButton myExitGameButton;
 
     private final GamePanel myGamePanel;
-
+    private Game myGame;
     public LeftUIGamePanel(GamePanel theGamePanel) {
-        myGamePanel= theGamePanel;
+        myGameData = new GameDataManger();
+        myGamePanel = theGamePanel;
+
         JPanel leftPanel = new JPanel(new BorderLayout()) ;
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
         JPanel topLeftPanel = new JPanel();
-        topLeftPanel.setBackground(Color.BLACK);
+        topLeftPanel.setBackground(Color.black);
         topLeftPanel.setPreferredSize(new Dimension(300, 135));
 
         JPanel middleLeftPanel1 = new JPanel();
@@ -91,15 +96,13 @@ public class LeftUIGamePanel extends JPanel {
                 }
             }
         });
+        //mySaveGameButton.addActionListener(e ->myGamePanel.saveGame());
+        mySaveGameButton.addActionListener(e -> myGameData.saveGameData());
     }
     private ImageIcon resizeImage(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(getClass().getResource(path));
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
-    }
-    public void setPlayerHealth(PlayerHealth playerHealth) {
-        myPlayerHealth = playerHealth;
-        repaint(); // Repaint to reflect the updated player health
     }
 }
