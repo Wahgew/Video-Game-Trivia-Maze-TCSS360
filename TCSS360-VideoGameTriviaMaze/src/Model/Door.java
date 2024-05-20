@@ -114,7 +114,7 @@ public class Door {
      * @param theCol the column of the room the player is attempting the question from.
      * @param theDirection the Direction the player is attempting to move.
      */
-    static void questionAttempted(boolean theSuccess, int theRow, int theCol, Direction theDirection) {
+    public void questionAttempted(boolean theSuccess, int theRow, int theCol, Direction theDirection) {
         if (theSuccess) {
             Maze.getInstance().getMyRoom(theRow, theCol).getMyDoor(theDirection).setMyAttemptStatus(true);
             Maze.getInstance().getMyRoom(theRow, theCol).getMyDoor(theDirection).setMyLockStatus(false);
