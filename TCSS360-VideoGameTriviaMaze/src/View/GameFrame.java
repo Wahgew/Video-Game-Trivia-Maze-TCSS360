@@ -1,6 +1,7 @@
 package View;
 
 import Model.GameDataManger;
+import Model.HighScore;
 import Model.Player;
 import Model.QuestionAnswerDatabase;
 
@@ -21,12 +22,14 @@ public class GameFrame extends JFrame {
     private JMenuItem myHintGame;
     private JMenuItem myInstructionGame;
     private JButton myResumeGameButton;
+    private JMenuItem myResetHighScores;
 
     private final ImageIcon logoIcon = new ImageIcon(getClass().getResource("/Resource/Logo1.png"));
     private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
 
     private GamePanel myGamePanel;
     private GameDataManger myGameData;
+    private HighScore myHighScore;
     private WelcomeScreen myWelcomeScreen;
 
     private boolean myGamePanelFocus;
@@ -48,6 +51,7 @@ public class GameFrame extends JFrame {
         myGamePanelFocus = false; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
         //myGameData = new GameDataManger(p.getMyHealth(), p.getMyScore(),p.getCorrectAns(),p.getCorrectTotal(),p.getIncorrectTotal(),p.getQuestionsAnswered());
         myGameData = new GameDataManger();
+        myHighScore = new HighScore();
     }
 
     public GamePanel getMyGamePanel() {
@@ -122,12 +126,15 @@ public class GameFrame extends JFrame {
         myHintGame = new JMenuItem("Hint");
         myExitGame = new JMenuItem("Exit");
         myInstructionGame = new JMenuItem("Instruction");
+        myResetHighScores = new JMenuItem("Reset High Scores");
+
 
         myMenuBar.add(myGameMenu);
         myMenuBar.add(myHelpMenu);
 
         myGameMenu.add(mySaveGame);
         myGameMenu.add(myLoadGame);
+        myGameMenu.add(myResetHighScores);
         myGameMenu.add(myExitGame);
         myHelpMenu.add(myHintGame);
         myHelpMenu.add(myInstructionGame);
@@ -137,55 +144,56 @@ public class GameFrame extends JFrame {
 
     }
     private void menuBarListener() {
-        myExitGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                final int jOption = JOptionPane.showConfirmDialog(null,
-                        "Are you sure you want to Exit?", "Exit",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,Speed_Icon);
-                if (jOption == JOptionPane.YES_NO_OPTION) {
-                    showDialog(new exitPanel());
-                    System.exit(0);
-                }
+        myExitGame.addActionListener(e -> {
+            final int jOption = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to Exit?", "Exit",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,Speed_Icon);
+            if (jOption == JOptionPane.YES_NO_OPTION) {
+                showDialog(new exitPanel());
+                System.exit(0);
             }
         });
-        myAboutUs.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
-                        "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 21.", "About",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
-            }
+        myAboutUs.addActionListener(e -> {
+            final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
+                    "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 21.", "About",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
         });
         //myHintGame.addActionListener(e -> showDialog(new hintPanel()));
-        myInstructionGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { // TODO: REWRITE THIS WITH UPDATED INSTRUCTIONS
-                final int jOption = JOptionPane.showConfirmDialog(null, "<html><p align='justify'>Objective:<br>"
-                                + "Navigate through the maze, answer the trivia questions as prompted when you reach a door to open the pathway, and reach the exit!<br><br>"
-                                + "Controls:<br>"
-                                + "Use arrow key buttons or keyboard arrows to navigate through the maze.<br>"
-                                + "Press 'New Game' to begin the game.<br>"
-                                + "Press 'Load Game' or 'Reset' to restart the game.<br><br>"
-                                + "Gameplay:<br>"
-                                + "Move the player using arrow key buttons or keyboard arrows.<br>"
-                                + "When the player encounters a door, a video game based trivia question will be prompted on the screen.<br>"
-                                + "Trivia question types include short answer, multiple choice, true/false, audio and image.<br>"
-                                + "Answer the question correctly, and the player is free to continue on the maze,<br>"
-                                + "otherwise if the player answers incorrectly, the door is now locked.<br>"
-                                + "The player must find another route to exit the maze.<br>"
-                                + "Reach the exit to win the game!<br>"
-                                + "Good luck and have fun!</p></html>", "Instruction",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
-            }
+        myInstructionGame.addActionListener(e -> { // TODO: REWRITE THIS WITH UPDATED INSTRUCTIONS
+            final int jOption = JOptionPane.showConfirmDialog(null, "<html><p align='justify'>Objective:<br>"
+                            + "Navigate through the maze, answer the trivia questions as prompted when you reach a door to open the pathway, and reach the exit!<br><br>"
+                            + "Controls:<br>"
+                            + "Use arrow key buttons or keyboard arrows to navigate through the maze.<br>"
+                            + "Press 'New Game' to begin the game.<br>"
+                            + "Press 'Load Game' or 'Reset' to restart the game.<br><br>"
+                            + "Gameplay:<br>"
+                            + "Move the player using arrow key buttons or keyboard arrows.<br>"
+                            + "When the player encounters a door, a video game based trivia question will be prompted on the screen.<br>"
+                            + "Trivia question types include short answer, multiple choice, true/false, audio and image.<br>"
+                            + "Answer the question correctly, and the player is free to continue on the maze,<br>"
+                            + "otherwise if the player answers incorrectly, the door is now locked.<br>"
+                            + "The player must find another route to exit the maze.<br>"
+                            + "Reach the exit to win the game!<br>"
+                            + "Good luck and have fun!</p></html>", "Instruction",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
         });
-        //mySaveGame.addActionListener(e -> myGamePanel.saveGame());
-        //myLoadGame.addActionListener(e -> myGamePanel.loadGame());
         mySaveGame.addActionListener(e -> myGameData.saveGameData());
         myLoadGame.addActionListener(e -> {
             myGameData.loadGameData();
             QuestionAnswerDatabase.getInstance().removeSeenQuestions();
         });
+
+        myResetHighScores.addActionListener(e -> {
+            int jOption = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to reset high scores?", "Reset High Scores",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (jOption == JOptionPane.YES_OPTION) {
+                myHighScore.resetHighScore();
+                JOptionPane.showMessageDialog(null, "High scores have been reset.", "Reset High Scores",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
 
 
     }
