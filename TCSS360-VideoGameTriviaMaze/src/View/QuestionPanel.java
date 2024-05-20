@@ -27,12 +27,10 @@ public class QuestionPanel implements ActionListener {
     private final JButton myAnswerButton3;
     private final JButton myAnswerButton4;
     private final JTextField myTextAnswer;
-
     private final GamePanel myGamePanel;
     private final Door myDoor;
-
     private String myCorrectAnswer; //
-
+    private Clip[] myAudio;
 
     public QuestionPanel(final Door theDoor,final GamePanel theGamePanel) {
         if (theDoor == null || theGamePanel == null) {
@@ -111,16 +109,16 @@ public class QuestionPanel implements ActionListener {
         JButton playButton = new JButton("Play Audio");
         audioPanel.setBackground(R.Colors.QUESTION_PANEL_BG);
         audioPanel.setBackground(Color.RED);
-        Clip[] audio = {null};
+        myAudio = new Clip[]{null};
 
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (audio[0] != null && audio[0].isRunning()) {
-                    audio[0].stop();
+                if (myAudio[0] != null && myAudio[0].isRunning()) {
+                    myAudio[0].stop();
                 }
-                audio[0] = audioQuestion.playMusic();
-                audio[0].start();
+                myAudio[0] = audioQuestion.playMusic();
+                myAudio[0].start();
             }
         });
 
@@ -243,6 +241,9 @@ public class QuestionPanel implements ActionListener {
             String userAnswer = myTextAnswer.getText().toLowerCase(); // sanitize user input to lower
             checkAnswers(userAnswer);
         } else {
+            if (myDoor.getQuestionObject().getType().equals("Audio")) {
+                myAudio[0].stop();
+            }
             for (JButton button : answerButtons) {
                 if (theEvent.getSource() == button) {
                     playerAnswer = button.getText();
@@ -254,6 +255,7 @@ public class QuestionPanel implements ActionListener {
                 checkAnswers(playerAnswer);
             }
         }
+        //myAudio[0].stop();
     }
 
     public void checkAnswers(final String thePlayerAnswer) {
@@ -263,12 +265,12 @@ public class QuestionPanel implements ActionListener {
 
         if (thePlayerAnswer.equals(myCorrectAnswer)) {
             Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), true);
-            myDoor.setMyLockStatus(true);
+            myDoor.questionAttempted(true, Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol(), Player.getInstance().getMyDirection());
+            Player.getInstance().movePlayer(Player.getInstance().getMyDirection());
             dialogForResult("Correct");
         } else {
             Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), false);
-            myDoor.setMyAttemptStatus(true);
-            //myGamePanel.getMyGame().getMyPlayer().decreaseHealth();
+            myDoor.questionAttempted(false, Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol(), Player.getInstance().getMyDirection());
             Player.getInstance().decreaseHealth();
             if (Player.getInstance().getMyHealth() > 0) { //myGamePanel.getMyGame().getMyPlayer().getMyHealth()
                 dialogForResult("Incorrect");
