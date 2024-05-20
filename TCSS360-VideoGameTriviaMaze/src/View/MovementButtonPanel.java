@@ -4,6 +4,7 @@ import Controller.MazeController;
 import Model.Direction;
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class MovementButtonPanel extends JPanel {
     private JButton myUpArrowButton;
@@ -64,17 +65,6 @@ public class MovementButtonPanel extends JPanel {
         add(myLeftArrowButton);
         add(myRightArrowButton);
 
-//        // Add buttons to the panel
-//        add(new JPanel()); // Empty panel for spacing
-//        add(myUpArrowButton);
-//        add(new JPanel()); // Empty panel for spacing
-//        add(myLeftArrowButton);
-//        add(new JPanel()); // Empty panel for spacing
-//        add(myRightArrowButton);
-//        add(new JPanel()); // Empty panel for spacing
-//        add(myDownArrowButton);
-//        add(new JPanel()); // Empty panel for spacing
-
     }
     private void configureButtons() {
         myUpArrowButton.setBorderPainted(false);
@@ -97,12 +87,12 @@ public class MovementButtonPanel extends JPanel {
 
     public void handleMovement(Direction theDirection) {
         myController.handlePlayerMovement(theDirection, myGamePanel);
-        if (!myGamePanel.isGameOver()) {
-            MazeController.promptAnswer((GameFrame) SwingUtilities.getWindowAncestor(this));
-        }
+//        if (!myGamePanel.isGameOver()) {
+//            //MazeController.promptAnswer((GameFrame) SwingUtilities.getWindowAncestor(this));
+//        }
     }
     private ImageIcon resizeImage(String path, int width, int height) {
-        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource(path)));
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
