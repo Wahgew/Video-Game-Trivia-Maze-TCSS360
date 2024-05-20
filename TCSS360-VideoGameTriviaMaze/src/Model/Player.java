@@ -199,10 +199,10 @@ public class Player {
                 }
                 if (userAns.equals(randQuestion.getCorrectAnswer().toLowerCase())) { // check player's answer
                     allowMove = true;
-                    Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
+                    //Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
                     scoreUpdate(true);
                 } else { // player failed to answer correctly
-                    Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
+                    //Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
                     scoreUpdate(false);
                 }
             }
