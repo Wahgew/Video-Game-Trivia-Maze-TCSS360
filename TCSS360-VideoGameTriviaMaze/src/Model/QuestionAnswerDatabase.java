@@ -47,7 +47,7 @@ public class QuestionAnswerDatabase {
             myDB.setUrl("jdbc:sqlite:QuestionAnswerDB.db");
             myConnection = myDB.getConnection();
             System.out.println("Connected to the database.");
-            myQuestionHash = new Hashtable<>(100); // update initial capacity as database of Q'A's grows.
+            myQuestionHash = new Hashtable<>(150); // update initial capacity as database of Q'A's grows.
             instantiateHash();
 
 
