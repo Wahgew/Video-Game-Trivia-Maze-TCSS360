@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -60,6 +61,7 @@ public class Player {
     private boolean myVictory;
     private int myHealth;
     private HashMap<Integer, Boolean> myQuestionsAnswered;
+    private final PropertyChangeSupport myPCS = new PropertyChangeSupport(this);
 
     /**
      * Constructs a new Player object with default attributes.
@@ -229,6 +231,7 @@ public class Player {
             myConsecutiveAns = 0;
             myScore -= 100;
         }
+        fireScoreChange();
     }
     public void movePlayer(Direction theDirection) {
         if (validPlayerMove(theDirection)) {
@@ -296,6 +299,10 @@ public class Player {
        return myDirection;
     }
 
+    public PropertyChangeSupport getMyPCS() {
+        return myPCS;
+    }
+
     /**
      * Gets the player's current score.
      *
@@ -351,5 +358,9 @@ public class Player {
     boolean checkVictory() {
         return (Maze.getInstance().getMyExitRow() == getMyLocationRow()
                 && Maze.getInstance().getMyExitColumn() == getMyLocationCol());
+    }
+
+    private void fireScoreChange() {
+        myPCS.firePropertyChange("score", null, myScore);
     }
 }
