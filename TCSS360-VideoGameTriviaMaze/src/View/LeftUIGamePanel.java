@@ -8,19 +8,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class LeftUIGamePanel extends JPanel {
+public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
     private  transient PlayerHealth myPlayerHealth;
     private GameDataManger myGameData;
     private JButton mySaveGameButton;
     private JButton mySwitchToWelcomeScreenButton;
     private JButton myExitGameButton;
+    private JLabel myScore;
 
     private final GamePanel myGamePanel;
     private Game myGame;
     public LeftUIGamePanel(GamePanel theGamePanel) {
         myGameData = new GameDataManger();
         myGamePanel = theGamePanel;
+        myScore = new JLabel("Score: "+ Player.getInstance().getMyScore());
 
         JPanel leftPanel = new JPanel(new BorderLayout()) ;
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
@@ -32,6 +36,7 @@ public class LeftUIGamePanel extends JPanel {
         JPanel middleLeftPanel1 = new JPanel();
         middleLeftPanel1.setBackground(Color.GRAY);
         middleLeftPanel1.setPreferredSize(new Dimension(300, 200));
+        middleLeftPanel1.add(myScore, BorderLayout.CENTER);
 
         JPanel middleLeftPanel = new JPanel();
         middleLeftPanel.add(new MovementButtonPanel(theGamePanel), BorderLayout.CENTER);
@@ -48,6 +53,7 @@ public class LeftUIGamePanel extends JPanel {
         // Add left and center panels to the main panel
         add(leftPanel, BorderLayout.WEST);
         setBackground(Color.BLACK);
+        Player.getInstance().getMyPCS().addPropertyChangeListener(this);
     }
 
     private JPanel BottomButton(){
@@ -104,5 +110,16 @@ public class LeftUIGamePanel extends JPanel {
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent theEvt) {
+        if (theEvt.getPropertyName().equals("score")) {
+            updatePlayerScoreLabel();
+        }
+    }
+
+    private void updatePlayerScoreLabel() {
+        myScore.setText("Score " + Player.getInstance().getMyScore());
     }
 }
