@@ -167,6 +167,7 @@ public class QuestionPanel implements ActionListener {
 
     private void setupAnswerButtons(TreeMap<String, Boolean> theAnswerChoices) {
         List<JButton> answerButtons = Arrays.asList(myAnswerButton1, myAnswerButton2, myAnswerButton3, myAnswerButton4);
+        Collections.shuffle(answerButtons);
 
         // Reset button states
         for (JButton button : answerButtons) {
@@ -178,8 +179,8 @@ public class QuestionPanel implements ActionListener {
         if (theAnswerChoices.size() == 2) {
             // True/False question
             Iterator<Map.Entry<String, Boolean>> iterator = theAnswerChoices.entrySet().iterator();
-            Map.Entry<String, Boolean> trueEntry = iterator.next();
             Map.Entry<String, Boolean> falseEntry = iterator.next();
+            Map.Entry<String, Boolean> trueEntry = iterator.next();
 
             myAnswerButton1.setText(trueEntry.getKey());
             myAnswerButton1.setEnabled(true);
@@ -263,7 +264,12 @@ public class QuestionPanel implements ActionListener {
             throw new IllegalArgumentException("The player's answer cannot be null");
         }
 
-        if (thePlayerAnswer.equals(myCorrectAnswer)) {
+        if (Player.getInstance().getMyVictory()) {
+            myDialog.dispose();
+            GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
+            frame.switchToEndGamePanel();
+            myGamePanel.deleteSavedGames();
+        } else if (thePlayerAnswer.equals(myCorrectAnswer)) {
             Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), true);
             myDoor.questionAttempted(true, Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol(), Player.getInstance().getMyDirection());
             Player.getInstance().movePlayer(Player.getInstance().getMyDirection());
