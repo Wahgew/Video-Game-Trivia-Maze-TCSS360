@@ -1,5 +1,7 @@
 package Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
@@ -61,6 +63,7 @@ public class Player {
     private boolean myVictory;
     private int myHealth;
     private HashMap<Integer, Boolean> myQuestionsAnswered;
+    @JsonIgnore
     private final PropertyChangeSupport myPCS = new PropertyChangeSupport(this);
 
     /**
@@ -299,6 +302,7 @@ public class Player {
        return myDirection;
     }
 
+    @JsonIgnore
     public PropertyChangeSupport getMyPCS() {
         return myPCS;
     }
