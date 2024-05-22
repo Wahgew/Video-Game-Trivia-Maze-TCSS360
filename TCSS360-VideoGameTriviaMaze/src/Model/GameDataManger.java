@@ -38,4 +38,24 @@ public class GameDataManger {
             e.printStackTrace();
         }
     }
+
+    public static void deleteSavedGame() {
+        File saveFile = new File(SAVE_FILE_PATH);
+        if (saveFile.exists()) {
+            if (saveFile.delete()) {
+                System.out.println("Save file deleted successfully.");
+            } else {
+                System.out.println("Failed to delete the save file.");
+            }
+        } else {
+            System.out.println("No save file to delete.");
+        }
+    }
+
+    public static void checkAndHandleVictory() {
+        Player player = Player.getInstance();
+        if (player.getMyVictory()) {
+            deleteSavedGame();
+        }
+    }
 }
