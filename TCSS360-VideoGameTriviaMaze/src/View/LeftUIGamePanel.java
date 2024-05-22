@@ -117,6 +117,7 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
             JPanel thisP = this;
             GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(thisP);
             frame.switchToWelcomeScreen();
+            myGamePanel.requestFocus();
         });
         myExitGameButton.addActionListener(new ActionListener() {
             @Override
@@ -128,10 +129,14 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
                     //showDialog(new GameFrame.exitPanel());
                     System.exit(0);
                 }
+                myGamePanel.requestFocus();
             }
         });
         //mySaveGameButton.addActionListener(e ->myGamePanel.saveGame());
-        mySaveGameButton.addActionListener(e -> myGameData.saveGameData());
+        mySaveGameButton.addActionListener(e -> {
+            myGameData.saveGameData();
+            myGamePanel.requestFocus();  
+        });
     }
     private ImageIcon resizeImage(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(getClass().getResource(path));
@@ -139,6 +144,7 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
     }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent theEvt) {
