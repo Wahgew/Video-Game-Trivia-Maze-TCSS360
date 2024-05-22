@@ -26,7 +26,6 @@ public class PlayerHealth {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     public void draw(final Graphics g) {
         if (myPlayer.getMyHealth() > 0) {

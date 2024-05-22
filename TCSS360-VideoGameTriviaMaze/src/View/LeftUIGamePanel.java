@@ -12,7 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
-    private  transient PlayerHealth myPlayerHealth;
+    private PlayerHealth myPlayerHealth;
     private GameDataManger myGameData;
     private JButton mySaveGameButton;
     private JButton mySwitchToWelcomeScreenButton;
@@ -26,17 +26,22 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         myGamePanel = theGamePanel;
         myScore = new JLabel("Score: "+ Player.getInstance().getMyScore());
 
+        myPlayerHealth = new PlayerHealth(Player.getInstance());
+        //setLayout(new BorderLayout());
         JPanel leftPanel = new JPanel(new BorderLayout()) ;
+        //JPanel leftPanel = new JPanel() ;
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        leftPanel.setBackground(Color.BLACK);
 
         JPanel topLeftPanel = new JPanel();
-        topLeftPanel.setBackground(Color.black);
+        topLeftPanel.add(HeartPanel(), BorderLayout.CENTER);
+        topLeftPanel.setBackground(Color.white);
         topLeftPanel.setPreferredSize(new Dimension(300, 135));
 
         JPanel middleLeftPanel1 = new JPanel();
-        middleLeftPanel1.setBackground(Color.GRAY);
         middleLeftPanel1.setPreferredSize(new Dimension(300, 200));
         middleLeftPanel1.add(myScore, BorderLayout.CENTER);
+        middleLeftPanel1.setBackground(Color.white);
 
         JPanel middleLeftPanel = new JPanel();
         middleLeftPanel.add(new MovementButtonPanel(theGamePanel), BorderLayout.CENTER);
@@ -45,6 +50,7 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         JPanel bottomLeftPanel = new JPanel();
         bottomLeftPanel.add(BottomButton());
 
+        //leftPanel.add(HeartPanel(),BorderLayout.NORTH);
         leftPanel.add(topLeftPanel,BorderLayout.NORTH);
         leftPanel.add(middleLeftPanel1);
         leftPanel.add(middleLeftPanel);
@@ -52,10 +58,33 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
 
         // Add left and center panels to the main panel
         add(leftPanel, BorderLayout.WEST);
-        setBackground(Color.BLACK);
+        setBackground(Color.white);
         Player.getInstance().getMyPCS().addPropertyChangeListener(this);
     }
+    private JPanel HeartPanel() {
+        JPanel westPanel = new JPanel(new BorderLayout()) {
+            @Override
+            public Dimension getPreferredSize() {
+                // Set the desired width and height for the westPanel
+                return new Dimension(300, 135);
+            }
+        };
+        JPanel playerHealthPanel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D)g;
+                myPlayerHealth.playerHealthImage();
+                myPlayerHealth.draw(g2);
 
+                g2.dispose();
+            }
+        };
+        playerHealthPanel.setBackground(Color.white);
+        playerHealthPanel.setPreferredSize(new Dimension(300, 135));
+
+        westPanel.add(playerHealthPanel, BorderLayout.NORTH);
+        return westPanel;
+    }
     private JPanel BottomButton(){
         ImageIcon saveGameIcon = resizeImage("/Resource/SaveGame.png", 170, 50);
         ImageIcon welcomeScreenIcon = resizeImage("/Resource/WelcomeScreen.png", 170, 50);
