@@ -268,7 +268,6 @@ public class QuestionPanel implements ActionListener {
             myDialog.dispose();
             GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
             frame.switchToEndGamePanel();
-            myGamePanel.deleteSavedGames();
         } else if (thePlayerAnswer.equals(myCorrectAnswer)) {
             Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), true);
             myDoor.questionAttempted(true, Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol(), Player.getInstance().getMyDirection());
@@ -284,7 +283,6 @@ public class QuestionPanel implements ActionListener {
                 myDialog.dispose();
                 GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
                 frame.switchToEndGamePanel();
-                myGamePanel.deleteSavedGames();
             }
         }
     }
