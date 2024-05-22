@@ -1,5 +1,6 @@
 package View;
 
+import Model.GameDataManger;
 import Model.HighScore;
 import Model.Player;
 
@@ -62,7 +63,8 @@ public class EndPanel extends JPanel {
         }
         else if(myPlayer.getMyHealth() > 0 && myGamePanel.isGameOver()) {
             endMessage = "Game Over" + "\nAll doors to the exit has been locked...";
-        } else if (myPlayer.getMyVictory()) { //this check should be for reaching the last exit door.
+        } else if (myPlayer.getMyVictory()) {
+            GameDataManger.checkAndHandleVictory();
             endMessage = "Lets go... You Made it!\n\n" +
                     "Congratulation on the crazy journey through TRIVIA LABYRINTH MAZE.\n" +
                     "You have made it through the end! YEEEEEE!\n";
