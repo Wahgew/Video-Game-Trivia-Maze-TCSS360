@@ -83,6 +83,7 @@ public class MovementButtonPanel extends JPanel {
 
     public void handleMovement(Direction theDirection) {
         myController.handlePlayerMovement(theDirection, myGamePanel);
+        myGamePanel.requestFocus();
 //        if (!myGamePanel.isGameOver()) {
 //            MazeController.promptAnswer((GameFrame) SwingUtilities.getWindowAncestor(this));
 //        }
