@@ -22,7 +22,7 @@ public class MazeController {
         //Maze.getInstance();
         //Player.getInstance();
         GameFrame mazeFrame = new GameFrame();
-        mazeFrame.getMyGamePanel().updateButtonStatus(); // need to run updateButtonStatus when player location changes.
+        //mazeFrame.getMyGamePanel().updateButtonStatus(); // need to run updateButtonStatus when player location changes.
 //        try { // testing room variation grab and popup TODO: this is instantiating the maze, needs to wait for maze selection.
 //            BufferedImage mapImage = ImageIO.read(new File(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol()).getRoomFileName()));
 //            JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(mapImage)));
@@ -55,8 +55,10 @@ public class MazeController {
 
         if (door != null && !door.getMyAttemptStatus()) {
             displayQuestionPanel(door, theGamePanel);
+            theGamePanel.updateRoomImage();
         } else {
             player.movePlayer(theDirection);
+            theGamePanel.updateRoomImage();
         }
 
         // Door is unlocked or question not attempted, allow movement
@@ -69,12 +71,12 @@ public class MazeController {
 //            displayQuestionPanel(door, gamePanel);
 //        }
 
-        try { // TODO: THIS IS FOR TESTING, remove when Room image is properly added.
-            BufferedImage mapImage = ImageIO.read(new File(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol()).getRoomFileName()));
-            JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(mapImage)));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try { // TODO: THIS IS FOR TESTING, remove when Room image is properly added.
+//            BufferedImage mapImage = ImageIO.read(new File(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol()).getRoomFileName()));
+//            JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(mapImage)));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     private void displayQuestionPanel(Door door, GamePanel gamePanel) {
@@ -84,7 +86,4 @@ public class MazeController {
             //questionPanel.popUpUI();
         });
     }
-
-
-
 }
