@@ -47,7 +47,6 @@ public class GameFrame extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-        myGamePanel = new GamePanel();
         myGamePanelFocus = false; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
         //myGameData = new GameDataManger(p.getMyHealth(), p.getMyScore(),p.getCorrectAns(),p.getCorrectTotal(),p.getIncorrectTotal(),p.getQuestionsAnswered());
         myGameData = new GameDataManger();
@@ -57,42 +56,83 @@ public class GameFrame extends JFrame {
     public GamePanel getMyGamePanel() {
         return myGamePanel;
     }
+//    public void switchToGamePanel(final GamePanel theGamePanel) {
+//        myGamePanel = theGamePanel;
+//        resumeButton();
+//        menuBar();
+//
+//        JPanel mainPanel = new JPanel (new BorderLayout());
+//        JPanel centerPanel = new JPanel();
+//        JPanel leftPanel = new JPanel();
+//        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+//        centerPanel.setLayout(new BorderLayout());
+//        leftPanel.setBackground(Color.GRAY);
+//        centerPanel.setBackground(Color.GRAY);
+//
+//        // Add left and center panels to main panel
+//        //mainPanel.add(myGamePanel.createLayeredPanel(), BorderLayout.WEST);
+//
+//        //TODO: This main panel here is testing for seeing question pop up UIs
+//        //mainPanel.add(new MovementButtonPanel(theGamePanel), BorderLayout.WEST);// comment this out and uncomment above to switch back to other UI
+//
+//        //For the leftUIgamepanel
+//        mainPanel.add(new LeftUIGamePanel(theGamePanel), BorderLayout.WEST);
+//
+//
+//        //mainPanel.add(centerPanel, BorderLayout.CENTER);
+//        //leftPanel.setPreferredSize(new Dimension(200,200));
+//        mainPanel.add(theGamePanel);
+//
+//        setContentPane(mainPanel);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        //setUndecorated(true);
+//        revalidate();
+//        theGamePanel.requestFocusInWindow();
+//        theGamePanel.startGameThread();
+//        //showDialog(new instructionPanel());
+//        //myGamePanelFocus = true; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
+//    }
+
     public void switchToGamePanel(final GamePanel theGamePanel) {
         myGamePanel = theGamePanel;
         resumeButton();
         menuBar();
 
-        JPanel mainPanel = new JPanel (new BorderLayout());
-        JPanel centerPanel = new JPanel();
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        centerPanel.setLayout(new BorderLayout());
-        leftPanel.setBackground(Color.GRAY);
-        centerPanel.setBackground(Color.GRAY);
+        // Create main panel with BorderLayout
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
-        // Add left and center panels to main panel
-        //mainPanel.add(myGamePanel.createLayeredPanel(), BorderLayout.WEST);
+        // Create left and center panels
+        //JPanel leftPanel = new JPanel();
+        //JPanel centerPanel = new JPanel(new BorderLayout());
 
-        //TODO: This main panel here is testing for seeing question pop up UIs
-        //mainPanel.add(new MovementButtonPanel(theGamePanel), BorderLayout.WEST);// comment this out and uncomment above to switch back to other UI
+        // Set layouts and backgrounds
+        //leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        //leftPanel.setBackground(Color.GRAY);
+        //centerPanel.setBackground(Color.GRAY);
 
-        //For the leftUIgamepanel
+        // Add left UI game panel to the left side of the main panel
         mainPanel.add(new LeftUIGamePanel(theGamePanel), BorderLayout.WEST);
 
+        mainPanel.revalidate();
+        mainPanel.repaint();
 
-        mainPanel.add(centerPanel, BorderLayout.CENTER);
-        leftPanel.setPreferredSize(new Dimension(200,200));
-        mainPanel.add(theGamePanel);
+        // Add theGamePanel to the center of the main panel
+        mainPanel.add(theGamePanel, BorderLayout.CENTER);
 
+        // Set the content pane of the frame to the main panel
         setContentPane(mainPanel);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //setUndecorated(true);
+
+        // Revalidate the frame to apply changes
         revalidate();
+
+        // Request focus for theGamePanel and start the game thread
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
-        //showDialog(new instructionPanel());
-        //myGamePanelFocus = true; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
     }
+
+
+
     public void switchToWelcomeScreen() {
         setExtendedState(JFrame.NORMAL);
         setContentPane(myWelcomeScreen);
