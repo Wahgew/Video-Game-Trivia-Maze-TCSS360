@@ -17,10 +17,8 @@ public class PlayerManager implements Serializable {
     private Player myPlayer;
     private int myX;
     private int myY;
-    private int myWorldX;
-    private int myWorldY;
+    private static final int WORLD_POSITION = (ScreenSetting.TILE_SIZE / 2);
     private String myDirection;
-
     private Rectangle mySolidAreas;
     private int mySolidAreasDefaultX;
     private int mySolidAreasDefaultY;
@@ -45,13 +43,19 @@ public class PlayerManager implements Serializable {
 
     }
     public void setDefaultValues() {
+        // Set the initial position of the player to the center
+        int panelWidth = myGamePanel.getWidth();
+        int panelHeight = myGamePanel.getHeight();
+        int centerX = panelWidth / 2;
+        int centerY = panelHeight / 2;
+
+        //TODO: Peter tapped out on making this player sprite center not using magic numbers
+        // He may come back and fix it or leave it as is.
+        setMyXDefault(ScreenSetting.SPRITE_CENTER_WIDTH / 2);
+        setMyYDefault(ScreenSetting.SPRITE_CENTER_HEIGHT / 2);
         mySolidAreas = new Rectangle(6,14,44,44);
         mySolidAreasDefaultX = mySolidAreas.x;
         mySolidAreasDefaultY = mySolidAreas.y;
-        //myWorldX = myPlayer.;
-        //myWorldX = myPlayer.;
-        myX = myPlayer.getMyLocationCol(); //
-        myY = myPlayer.getMyLocationRow(); //
         myDirection = "DOWN";
     }
     public void setPlayerImageIcon() {
@@ -70,7 +74,7 @@ public class PlayerManager implements Serializable {
             exception.printStackTrace();
         }
     }
-    public void draw(Graphics2D g) {
+    public void draw(Graphics2D theG, int centerX, int centerY) {
         //draw the sprite 2D
         BufferedImage image = null;
         switch(myDirection) {
@@ -107,21 +111,27 @@ public class PlayerManager implements Serializable {
                 }
                 break;
         }
-        g.drawImage(image, myX, myY, ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE, null);
+        theG.drawImage(image, myX, myY, ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE, null);
+//        int drawX = centerX - (ScreenSetting.TILE_SIZE / 2);
+//        int drawY = centerY - (ScreenSetting.TILE_SIZE / 2);
+//
+//
+//        theG.drawImage(image, drawX, drawY, ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE, null);
+
     }
     public void updateSpriteKeyPressed() {
         if (myKeyboardsHandler.isMyDownKeyPressed() || myKeyboardsHandler.isMyLeftKeyPressed()
                 || myKeyboardsHandler.isMyRightKeyPressed() || myKeyboardsHandler.isMyUpKeyPressed()) {
-            if (myKeyboardsHandler.isMyUpKeyPressed() == true) {
+            if (myKeyboardsHandler.isMyUpKeyPressed()) {
                 myDirection = "UP";
                 myY -= playerSpeed;
-            } else if (myKeyboardsHandler.isMyDownKeyPressed() == true) {
+            } else if (myKeyboardsHandler.isMyDownKeyPressed()) {
                 myDirection = "DOWN";
                 myY += playerSpeed;
-            } else if (myKeyboardsHandler.isMyLeftKeyPressed() == true) {
+            } else if (myKeyboardsHandler.isMyLeftKeyPressed()) {
                 myDirection = "LEFT";
                 myX -= playerSpeed;
-            } else if (myKeyboardsHandler.isMyRightKeyPressed() == true) {
+            } else if (myKeyboardsHandler.isMyRightKeyPressed()) {
                 myDirection = "RIGHT";
                 myX += playerSpeed;
             }
@@ -143,6 +153,15 @@ public class PlayerManager implements Serializable {
     public int getY() {
         return myY;
     }
+
+    public void setMyXDefault(int theX) {
+        this.myX = theX - WORLD_POSITION;
+    }
+
+    public void setMyYDefault(int theY) {
+        this.myY = theY - WORLD_POSITION;
+    }
+
     public String getDirection() {
         return myDirection;
     }
