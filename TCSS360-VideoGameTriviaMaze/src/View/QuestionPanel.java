@@ -267,7 +267,7 @@ public class QuestionPanel implements ActionListener {
             myDialog.dispose();
             GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
             frame.switchToEndGamePanel();
-        } else if (thePlayerAnswer.equals(myCorrectAnswer)) {
+        } else if (thePlayerAnswer.equalsIgnoreCase(myCorrectAnswer)) {
             Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), true);
             myDoor.questionAttempted(true, Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol(), Player.getInstance().getMyDirection());
             Player.getInstance().movePlayer(Player.getInstance().getMyDirection());
@@ -291,6 +291,7 @@ public class QuestionPanel implements ActionListener {
                 frame.switchToEndGamePanel();
             }
         }
+        myGamePanel.getMyMovementButtonPanel().setButtonState(true);
     }
 
 

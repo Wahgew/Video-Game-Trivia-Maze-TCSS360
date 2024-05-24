@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
     private PlayerHealth myPlayerHealth;
     private GameDataManger myGameData;
+    private MovementButtonPanel myMovementButtonPanel;
     private JButton mySaveGameButton;
     private JButton mySwitchToWelcomeScreenButton;
     private JButton myExitGameButton;
@@ -45,7 +46,9 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         middleLeftPanel1.setBackground(Color.gray);
 
         JPanel middleLeftPanel = new JPanel();
-        middleLeftPanel.add(new MovementButtonPanel(theGamePanel), BorderLayout.CENTER);
+        myMovementButtonPanel = new MovementButtonPanel(myGamePanel);
+        theGamePanel.setMyMovementButtonPanel(myMovementButtonPanel);
+        middleLeftPanel.add(myMovementButtonPanel, BorderLayout.CENTER);
         //middleLeftPanel.setBackground(Color.gray);
 
         JPanel bottomLeftPanel = new JPanel();
@@ -151,6 +154,10 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         if (theEvt.getPropertyName().equals("score")) {
             updatePlayerScoreLabel();
         }
+    }
+
+    public MovementButtonPanel getMyMovementButtonPanel() {
+        return myMovementButtonPanel;
     }
 
     private void updatePlayerScoreLabel() {

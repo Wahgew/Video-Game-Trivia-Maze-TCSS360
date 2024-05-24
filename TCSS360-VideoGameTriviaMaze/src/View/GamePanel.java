@@ -15,6 +15,7 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean myGameOver;
     public Game myGame;
     private transient PlayerHealth myPlayerHealth;
+    private MovementButtonPanel myMovementButtonPanel;
     KeyboardsHandler keyboardsHandler = new KeyboardsHandler();
     private JLabel myRoomImage;
 
@@ -30,7 +31,6 @@ public class GamePanel extends JPanel implements Runnable {
         setFocusable(true);
         setMyGame(new Game(this));
         updateRoomImage();
-
         revalidate();
         repaint();
 
@@ -135,5 +135,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public boolean isGameOver() {
         return myGameOver;
+    }
+    public void setMyMovementButtonPanel(MovementButtonPanel theMovementButtonPanel) {
+        myMovementButtonPanel = theMovementButtonPanel;
+    }
+    public MovementButtonPanel getMyMovementButtonPanel() {
+        return myMovementButtonPanel;
     }
 }

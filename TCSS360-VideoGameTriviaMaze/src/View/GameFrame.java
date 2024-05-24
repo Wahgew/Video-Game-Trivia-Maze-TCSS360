@@ -29,6 +29,7 @@ public class GameFrame extends JFrame {
 
     private GamePanel myGamePanel;
     private GameDataManger myGameData;
+    private LeftUIGamePanel myLeftUIGamePanel;
     private HighScore myHighScore;
     private WelcomeScreen myWelcomeScreen;
 

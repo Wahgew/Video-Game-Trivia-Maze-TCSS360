@@ -82,12 +82,20 @@ public class MovementButtonPanel extends JPanel {
     }
 
     public void handleMovement(Direction theDirection) {
+        setButtonState(false);
         myController.handlePlayerMovement(theDirection, myGamePanel);
         myGamePanel.requestFocus();
 //        if (!myGamePanel.isGameOver()) {
 //            MazeController.promptAnswer((GameFrame) SwingUtilities.getWindowAncestor(this));
 //        }
     }
+    public void setButtonState(boolean theState) {
+        myUpArrowButton.setEnabled(theState);
+        myDownArrowButton.setEnabled(theState);
+        myLeftArrowButton.setEnabled(theState);
+        myRightArrowButton.setEnabled(theState);
+    }
+
     private ImageIcon resizeImage(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(getClass().getResource(path));
         Image img = icon.getImage();

@@ -3,15 +3,10 @@ package Controller;
 import Model.*;
 import View.GameFrame;
 import View.GamePanel;
+import View.MovementButtonPanel;
 import View.QuestionPanel;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class MazeController {
     public static void main(String[] args) {
@@ -58,6 +53,7 @@ public class MazeController {
             theGamePanel.updateRoomImage();
         } else {
             player.movePlayer(theDirection);
+            theGamePanel.getMyMovementButtonPanel().setButtonState(true);
             theGamePanel.updateRoomImage();
         }
 
