@@ -12,7 +12,7 @@ public class MazeController {
     public static void main(String[] args) {
         // Instantiating Singleton Instances for first time.
         //Maze.getInstance("MaxDoorsLayout.txt");
-        Maze.getInstance("ZigZagLayout.txt"); // testing layout generation from .txt
+        //Maze.getInstance("ZigZagLayout.txt"); // testing layout generation from .txt
         //Maze.getInstance("MazeyMazeLayout.txt");
         //Maze.getInstance();
         //Player.getInstance();
