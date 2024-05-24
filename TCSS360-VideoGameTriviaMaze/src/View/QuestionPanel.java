@@ -263,7 +263,6 @@ public class QuestionPanel implements ActionListener {
         if (thePlayerAnswer == null) {
             throw new IllegalArgumentException("The player's answer cannot be null");
         }
-
         if (Player.getInstance().getMyVictory()) {
             myDialog.dispose();
             GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
@@ -275,17 +274,25 @@ public class QuestionPanel implements ActionListener {
             dialogForResult("Correct");
         } else {
             Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), false);
-            myDoor.questionAttempted(false, Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol(), Player.getInstance().getMyDirection());
+            myDoor.questionAttempted(false, Player.getInstance().getMyLocationRow(),
+                    Player.getInstance().getMyLocationCol(), Player.getInstance().getMyDirection());
             Player.getInstance().decreaseHealth();
-            if (Player.getInstance().getMyHealth() > 0) { //myGamePanel.getMyGame().getMyPlayer().getMyHealth()
+
+            if (Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(),
+                    Player.getInstance().getMyLocationCol()).softLockCheck()) { // check if player's current room is soft locked.
+                myDialog.dispose();
+                GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
+                frame.switchToEndGamePanel();
+            } else if (Player.getInstance().getMyHealth() > 0) { //myGamePanel.getMyGame().getMyPlayer().getMyHealth()
                 dialogForResult("Incorrect");
-            } else {
+            } else { // player has lost case.
                 myDialog.dispose();
                 GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
                 frame.switchToEndGamePanel();
             }
         }
     }
+
 
     public void dialogForResult(final String theCorrectAnswer) {
         resultPanel rePanel = new resultPanel(theCorrectAnswer);

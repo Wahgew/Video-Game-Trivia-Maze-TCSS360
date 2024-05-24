@@ -61,12 +61,12 @@ public class EndPanel extends JPanel {
         if (myPlayer.getMyHealth() == 0) {
             endMessage = "Game Over!" + "\nYou've lost all your health points...";
         }
-        else if(myPlayer.getMyHealth() > 0 && myGamePanel.isGameOver()) {
+        else if (myPlayer.getMyHealth() > 0 && myGamePanel.isGameOver()) {
             endMessage = "Game Over" + "\nAll doors to the exit has been locked...";
         } else if (myPlayer.getMyVictory()) {
             GameDataManger.checkAndHandleVictory();
-            endMessage = "Lets go... You Made it!\n\n" +
-                    "Congratulation on the crazy journey through TRIVIA LABYRINTH MAZE.\n" +
+            endMessage = "Let's go... You Made it!\n\n" +
+                    "Congratulations on the crazy journey through TRIVIA LABYRINTH MAZE.\n" +
                     "You have made it through the end! YEEEEEE!\n";
         }
 

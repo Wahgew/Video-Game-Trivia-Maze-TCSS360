@@ -71,7 +71,17 @@ public class Room {
         mazeFile += ".png";
         return mazeFile;
     }
-    public void setImage(BufferedImage read) {
+    public boolean softLockCheck() {
+        boolean softLocked = true;
+        for (int i = 0; i < myDoors.length; i++) {
+            if (Player.getInstance().validPlayerMove(Direction.getDirectionInt(i))) {
+                softLocked = false;
+                break;
+            }
+        }
+        return softLocked;
+    }
+    public void setImage(BufferedImage read) { // TODO: DO WE NEED TO REMOVE THIS???
 
     }
 }

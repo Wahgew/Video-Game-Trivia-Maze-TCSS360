@@ -45,6 +45,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update(){
         myGame.getMyPlayerManager().updateSpriteKeyPressed();
+        myGameOver = Player.getInstance().getMyVictory();
+        if (!myGameOver) {
+            myGameOver = Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(),
+                    Player.getInstance().getMyLocationCol()).softLockCheck();
+        }
     }
 
     public void updateRoomImage() {
