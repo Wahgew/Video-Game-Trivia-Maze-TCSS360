@@ -69,7 +69,6 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         leftPanel.add(middleLeftPanel);
         leftPanel.add(bottomLeftPanel,BorderLayout.SOUTH);
 
-
         // Add left and center panels to the main panel
         add(leftPanel, BorderLayout.WEST);
         setBackground(Color.BLACK);
@@ -107,6 +106,7 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
                 myPlayerHealth.playerHealthImage();
                 myPlayerHealth.draw(g2);
                 g2.dispose();
+                repaint();
             }
         };
         //playerHealthPanel.setBackground(Color.white);
@@ -192,6 +192,5 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
     private void updatePlayerScoreLabel() {
         myScore.setFont(pixelMplus);
         myScore.setText("Score " + Player.getInstance().getMyScore());
-
     }
 }

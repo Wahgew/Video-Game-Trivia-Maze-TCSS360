@@ -26,7 +26,7 @@ public class PlayerManager implements Serializable {
     private int mySpritesCounter;
     private int mySpritesNum;
 
-    int playerSpeed = 3;
+    private int playerSpeed = 3;
 
     public PlayerManager(final KeyboardsHandler theKeyboardsHandler,
                          final GamePanel theGamePanel, final Player thePlayer) {
@@ -112,12 +112,6 @@ public class PlayerManager implements Serializable {
                 break;
         }
         theG.drawImage(image, myX, myY, ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE, null);
-//        int drawX = centerX - (ScreenSetting.TILE_SIZE / 2);
-//        int drawY = centerY - (ScreenSetting.TILE_SIZE / 2);
-//
-//
-//        theG.drawImage(image, drawX, drawY, ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE, null);
-
     }
     public void updateSpriteKeyPressed() {
         if (myKeyboardsHandler.isMyDownKeyPressed() || myKeyboardsHandler.isMyLeftKeyPressed()

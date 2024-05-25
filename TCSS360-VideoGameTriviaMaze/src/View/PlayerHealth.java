@@ -5,6 +5,8 @@ import Model.Player;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -36,7 +38,7 @@ public class PlayerHealth {
             InputStream is = getClass().getResourceAsStream("/Resource/PixelMplus12-Bold.ttf");
             //InputStream is = getClass().getResourceAsStream("/Resource/PixelMplus12-Regular.ttf");
             if (is != null) {
-                pixelMplus = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
+                pixelMplus = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(45f);
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 ge.registerFont(pixelMplus);
             } else {

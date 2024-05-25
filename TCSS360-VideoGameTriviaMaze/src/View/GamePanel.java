@@ -33,7 +33,6 @@ public class GamePanel extends JPanel implements Runnable {
         updateRoomImage();
         revalidate();
         repaint();
-
     }
 
     public void setMyGame(Game game) {
