@@ -291,7 +291,7 @@ public class QuestionPanel implements ActionListener {
                 frame.switchToEndGamePanel();
             }
         }
-        myGamePanel.getMyMovementButtonPanel().setButtonsState(true);
+        myGamePanel.getMyMovementButtonPanel().checkButtons();
     }
 
 

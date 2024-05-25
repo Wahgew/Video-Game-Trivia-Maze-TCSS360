@@ -52,10 +52,8 @@ public class MazeController {
         if (door != null && !door.getMyAttemptStatus()) {
             displayQuestionPanel(door, theGamePanel);
             theGamePanel.updateRoomImage();
-            theGamePanel.getMyMovementButtonPanel().checkButtons();
         } else {
             player.movePlayer(theDirection);
-            theGamePanel.getMyMovementButtonPanel().setButtonsState(true);
             theGamePanel.updateRoomImage();
             theGamePanel.getMyMovementButtonPanel().checkButtons();
         }
