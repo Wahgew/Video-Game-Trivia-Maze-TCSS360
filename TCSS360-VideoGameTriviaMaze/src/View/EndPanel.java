@@ -67,7 +67,7 @@ public class EndPanel extends JPanel {
         if (myPlayer.getMyHealth() == 0) {
             endMessage = "Game Over!" + "\nYou've lost all your health points...";
         }
-        else if (myPlayer.getMyHealth() > 0 && myGamePanel.isGameOver()) {
+        else if (myPlayer.getMyHealth() > 0 && myGamePanel.isGameOver() && !myPlayer.getMyVictory()) {
             endMessage = "Game Over" + "\nAll doors to the exit has been locked...";
         } else if (myPlayer.getMyVictory()) {
             GameDataManger.checkAndHandleVictory();
