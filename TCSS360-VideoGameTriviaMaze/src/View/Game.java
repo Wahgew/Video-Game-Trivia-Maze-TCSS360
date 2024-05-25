@@ -12,7 +12,7 @@ public class Game implements Serializable {
 
     public Game(final GamePanel theGamePanel) {
         myKeyHandler = new KeyboardsHandler();
-        myPlayer = new Player();
+        myPlayer = Player.getInstance();
         myPlayerManager = new PlayerManager(myKeyHandler, theGamePanel, myPlayer);
         myCollisionChecker = new PlayerCollision(theGamePanel);
     }
