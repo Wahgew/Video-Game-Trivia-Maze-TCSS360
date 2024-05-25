@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class EndPanel extends JPanel {
     private static final int ScreenWidth = ScreenSetting.Screen_Width;
@@ -21,17 +23,21 @@ public class EndPanel extends JPanel {
     private GamePanel myGamePanel;
     private HighScore myHighScore;
 
+    private Font pixelMplus;
+
     public EndPanel(Player thePlayer, GamePanel theGamePanel) {
         myPlayer = thePlayer;
         myGamePanel = theGamePanel;
         myHighScore = new HighScore();
+        loadCustomFont();
         setPreferredSize(new Dimension(ScreenWidth, ScreenHeight));
         setBackground(Color.BLACK);
         setLayout(null);
 
         myText = new JTextArea();
         myText.setBounds(200, 200, ScreenWidth, ScreenHeight);
-        myText.setFont(new Font("Berlin Sans F8",Font.PLAIN,20));
+        //myText.setFont(new Font("Berlin Sans F8",Font.PLAIN,20));
+        myText.setFont(pixelMplus);
         myText.setForeground(White);
         myText.setBackground(Color.BLACK);
         myText.setLineWrap(true);
@@ -76,6 +82,21 @@ public class EndPanel extends JPanel {
         myIndex = 0;
         startTimer();
     }
+    private void loadCustomFont() {
+        try {
+            InputStream is = getClass().getResourceAsStream("/Resource/PixelMplus12-Regular.ttf");
+            if (is != null) {
+                pixelMplus = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(22f);
+                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                ge.registerFont(pixelMplus);
+            } else {
+                System.err.println("Font file not found");
+            }
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void startTimer() {
         JPanel thisPanel = this;
         myTime = new Timer(20, new ActionListener() {

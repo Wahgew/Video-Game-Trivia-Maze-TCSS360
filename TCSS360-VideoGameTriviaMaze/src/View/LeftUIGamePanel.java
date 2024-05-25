@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
     private PlayerHealth myPlayerHealth;
@@ -18,32 +21,42 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
     private JButton mySaveGameButton;
     private JButton mySwitchToWelcomeScreenButton;
     private JButton myExitGameButton;
+    private JButton myVisible1Button;
+    private JButton myVisible2Button;
+    private JButton myVisible3Button;
+    private JButton myVisible4Button;
+
     private JLabel myScore;
+    private Font pixelMplus;
 
     private final GamePanel myGamePanel;
     private Game myGame;
     public LeftUIGamePanel(GamePanel theGamePanel) {
         myGameData = new GameDataManger();
         myGamePanel = theGamePanel;
-        myScore = new JLabel("Score: "+ Player.getInstance().getMyScore());
         myPlayerHealth = new PlayerHealth(Player.getInstance());
 
-        //setLayout(new BorderLayout());
-        //JPanel leftPanel = new JPanel();
+        loadCustomFont();
+        myScore = new JLabel("Score: "+ Player.getInstance().getMyScore());
+        myScore.setFont(pixelMplus);
+        myScore.setForeground(Color.BLACK);
 
         JPanel leftPanel = new JPanel(new BorderLayout()) ;
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         leftPanel.setBackground(Color.BLACK);
+        leftPanel.setPreferredSize(new Dimension(300, 1200));
+
 
         JPanel topLeftPanel = new JPanel();
         topLeftPanel.add(HeartPanel(), BorderLayout.CENTER);
         //topLeftPanel.setBackground(Color.BLACK);
-        topLeftPanel.setPreferredSize(new Dimension(300, 135));
+        topLeftPanel.setPreferredSize(new Dimension(300, 150));
+
 
         JPanel middleLeftPanel1 = new JPanel();
         middleLeftPanel1.setPreferredSize(new Dimension(300, 70));
         middleLeftPanel1.add(myScore, BorderLayout.CENTER);
-        middleLeftPanel1.setBackground(Color.gray);
+        //middleLeftPanel1.setBackground(Color.gray);
 
         JPanel middleLeftPanel = new JPanel();
         myMovementButtonPanel = new MovementButtonPanel(myGamePanel);
@@ -59,11 +72,29 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         leftPanel.add(middleLeftPanel);
         leftPanel.add(bottomLeftPanel,BorderLayout.SOUTH);
 
+
         // Add left and center panels to the main panel
         add(leftPanel, BorderLayout.WEST);
         setBackground(Color.BLACK);
         Player.getInstance().getMyPCS().addPropertyChangeListener(this);
     }
+    private void loadCustomFont() {
+
+        try {
+            InputStream is = getClass().getResourceAsStream("/Resource/PixelMplus12-Bold.ttf");
+            //InputStream is = getClass().getResourceAsStream("/Resource/PixelMplus12-Regular.ttf");
+            if (is != null) {
+                pixelMplus = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
+                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                ge.registerFont(pixelMplus);
+            } else {
+                System.out.println("Font file not found");
+            }
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
     private JPanel HeartPanel() {
         JPanel westPanel = new JPanel(new BorderLayout()) {
             @Override
@@ -93,8 +124,12 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         ImageIcon exitIcon = resizeImage("/Resource/Exit.jpg", 170, 50);
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(300, 500));
+        buttonPanel.setPreferredSize(new Dimension(300, 800));
 
+        myVisible1Button = new JButton("");
+        myVisible2Button = new JButton("");
+        myVisible3Button = new JButton("");
+        myVisible4Button = new JButton("");
         mySwitchToWelcomeScreenButton = new JButton(welcomeScreenIcon);
         mySaveGameButton = new JButton(saveGameIcon);
         myExitGameButton = new JButton(exitIcon);
@@ -110,6 +145,7 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         buttonPanel.add(mySaveGameButton);
         buttonPanel.add(mySwitchToWelcomeScreenButton);
         buttonPanel.add(myExitGameButton);
+
 
         addButtonListener();
 
@@ -129,13 +165,11 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
                         "Are you sure you want to Exit?", "Exit",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (jOption == JOptionPane.YES_NO_OPTION) {
-                    //showDialog(new GameFrame.exitPanel());
                     System.exit(0);
                 }
                 myGamePanel.requestFocus();
             }
         });
-        //mySaveGameButton.addActionListener(e ->myGamePanel.saveGame());
         mySaveGameButton.addActionListener(e -> {
             myGameData.saveGameData();
             myGamePanel.requestFocus();  
@@ -147,20 +181,19 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
     }
-
-
     @Override
     public void propertyChange(PropertyChangeEvent theEvt) {
         if (theEvt.getPropertyName().equals("score")) {
             updatePlayerScoreLabel();
         }
     }
-
     public MovementButtonPanel getMyMovementButtonPanel() {
         return myMovementButtonPanel;
     }
 
     private void updatePlayerScoreLabel() {
+        myScore.setFont(pixelMplus);
         myScore.setText("Score " + Player.getInstance().getMyScore());
+
     }
 }
