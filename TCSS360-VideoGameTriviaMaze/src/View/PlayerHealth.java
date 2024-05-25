@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -13,12 +14,14 @@ public class PlayerHealth {
     private transient BufferedImage myImage;
     private static final Font ARIAL_30 = new Font("Arial", Font.BOLD, 30);
     private Player myPlayer;
+    private Font pixelMplus;
 
     public PlayerHealth(final Player thePlayer) {
         if (thePlayer == null) {
             throw new IllegalArgumentException("Please enter non-null player object");
         }
         myPlayer = thePlayer;
+        loadCustomFont();
     }
     public void playerHealthImage() {
         try {
@@ -27,9 +30,26 @@ public class PlayerHealth {
             e.printStackTrace();
         }
     }
+    private void loadCustomFont() {
+
+        try {
+            InputStream is = getClass().getResourceAsStream("/Resource/PixelMplus12-Bold.ttf");
+            //InputStream is = getClass().getResourceAsStream("/Resource/PixelMplus12-Regular.ttf");
+            if (is != null) {
+                pixelMplus = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(40f);
+                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                ge.registerFont(pixelMplus);
+            } else {
+                System.out.println("Font file not found");
+            }
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
+    }
     public void draw(final Graphics g) {
         if (myPlayer.getMyHealth() > 0) {
-            g.setFont(ARIAL_30);
+            //g.setFont(ARIAL_30);
+            g.setFont(pixelMplus);
             g.setColor(Color.BLACK);
             g.drawImage(myImage, ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE/2 ,
                     ScreenSetting.TILE_SIZE, ScreenSetting.TILE_SIZE, null);

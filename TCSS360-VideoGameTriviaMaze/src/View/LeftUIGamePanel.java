@@ -21,10 +21,7 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
     private JButton mySaveGameButton;
     private JButton mySwitchToWelcomeScreenButton;
     private JButton myExitGameButton;
-    private JButton myVisible1Button;
-    private JButton myVisible2Button;
-    private JButton myVisible3Button;
-    private JButton myVisible4Button;
+    private JButton myMusicButton;
 
     private JLabel myScore;
     private Font pixelMplus;
@@ -122,27 +119,28 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         ImageIcon saveGameIcon = resizeImage("/Resource/SaveGame.png", 170, 50);
         ImageIcon welcomeScreenIcon = resizeImage("/Resource/WelcomeScreen.png", 170, 50);
         ImageIcon exitIcon = resizeImage("/Resource/Exit.jpg", 170, 50);
+        ImageIcon musicIcon = resizeImage("/Resource/Exit.jpg", 170, 50);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(300, 800));
 
-        myVisible1Button = new JButton("");
-        myVisible2Button = new JButton("");
-        myVisible3Button = new JButton("");
-        myVisible4Button = new JButton("");
+        myMusicButton = new JButton(musicIcon);
         mySwitchToWelcomeScreenButton = new JButton(welcomeScreenIcon);
         mySaveGameButton = new JButton(saveGameIcon);
         myExitGameButton = new JButton(exitIcon);
 
+        myMusicButton.setBorderPainted(false);
         myExitGameButton.setBorderPainted(false);
         mySaveGameButton.setBorderPainted(false);
         mySwitchToWelcomeScreenButton.setBorderPainted(false);
 
+        myMusicButton.setContentAreaFilled(false);
         myExitGameButton.setContentAreaFilled(false);
         mySaveGameButton.setContentAreaFilled(false);
         mySwitchToWelcomeScreenButton.setContentAreaFilled(false);
 
         buttonPanel.add(mySaveGameButton);
+        buttonPanel.add(myMusicButton);
         buttonPanel.add(mySwitchToWelcomeScreenButton);
         buttonPanel.add(myExitGameButton);
 
