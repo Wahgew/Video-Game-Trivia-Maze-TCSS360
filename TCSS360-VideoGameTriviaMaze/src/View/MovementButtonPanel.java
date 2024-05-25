@@ -2,6 +2,8 @@ package View;
 
 import Controller.MazeController;
 import Model.Direction;
+import Model.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -24,6 +26,7 @@ public class MovementButtonPanel extends JPanel {
 
         createButtons();
         addButtonListeners();
+        checkButtons();
     }
     private void createButtons() {
         ImageIcon upArrowIcon = resizeImage("/Resource/upIcon.png", 60, 60);
@@ -82,18 +85,36 @@ public class MovementButtonPanel extends JPanel {
     }
 
     public void handleMovement(Direction theDirection) {
-        setButtonState(false);
+        setButtonsState(false);
         myController.handlePlayerMovement(theDirection, myGamePanel);
         myGamePanel.requestFocus();
 //        if (!myGamePanel.isGameOver()) {
 //            MazeController.promptAnswer((GameFrame) SwingUtilities.getWindowAncestor(this));
 //        }
     }
-    public void setButtonState(boolean theState) {
+    public void setButtonsState(boolean theState) {
         myUpArrowButton.setEnabled(theState);
         myDownArrowButton.setEnabled(theState);
         myLeftArrowButton.setEnabled(theState);
         myRightArrowButton.setEnabled(theState);
+    }
+    public void setButtonState(int theDoor, boolean theState) {
+        switch (theDoor) {
+            case 0:
+                myUpArrowButton.setEnabled(theState);
+            case 1:
+                myRightArrowButton.setEnabled(theState);
+            case 2:
+                myDownArrowButton.setEnabled(theState);
+            case 3:
+                myLeftArrowButton.setEnabled(theState);
+        }
+    }
+    public void checkButtons() {
+        setButtonState(0, Player.getInstance().validPlayerMove(Direction.NORTH));
+        setButtonState(1, Player.getInstance().validPlayerMove(Direction.EAST));
+        setButtonState(2, Player.getInstance().validPlayerMove(Direction.SOUTH));
+        setButtonState(3, Player.getInstance().validPlayerMove(Direction.WEST));
     }
 
     private ImageIcon resizeImage(String path, int width, int height) {

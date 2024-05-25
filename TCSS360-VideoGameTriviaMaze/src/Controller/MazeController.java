@@ -17,6 +17,7 @@ public class MazeController {
         //Maze.getInstance();
         //Player.getInstance();
         GameFrame mazeFrame = new GameFrame();
+
         //mazeFrame.getMyGamePanel().updateButtonStatus(); // need to run updateButtonStatus when player location changes.
 //        try { // testing room variation grab and popup TODO: this is instantiating the maze, needs to wait for maze selection.
 //            BufferedImage mapImage = ImageIO.read(new File(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol()).getRoomFileName()));
@@ -51,10 +52,12 @@ public class MazeController {
         if (door != null && !door.getMyAttemptStatus()) {
             displayQuestionPanel(door, theGamePanel);
             theGamePanel.updateRoomImage();
+            theGamePanel.getMyMovementButtonPanel().checkButtons();
         } else {
             player.movePlayer(theDirection);
-            theGamePanel.getMyMovementButtonPanel().setButtonState(true);
+            theGamePanel.getMyMovementButtonPanel().setButtonsState(true);
             theGamePanel.updateRoomImage();
+            theGamePanel.getMyMovementButtonPanel().checkButtons();
         }
 
         // Door is unlocked or question not attempted, allow movement
