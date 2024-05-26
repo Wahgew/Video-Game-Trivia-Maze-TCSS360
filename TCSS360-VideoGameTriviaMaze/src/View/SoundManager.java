@@ -5,13 +5,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.net.URL;
-import javax.swing.ImageIcon;
 
 public class SoundManager {
     private Clip clip;
@@ -20,14 +16,20 @@ public class SoundManager {
     private FloatControl floatControl;
     private boolean mute = false;
     private URL soundURL;
-    JSlider slider;
+    private JSlider slider;
+    private final String[] mySoundURL;
+
     public SoundManager() {
-        volumeButton();
+        mySoundURL = new String[3];
+        mySoundURL[0] = "/Resource/Sounds2/IntroGame.wav";
+        mySoundURL[1] = "/Resource/Sounds2/LongTime.wav";
+        mySoundURL[2] = "/Resource/Sounds2/GamePlay.wav";
     }
 
-    public void setFile(URL url) {
+    public void setFile(final int theFile) {
         try {
-            AudioInputStream sound = AudioSystem.getAudioInputStream(url);
+            InputStream is = getClass().getResourceAsStream(mySoundURL[theFile]);
+            AudioInputStream sound = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
             clip = AudioSystem.getClip();
             clip.open(sound);
             floatControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -94,69 +96,65 @@ public class SoundManager {
             mute = false;
         }
     }
-    public void playMusic(URL url) {
-        setFile(url);
+    public void playMusic(final int theIndex) {
+        stop();
+        setFile(theIndex);
         play();
         loop();
     }
-    private void volumeButton() {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridLayout(1,3));
-        soundURL = getClass().getResource("/Resource/Sounds2/LongTime.wav");
-
-        JButton playButton = new JButton("PLAY");
-        JButton stopButton = new JButton("STOP");
-        JButton muteButton = new JButton("MUTE");
-
-        frame.add(playButton);
-        frame.add(stopButton);
-        frame.add(muteButton);
-        frame.pack();
-        frame.setVisible(true);
-
-        playButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                playMusic(soundURL);
-            }
-        });
-
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                stop();
-            }
-        });
-
-        muteButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                mute();
-            }
-        });
-
-        slider = new JSlider(-40, 6);
-        slider.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                currentVolume = slider.getValue();
-                if (currentVolume == -40)  {
-                    currentVolume = -80;
-                }
-                System.out.println("Current Volume: " + currentVolume);
-                floatControl.setValue(currentVolume);
-            }
-        });
-        frame.add(slider);
-
-        frame.pack();
-        frame.setVisible(true);
+    public FloatControl getFloatControl() {
+        return floatControl;
     }
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new Runnable() {
+//    private void volumeButton() {
+//        JFrame frame = new JFrame();
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setLayout(new GridLayout(1,3));
+//
+//        JButton playButton = new JButton("PLAY");
+//        JButton stopButton = new JButton("STOP");
+//        JButton muteButton = new JButton("muteIcon");
+//
+//        frame.add(playButton);
+//        frame.add(stopButton);
+//        frame.add(muteButton);
+//        frame.pack();
+//        frame.setVisible(true);
+//
+//        playButton.addActionListener(new ActionListener() {
 //            @Override
-//            public void run() {
-//                new SoundManager();
+//            public void actionPerformed(ActionEvent e) {
+//                playMusic(0);
 //            }
 //        });
+//
+//        stopButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                stop();
+//            }
+//        });
+//
+//        muteButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                mute();
+//            }
+//        });
+//
+//        slider = new JSlider(-40, 6);
+//        slider.addChangeListener(new ChangeListener() {
+//            public void stateChanged(ChangeEvent e) {
+//                currentVolume = slider.getValue();
+//                if (currentVolume == -40)  {
+//                    currentVolume = -80;
+//                }
+//                System.out.println("Current Volume: " + currentVolume);
+//                floatControl.setValue(currentVolume);
+//            }
+//        });
+//        frame.add(slider);
+//
+//        frame.pack();
+//        frame.setVisible(true);
 //    }
+
 }

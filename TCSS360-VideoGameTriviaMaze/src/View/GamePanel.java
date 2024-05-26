@@ -18,10 +18,11 @@ public class GamePanel extends JPanel implements Runnable {
     private MovementButtonPanel myMovementButtonPanel;
     KeyboardsHandler keyboardsHandler = new KeyboardsHandler();
     private JLabel myRoomImage;
-
+    private transient SoundManager mySoundManager;
     public GamePanel() {
         myGameOver = false;
         myRoomImage = new JLabel();
+        mySoundManager = new SoundManager();
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
         setSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
@@ -33,8 +34,13 @@ public class GamePanel extends JPanel implements Runnable {
         updateRoomImage();
         revalidate();
         repaint();
-    }
 
+    }
+    public void playMusic(final int theIndex) {
+        mySoundManager.setFile(theIndex);
+        mySoundManager.play();
+        mySoundManager.loop();
+    }
     public void setMyGame(Game game) {
         myGame = game;
         addKeyListener(myGame.getKeyHandler());

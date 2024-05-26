@@ -36,7 +36,7 @@ public class GameFrame extends JFrame {
 
     private boolean myGamePanelFocus;
     private transient PlayerHealth myPlayerHealth;
-
+    private SoundManager mySoundManager;
 
     public GameFrame() {
         Player p = Player.getInstance();
@@ -53,47 +53,17 @@ public class GameFrame extends JFrame {
         //myGameData = new GameDataManger(p.getMyHealth(), p.getMyScore(),p.getCorrectAns(),p.getCorrectTotal(),p.getIncorrectTotal(),p.getQuestionsAnswered());
         myGameData = new GameDataManger();
         myHighScore = new HighScore();
+        mySoundManager = new SoundManager();
+        mySoundManager.playMusic(0);
     }
-
+    public void playMusic(final int theIndex) {
+        mySoundManager.setFile(theIndex);
+        mySoundManager.play();
+        mySoundManager.loop();
+    }
     public GamePanel getMyGamePanel() {
         return myGamePanel;
     }
-//    public void switchToGamePanel(final GamePanel theGamePanel) {
-//        myGamePanel = theGamePanel;
-//        resumeButton();
-//        menuBar();
-//
-//        JPanel mainPanel = new JPanel (new BorderLayout());
-//        JPanel centerPanel = new JPanel();
-//        JPanel leftPanel = new JPanel();
-//        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-//        centerPanel.setLayout(new BorderLayout());
-//        leftPanel.setBackground(Color.GRAY);
-//        centerPanel.setBackground(Color.GRAY);
-//
-//        // Add left and center panels to main panel
-//        //mainPanel.add(myGamePanel.createLayeredPanel(), BorderLayout.WEST);
-//
-//        //TODO: This main panel here is testing for seeing question pop up UIs
-//        //mainPanel.add(new MovementButtonPanel(theGamePanel), BorderLayout.WEST);// comment this out and uncomment above to switch back to other UI
-//
-//        //For the leftUIgamepanel
-//        mainPanel.add(new LeftUIGamePanel(theGamePanel), BorderLayout.WEST);
-//
-//
-//        //mainPanel.add(centerPanel, BorderLayout.CENTER);
-//        //leftPanel.setPreferredSize(new Dimension(200,200));
-//        mainPanel.add(theGamePanel);
-//
-//        setContentPane(mainPanel);
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        //setUndecorated(true);
-//        revalidate();
-//        theGamePanel.requestFocusInWindow();
-//        theGamePanel.startGameThread();
-//        //showDialog(new instructionPanel());
-//        //myGamePanelFocus = true; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
-//    }
 
     public void switchToGamePanel(final GamePanel theGamePanel) {
         myGamePanel = theGamePanel;
@@ -102,15 +72,6 @@ public class GameFrame extends JFrame {
 
         // Create main panel with BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout());
-
-        // Create left and center panels
-        //JPanel leftPanel = new JPanel();
-        //JPanel centerPanel = new JPanel(new BorderLayout());
-
-        // Set layouts and backgrounds
-        //leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        //leftPanel.setBackground(Color.GRAY);
-        //centerPanel.setBackground(Color.GRAY);
 
         // Add left UI game panel to the left side of the main panel
         mainPanel.add(new LeftUIGamePanel(theGamePanel), BorderLayout.WEST);
@@ -131,6 +92,8 @@ public class GameFrame extends JFrame {
         // Request focus for theGamePanel and start the game thread
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
+        mySoundManager.stop();
+        mySoundManager.playMusic(2);
     }
 
     public void switchToMazeLayout() {
@@ -146,11 +109,11 @@ public class GameFrame extends JFrame {
         revalidate();
         repaint();
     }
-
-
     public void switchToWelcomeScreen() {
         setExtendedState(JFrame.NORMAL);
         setContentPane(myWelcomeScreen);
+        mySoundManager.stop();
+        mySoundManager.playMusic(0);
         pack(); // Reset to preferred size
         setLocationRelativeTo(null);
         revalidate();
@@ -159,6 +122,8 @@ public class GameFrame extends JFrame {
     public void switchToEndGamePanel() {
         setContentPane(new EndPanel(Player.getInstance(), myGamePanel));
         myMenuBar.removeAll();
+        mySoundManager.stop();
+        mySoundManager.playMusic(1);
         revalidate();
     }
     private void resumeButton() {
@@ -249,8 +214,6 @@ public class GameFrame extends JFrame {
                         JOptionPane.INFORMATION_MESSAGE);
             }
         });
-
-
 
     }
     public void showDialog(final JPanel thePanel) {

@@ -23,20 +23,20 @@ public class WelcomeScreen extends JPanel {
     private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
     private final ImageIcon backgroundIcon= new ImageIcon(getClass().getResource("/Resource/Background.jpg"));
     private final GameDataManger myGameData;
-
+    private transient SoundManager mySoundManager;
     public WelcomeScreen() {
         setPreferredSize(new Dimension(Screen_Width, Screen_Height));
-
         myBackground = backgroundIcon.getImage();
         Player p = Player.getInstance();
         //myGameData = new GameDataManger(p.getMyHealth(), p.getMyScore(),p.getCorrectAns(),p.getCorrectTotal(),p.getIncorrectTotal(),p.getQuestionsAnswered());
         myGameData = new GameDataManger();
-
+        mySoundManager = new SoundManager();
         setLayout(null);
         setUpButtons();
         revalidate();
         repaint();
     }
+
     private void setUpButtons() {
         myNewGameButton = new JButton();
         myLoadGameButton = new JButton();
