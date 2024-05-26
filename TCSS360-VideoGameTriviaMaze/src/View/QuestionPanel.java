@@ -256,7 +256,6 @@ public class QuestionPanel implements ActionListener {
                 checkAnswers(playerAnswer);
             }
         }
-        //myAudio[0].stop();
     }
 
     public void checkAnswers(final String thePlayerAnswer) {
