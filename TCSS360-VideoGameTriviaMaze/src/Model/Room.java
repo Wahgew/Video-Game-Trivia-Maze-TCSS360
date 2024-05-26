@@ -22,6 +22,7 @@ public class Room {
      */
     private final Door[] myDoors;
 
+    private static boolean mySoftLock;
     /**
      * Constructs a new Room object with four doors.
      *
@@ -33,6 +34,7 @@ public class Room {
         for (int i = 0; i < 4; i++) {
             myDoors[i] = new Door();
         }
+        mySoftLock = false;
     }
     /**
      * Returns the door in the specified direction.
@@ -79,8 +81,14 @@ public class Room {
                 break;
             }
         }
+        mySoftLock = softLocked;
         return softLocked;
     }
+
+    public static boolean getSoftLock() {
+        return mySoftLock;
+    }
+
     public void setImage(BufferedImage read) { // TODO: DO WE NEED TO REMOVE THIS???
 
     }
