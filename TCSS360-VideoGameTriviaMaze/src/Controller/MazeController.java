@@ -49,7 +49,7 @@ public class MazeController {
         player.setMyDirection(theDirection);
         Door door = Maze.getInstance().getMyRoom(playerRow, playerCol).getMyDoor(theDirection);
 
-        if (door != null && !door.getMyAttemptStatus()) {
+         if (door != null && !door.getMyAttemptStatus()) {
             displayQuestionPanel(door, theGamePanel);
             theGamePanel.updateRoomImage();
         } else {

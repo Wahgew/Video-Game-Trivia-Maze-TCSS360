@@ -271,12 +271,12 @@ public class QuestionPanel implements ActionListener {
             myDoor.questionAttempted(true, Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol(), Player.getInstance().getMyDirection());
             Player.getInstance().movePlayer(Player.getInstance().getMyDirection());
             dialogForResult("Correct");
+            callUpdate();
         } else {
             Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), false);
             myDoor.questionAttempted(false, Player.getInstance().getMyLocationRow(),
                     Player.getInstance().getMyLocationCol(), Player.getInstance().getMyDirection());
             Player.getInstance().decreaseHealth();
-
             if (Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(),
                     Player.getInstance().getMyLocationCol()).softLockCheck()) { // check if player's current room is soft locked.
                 myDialog.dispose();
@@ -284,12 +284,21 @@ public class QuestionPanel implements ActionListener {
                 frame.switchToEndGamePanel();
             } else if (Player.getInstance().getMyHealth() > 0) { //myGamePanel.getMyGame().getMyPlayer().getMyHealth()
                 dialogForResult("Incorrect");
+                callUpdate();
             } else { // player has lost case.
                 myDialog.dispose();
                 GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
                 frame.switchToEndGamePanel();
             }
         }
+    }
+
+    /**
+     * Method to call "update" methods in GamePanel.
+     */
+    void callUpdate() {
+        myGamePanel.update();
+        myGamePanel.updateRoomImage();
         myGamePanel.getMyMovementButtonPanel().checkButtons();
     }
 
