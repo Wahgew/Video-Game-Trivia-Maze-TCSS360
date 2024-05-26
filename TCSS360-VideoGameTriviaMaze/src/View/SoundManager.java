@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import javax.swing.ImageIcon;
 
 public class SoundManager {
     private Clip clip;
@@ -19,9 +20,7 @@ public class SoundManager {
     private FloatControl floatControl;
     private boolean mute = false;
     private URL soundURL;
-
     JSlider slider;
-
     public SoundManager() {
         volumeButton();
     }
@@ -104,10 +103,11 @@ public class SoundManager {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridLayout(1,3));
+        soundURL = getClass().getResource("/Resource/Sounds2/LongTime.wav");
 
         JButton playButton = new JButton("PLAY");
         JButton stopButton = new JButton("STOP");
-        JButton muteButton = new JButton("Mute");
+        JButton muteButton = new JButton("MUTE");
 
         frame.add(playButton);
         frame.add(stopButton);
@@ -121,19 +121,20 @@ public class SoundManager {
                 playMusic(soundURL);
             }
         });
-        frame.add(playButton);
+
         stopButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 stop();
             }
         });
-        frame.add(stopButton);
+
         muteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mute();
             }
         });
+
         slider = new JSlider(-40, 6);
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
@@ -145,14 +146,10 @@ public class SoundManager {
                 floatControl.setValue(currentVolume);
             }
         });
-        frame.add(muteButton);
         frame.add(slider);
-
 
         frame.pack();
         frame.setVisible(true);
-
-        soundURL = getClass().getResource("/Resource/Sounds2/LongTime.wav");
     }
 //    public static void main(String[] args) {
 //        SwingUtilities.invokeLater(new Runnable() {

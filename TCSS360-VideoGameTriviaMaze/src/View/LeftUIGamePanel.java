@@ -121,7 +121,7 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         ImageIcon saveGameIcon = resizeImage("/Resource/SaveGame.png", 170, 50);
         ImageIcon welcomeScreenIcon = resizeImage("/Resource/WelcomeScreen.png", 170, 50);
         ImageIcon exitIcon = resizeImage("/Resource/Exit.jpg", 170, 50);
-        ImageIcon musicIcon = resizeImage("/Resource/Exit.jpg", 170, 50);
+        ImageIcon musicIcon = resizeImage("/Resource/Volume.png", 170, 50);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setPreferredSize(new Dimension(300, 800));
