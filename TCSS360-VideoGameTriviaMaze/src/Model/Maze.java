@@ -65,7 +65,7 @@ public class Maze {
      * @param theXSize the number of rows in the maze
      * @param theYSize the number of columns in the maze
      */
-    public Maze(int theXSize, int theYSize) {
+    private Maze(int theXSize, int theYSize) {
         if (theXSize < 4 || theYSize < 4) {
             throw new IllegalArgumentException();
         }
@@ -79,7 +79,7 @@ public class Maze {
         checkEntExitGen();
         mazeInstantiate();
     }
-    public Maze(String theFileName) {
+    private Maze(String theFileName) {
         Scanner fileScan = null;
         myRandom = null;
         try {
@@ -109,6 +109,14 @@ public class Maze {
             mySingleton = new Maze(theFileName);
         }
         return mySingleton;
+    }
+
+    public static synchronized void resetMaze(String theFileName) {
+        mySingleton = new Maze(theFileName);
+    }
+
+    public static synchronized void resetMaze(int theXsize, int theYsize) {
+        mySingleton = new Maze(theXsize, theXsize);
     }
 
     /**
