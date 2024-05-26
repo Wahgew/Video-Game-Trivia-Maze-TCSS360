@@ -56,6 +56,7 @@ public class MazeController {
             player.movePlayer(theDirection);
             theGamePanel.updateRoomImage();
             theGamePanel.getMyMovementButtonPanel().checkButtons();
+            theGamePanel.getMyMovementButtonPanel().checkIcons();
         }
 
         // Door is unlocked or question not attempted, allow movement

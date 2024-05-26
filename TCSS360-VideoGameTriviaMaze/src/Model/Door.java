@@ -67,6 +67,9 @@ public class Door {
     public boolean getMyLeadsOutOfBounds() {
         return myLeadsOutOfBounds;
     }
+    public boolean getMyLockIconStatus() {
+        return (myLockStatus && myAttemptStatus && !myLeadsOutOfBounds);
+    }
 
     /**
      * Sets the lock status of the door.

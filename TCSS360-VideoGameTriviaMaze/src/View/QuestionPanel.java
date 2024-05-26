@@ -300,6 +300,7 @@ public class QuestionPanel implements ActionListener {
         myGamePanel.update();
         myGamePanel.updateRoomImage();
         myGamePanel.getMyMovementButtonPanel().checkButtons();
+        myGamePanel.getMyMovementButtonPanel().checkIcons();
     }
 
 

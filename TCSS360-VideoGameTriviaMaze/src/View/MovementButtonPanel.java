@@ -2,6 +2,7 @@ package View;
 
 import Controller.MazeController;
 import Model.Direction;
+import Model.Maze;
 import Model.Player;
 
 import javax.swing.*;
@@ -27,6 +28,7 @@ public class MovementButtonPanel extends JPanel {
         createButtons();
         addButtonListeners();
         checkButtons();
+        checkIcons();
     }
     private void createButtons() {
         ImageIcon upArrowIcon = resizeImage("/Resource/upIcon.png", 60, 60);
@@ -116,11 +118,59 @@ public class MovementButtonPanel extends JPanel {
                 throw new IllegalArgumentException("Invalid door index/case: " + theDoor);
         }
     }
+    public void setButtonIcon(int theDoor, boolean theState) {
+        switch (theDoor) {
+            case 0:
+                if (theState) {
+                    myUpArrowButton.setIcon(resizeImage("/Resource/upLocked.png", 60, 60));
+                } else {
+                    myUpArrowButton.setIcon(resizeImage("/Resource/upIcon.png", 60, 60));
+                }
+                break;
+            case 1:
+                if (theState) {
+                    myRightArrowButton.setIcon(resizeImage("/Resource/rightLocked.png", 60, 60));
+                } else {
+                    myRightArrowButton.setIcon(resizeImage("/Resource/rightIcon.png", 60, 60));
+                }
+                break;
+            case 2:
+                if (theState) {
+                    myDownArrowButton.setIcon(resizeImage("/Resource/downLocked.png", 60, 60));
+                } else {
+                    myDownArrowButton.setIcon(resizeImage("/Resource/downIcon.png", 60, 60));
+                }
+                break;
+            case 3:
+                if (theState) {
+                    myLeftArrowButton.setIcon(resizeImage("/Resource/leftLocked.png", 60, 60));
+                } else {
+                    myLeftArrowButton.setIcon(resizeImage("/Resource/leftIcon.png", 60, 60));
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid door index/case: " + theDoor);
+        }
+    }
     public void checkButtons() {
         setButtonState(0, Player.getInstance().validPlayerMove(Direction.NORTH));
         setButtonState(1, Player.getInstance().validPlayerMove(Direction.EAST));
         setButtonState(2, Player.getInstance().validPlayerMove(Direction.SOUTH));
         setButtonState(3, Player.getInstance().validPlayerMove(Direction.WEST));
+    }
+    public void checkIcons() {
+        int playerRow = Player.getInstance().getMyLocationRow();
+        int playerCol = Player.getInstance().getMyLocationCol();
+
+        setButtonIcon(0, Maze.getInstance().getMyRoom(playerRow, playerCol).
+                getMyDoor(Direction.NORTH).getMyLockIconStatus());
+        setButtonIcon(1, Maze.getInstance().getMyRoom(playerRow, playerCol).
+                getMyDoor(Direction.EAST).getMyLockIconStatus());
+        setButtonIcon(2, Maze.getInstance().getMyRoom(playerRow, playerCol).
+                getMyDoor(Direction.SOUTH).getMyLockIconStatus());
+        setButtonIcon(3, Maze.getInstance().getMyRoom(playerRow, playerCol).
+                getMyDoor(Direction.WEST).getMyLockIconStatus());
+
     }
 
     private ImageIcon resizeImage(String path, int width, int height) {
