@@ -34,6 +34,8 @@ public class WelcomeScreen extends JPanel {
 
         setLayout(null);
         setUpButtons();
+        revalidate();
+        repaint();
     }
     private void setUpButtons() {
         myNewGameButton = new JButton();
@@ -86,10 +88,8 @@ public class WelcomeScreen extends JPanel {
     public void addButtonListener() {
         myNewGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
-            MazeLayoutPanel mazeLayout = new MazeLayoutPanel(); // TODO: ??? idk what im doing - Ken
-            add(mazeLayout);
-            gameFrame.switchToGamePanel(new GamePanel());
-            //MazeController.promptAnswer(gameFrame);
+            gameFrame.switchToMazeLayout();
+            //gameFrame.switchToGamePanel(new GamePanel());
         });
         myLoadGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
