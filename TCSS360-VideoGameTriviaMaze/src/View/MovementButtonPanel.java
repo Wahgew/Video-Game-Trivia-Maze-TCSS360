@@ -48,15 +48,8 @@ public class MovementButtonPanel extends JPanel {
         myLeftArrowButton.setBounds(50, 75, 70, 50);
         myRightArrowButton.setBounds(160, 76, 70, 50);
 
-
         // Configure button appearance
         configureButtons();
-
-        myTestButton.setBounds(120, 85, 40, 30); // Set the bounds of the button
-        myUpArrowButton.setBounds(110, 25, 60, 60);
-        myDownArrowButton.setBounds(110, 115, 60, 60);
-        myLeftArrowButton.setBounds(50, 75, 70, 50);
-        myRightArrowButton.setBounds(160, 76, 70, 50);
 
         myTestButton.setVisible(false);
 
