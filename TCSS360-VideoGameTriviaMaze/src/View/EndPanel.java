@@ -23,13 +23,14 @@ public class EndPanel extends JPanel {
     private Player myPlayer;
     private GamePanel myGamePanel;
     private HighScore myHighScore;
-
+    private SoundManager mySoundManager;
     private Font pixelMplus;
 
     public EndPanel(Player thePlayer, GamePanel theGamePanel) {
         myPlayer = thePlayer;
         myGamePanel = theGamePanel;
         myHighScore = new HighScore();
+        mySoundManager = new SoundManager();
         loadCustomFont();
         setPreferredSize(new Dimension(ScreenWidth, ScreenHeight));
         setBackground(Color.BLACK);
@@ -66,12 +67,18 @@ public class EndPanel extends JPanel {
 
         String endMessage = "";
         if (myPlayer.getMyHealth() == 0) {
+            mySoundManager.stop();
+            mySoundManager.playMusic(3);
             endMessage = "Game Over!" + "\nYou've lost all your health points...";
         }
         else if (myPlayer.getMyHealth() > 0 && Room.getSoftLock()) { // && !myPlayer.getMyVictory()
+            mySoundManager.stop();
+            mySoundManager.playMusic(3);
             endMessage = "Game Over" + "\nAll doors to the exit has been locked...";
         } else if (myPlayer.getMyVictory()) {
             GameDataManger.checkAndHandleVictory();
+            mySoundManager.stop();
+            mySoundManager.playMusic(2);
             endMessage = "Let's go... You Made it!\n\n" +
                     "Congratulations on the crazy journey through TRIVIA LABYRINTH MAZE.\n" +
                     "You have made it through the end! YEEEEEE!\n";
@@ -109,6 +116,7 @@ public class EndPanel extends JPanel {
                 } else {
                     int choice = JOptionPane.showConfirmDialog(null, "Congratulations! You have completed the game. Do you want to return to the main screen?", "Game Completed", JOptionPane.YES_NO_OPTION);
                     if (choice == JOptionPane.YES_OPTION) {
+                        mySoundManager.stop();
                         GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(thisPanel);
                         frame.switchToWelcomeScreen();
                     }

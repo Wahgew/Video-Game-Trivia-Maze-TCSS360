@@ -123,7 +123,7 @@ public class GameFrame extends JFrame {
         setContentPane(new EndPanel(Player.getInstance(), myGamePanel));
         myMenuBar.removeAll();
         mySoundManager.stop();
-        mySoundManager.playMusic(1);
+        //mySoundManager.playMusic(1);
         revalidate();
     }
     private void resumeButton() {

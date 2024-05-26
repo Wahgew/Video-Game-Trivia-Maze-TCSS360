@@ -72,7 +72,6 @@ public class MusicUI {
             }
         });
         frame.add(slider);
-
         frame.pack();
         frame.setVisible(true);
     }

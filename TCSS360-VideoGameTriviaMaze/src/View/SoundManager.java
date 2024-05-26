@@ -20,10 +20,12 @@ public class SoundManager {
     private final String[] mySoundURL;
 
     public SoundManager() {
-        mySoundURL = new String[3];
+        mySoundURL = new String[5];
         mySoundURL[0] = "/Resource/Sounds2/IntroGame.wav";
         mySoundURL[1] = "/Resource/Sounds2/LongTime.wav";
         mySoundURL[2] = "/Resource/Sounds2/GamePlay.wav";
+        mySoundURL[3] = "/Resource/Sounds2/Lose.wav";
+        mySoundURL[4] = "/Resource/Sounds2/GamePlay.wav";
     }
 
     public void setFile(final int theFile) {
@@ -44,21 +46,21 @@ public class SoundManager {
             clip.setFramePosition(0);
             clip.start();
         } else {
-            System.out.println("Clip is not initialized.");
+            System.out.println("Clip is not initialized for play.");
         }
     }
     public void loop() {
         if (clip != null) {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } else {
-            System.out.println("Clip is not initialized.");
+            System.out.println("Clip is not initialized for loop.");
         }
     }
     public void stop() {
         if (clip != null) {
             clip.stop();
         } else {
-            System.out.println("Clip is not initialized.");
+            System.out.println("Clip is not initialized for stop.");
         }
     }
     public void volumeUp() {
@@ -97,7 +99,6 @@ public class SoundManager {
         }
     }
     public void playMusic(final int theIndex) {
-        stop();
         setFile(theIndex);
         play();
         loop();
