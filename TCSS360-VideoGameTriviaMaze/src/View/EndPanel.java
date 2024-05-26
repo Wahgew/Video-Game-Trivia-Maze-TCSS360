@@ -68,17 +68,17 @@ public class EndPanel extends JPanel {
         String endMessage = "";
         if (myPlayer.getMyHealth() == 0) {
             mySoundManager.stop();
-            mySoundManager.playMusic(3);
+            mySoundManager.playMusic(3,-20f);
             endMessage = "Game Over!" + "\nYou've lost all your health points...";
         }
         else if (myPlayer.getMyHealth() > 0 && Room.getSoftLock()) { // && !myPlayer.getMyVictory()
             mySoundManager.stop();
-            mySoundManager.playMusic(3);
+            mySoundManager.playMusic(3, -20f);
             endMessage = "Game Over" + "\nAll doors to the exit has been locked...";
         } else if (myPlayer.getMyVictory()) {
             GameDataManger.checkAndHandleVictory();
             mySoundManager.stop();
-            mySoundManager.playMusic(2);
+            mySoundManager.playMusic(2,-20f);
             endMessage = "Let's go... You Made it!\n\n" +
                     "Congratulations on the crazy journey through TRIVIA LABYRINTH MAZE.\n" +
                     "You have made it through the end! YEEEEEE!\n";

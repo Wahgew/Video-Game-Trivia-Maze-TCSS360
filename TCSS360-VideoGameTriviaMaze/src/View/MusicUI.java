@@ -37,7 +37,7 @@ public class MusicUI {
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mySoundManager.playMusic(0);
+                //  mySoundManager.playMusic(0,0);
                 floatControl = mySoundManager.getFloatControl();
                 slider.setEnabled(true);
             }

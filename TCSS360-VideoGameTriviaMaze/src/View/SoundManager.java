@@ -63,6 +63,12 @@ public class SoundManager {
             System.out.println("Clip is not initialized for stop.");
         }
     }
+    public void setVolume(float volume) {
+        currentVolume = volume;
+        if (floatControl != null) {
+            floatControl.setValue(currentVolume);
+        }
+    }
     public void volumeUp() {
         if (floatControl != null) {
             currentVolume += 1.0f;
@@ -98,8 +104,9 @@ public class SoundManager {
             mute = false;
         }
     }
-    public void playMusic(final int theIndex) {
+    public void playMusic(final int theIndex, final float theVolume) {
         setFile(theIndex);
+        setVolume(theVolume);
         play();
         loop();
     }

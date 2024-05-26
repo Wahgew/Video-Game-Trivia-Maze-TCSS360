@@ -54,7 +54,7 @@ public class GameFrame extends JFrame {
         myGameData = new GameDataManger();
         myHighScore = new HighScore();
         mySoundManager = new SoundManager();
-        mySoundManager.playMusic(0);
+        mySoundManager.playMusic(0, -20.0f);
     }
     public void playMusic(final int theIndex) {
         mySoundManager.setFile(theIndex);
@@ -93,7 +93,7 @@ public class GameFrame extends JFrame {
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
         mySoundManager.stop();
-        mySoundManager.playMusic(2);
+        mySoundManager.playMusic(2,-40);
     }
 
     public void switchToMazeLayout() {
@@ -113,7 +113,7 @@ public class GameFrame extends JFrame {
         setExtendedState(JFrame.NORMAL);
         setContentPane(myWelcomeScreen);
         mySoundManager.stop();
-        mySoundManager.playMusic(0);
+        mySoundManager.playMusic(0,0);
         pack(); // Reset to preferred size
         setLocationRelativeTo(null);
         revalidate();
