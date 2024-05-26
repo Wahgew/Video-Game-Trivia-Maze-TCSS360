@@ -28,6 +28,7 @@ public class GameFrame extends JFrame {
     private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
 
     private GamePanel myGamePanel;
+    private MazeLayoutPanel myMazeLayoutPanel;
     private GameDataManger myGameData;
     private LeftUIGamePanel myLeftUIGamePanel;
     private HighScore myHighScore;
@@ -132,6 +133,19 @@ public class GameFrame extends JFrame {
         theGamePanel.startGameThread();
     }
 
+    public void switchToMazeLayout() {
+        // Create a new panel to hold the MazeLayoutPanel
+        JPanel mazeLayoutPanel = new JPanel(new BorderLayout());
+        myMazeLayoutPanel = new MazeLayoutPanel(this);
+
+        // Add the MazeLayoutPanel to the center of the panel
+        mazeLayoutPanel.add(myMazeLayoutPanel, BorderLayout.CENTER);
+
+        // Set the content pane to the mazeLayoutPanel
+        setContentPane(mazeLayoutPanel);
+        revalidate();
+        repaint();
+    }
 
 
     public void switchToWelcomeScreen() {
@@ -140,6 +154,7 @@ public class GameFrame extends JFrame {
         pack(); // Reset to preferred size
         setLocationRelativeTo(null);
         revalidate();
+        repaint();
     }
     public void switchToEndGamePanel() {
         setContentPane(new EndPanel(Player.getInstance(), myGamePanel));
