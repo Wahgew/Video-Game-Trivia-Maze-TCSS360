@@ -35,15 +35,17 @@ public class Door {
     private boolean myLeadsOutOfBounds; // not actually useful? maybe remove this
 
     private final QuestionAnswerDatabase myQdb;
+    private final Direction myDirection;
     /**
-     * Constructs a new Door object with default lock
+     * Constructs a new Door object with default locks
      * status as true (locked) and attempt status as false.
      */
-    Door() {
+    Door(final Direction theDirection) {
         myLockStatus = true;
         myAttemptStatus = false;
         myLeadsOutOfBounds = false;
         myQuestion = null;
+        myDirection = theDirection;
         myQdb = QuestionAnswerDatabase.getInstance();
     }
 
@@ -69,6 +71,17 @@ public class Door {
     }
     public boolean getMyLockIconStatus() {
         return (myLockStatus && myAttemptStatus && !myLeadsOutOfBounds);
+    }
+    public String getMyMovementIcon() {
+        String caseIcon = "/Resource/"; // default icon
+        if (myLockStatus && myAttemptStatus && !myLeadsOutOfBounds) {
+            caseIcon += (myDirection.toString() + "Locked.png"); // locked icon
+        } else if (myLockStatus & !myAttemptStatus && !myLeadsOutOfBounds) {
+            caseIcon += (myDirection.toString() + "Question.png"); // question icon
+        } else {
+            caseIcon += (myDirection.toString() + "Icon.png");
+        }
+        return caseIcon;
     }
 
     /**
@@ -104,9 +117,9 @@ public class Door {
     }
 
     public void setNonPassable(boolean thePassibility) {
-        myLockStatus = thePassibility ;
-        myAttemptStatus = thePassibility ;
-        myLeadsOutOfBounds = thePassibility ;
+        myLockStatus = thePassibility;
+        myAttemptStatus = thePassibility;
+        myLeadsOutOfBounds = thePassibility;
     }
 
     /**

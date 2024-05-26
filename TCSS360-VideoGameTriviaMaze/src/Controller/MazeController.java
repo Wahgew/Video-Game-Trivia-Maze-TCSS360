@@ -1,12 +1,10 @@
 package Controller;
 
 import Model.*;
-import View.GameFrame;
-import View.GamePanel;
-import View.MovementButtonPanel;
-import View.QuestionPanel;
+import View.*;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class MazeController {
     public static void main(String[] args) {
@@ -17,7 +15,8 @@ public class MazeController {
         //Maze.getInstance();
         //Player.getInstance();
         GameFrame mazeFrame = new GameFrame();
-
+        //Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); // grab screen size at start
+        //mazeFrame.getMyGamePanel().getMyPlayerManager().setMyXDefault(dim.width / 2);
         //mazeFrame.getMyGamePanel().updateButtonStatus(); // need to run updateButtonStatus when player location changes.
 //        try { // testing room variation grab and popup TODO: this is instantiating the maze, needs to wait for maze selection.
 //            BufferedImage mapImage = ImageIO.read(new File(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol()).getRoomFileName()));

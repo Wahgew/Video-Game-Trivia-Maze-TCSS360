@@ -118,35 +118,19 @@ public class MovementButtonPanel extends JPanel {
                 throw new IllegalArgumentException("Invalid door index/case: " + theDoor);
         }
     }
-    public void setButtonIcon(int theDoor, boolean theState) {
+    public void setButtonIcon(int theDoor, String theIcon) {
         switch (theDoor) {
             case 0:
-                if (theState) {
-                    myUpArrowButton.setIcon(resizeImage("/Resource/upLocked.png", 60, 60));
-                } else {
-                    myUpArrowButton.setIcon(resizeImage("/Resource/upIcon.png", 60, 60));
-                }
+                myUpArrowButton.setIcon(resizeImage(theIcon, 60, 85));
                 break;
             case 1:
-                if (theState) {
-                    myRightArrowButton.setIcon(resizeImage("/Resource/rightLocked.png", 60, 60));
-                } else {
-                    myRightArrowButton.setIcon(resizeImage("/Resource/rightIcon.png", 60, 60));
-                }
+                myRightArrowButton.setIcon(resizeImage(theIcon, 85, 60));
                 break;
             case 2:
-                if (theState) {
-                    myDownArrowButton.setIcon(resizeImage("/Resource/downLocked.png", 60, 60));
-                } else {
-                    myDownArrowButton.setIcon(resizeImage("/Resource/downIcon.png", 60, 60));
-                }
+                myDownArrowButton.setIcon(resizeImage(theIcon, 60, 85));
                 break;
             case 3:
-                if (theState) {
-                    myLeftArrowButton.setIcon(resizeImage("/Resource/leftLocked.png", 60, 60));
-                } else {
-                    myLeftArrowButton.setIcon(resizeImage("/Resource/leftIcon.png", 60, 60));
-                }
+                myLeftArrowButton.setIcon(resizeImage(theIcon, 85, 60));
                 break;
             default:
                 throw new IllegalArgumentException("Invalid door index/case: " + theDoor);
@@ -163,17 +147,18 @@ public class MovementButtonPanel extends JPanel {
         int playerCol = Player.getInstance().getMyLocationCol();
 
         setButtonIcon(0, Maze.getInstance().getMyRoom(playerRow, playerCol).
-                getMyDoor(Direction.NORTH).getMyLockIconStatus());
+                getMyDoor(Direction.NORTH).getMyMovementIcon());
         setButtonIcon(1, Maze.getInstance().getMyRoom(playerRow, playerCol).
-                getMyDoor(Direction.EAST).getMyLockIconStatus());
+                getMyDoor(Direction.EAST).getMyMovementIcon());
         setButtonIcon(2, Maze.getInstance().getMyRoom(playerRow, playerCol).
-                getMyDoor(Direction.SOUTH).getMyLockIconStatus());
+                getMyDoor(Direction.SOUTH).getMyMovementIcon());
         setButtonIcon(3, Maze.getInstance().getMyRoom(playerRow, playerCol).
-                getMyDoor(Direction.WEST).getMyLockIconStatus());
+                getMyDoor(Direction.WEST).getMyMovementIcon());
 
     }
 
     private ImageIcon resizeImage(String path, int width, int height) {
+        System.out.println(getClass().getResource(path));
         ImageIcon icon = new ImageIcon(getClass().getResource(path));
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);

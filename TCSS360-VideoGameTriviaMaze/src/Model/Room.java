@@ -32,7 +32,7 @@ public class Room {
     Room() {
         myDoors = new Door[4];
         for (int i = 0; i < 4; i++) {
-            myDoors[i] = new Door();
+            myDoors[i] = new Door(Direction.getDirectionInt(i));
         }
         mySoftLock = false;
     }

@@ -125,4 +125,22 @@ public enum Direction {
         }
         throw new IllegalArgumentException();
     }
+
+    /**
+     * toString override, intended to be used for getting icon file path.
+     * @return the naming convention for movement button file path.
+     */
+    @Override
+    public String toString() {
+        if (this == NORTH) {
+            return "up";
+        } else if (this == EAST) {
+            return "right";
+        } else if (this == SOUTH) {
+            return "down";
+        } else if (this == WEST) {
+            return "left";
+        }
+        throw new IllegalArgumentException("Direction toString is not working");
+    }
 }

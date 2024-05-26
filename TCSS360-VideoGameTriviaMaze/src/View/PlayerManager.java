@@ -162,16 +162,16 @@ public class PlayerManager implements Serializable {
     public Rectangle getMySolidAreas() {
         return mySolidAreas;
     }
-    public void setMySolidAreasDefualtX(final int theAreaX) {
+    public void setMySolidAreasDefaultX(final int theAreaX) {
         mySolidAreas.x = theAreaX;
     }
-    public void setMySolidAreasDefualtY(final int theAreaY) {
+    public void setMySolidAreasDefaultY(final int theAreaY) {
         mySolidAreas.y = theAreaY;
     }
-    public int getMySolidAreasDefualtX() {
+    public int getMySolidAreasDefaultX() {
         return mySolidAreasDefaultX;
     }
-    public int getMySolidAreasDefualtY() {
+    public int getMySolidAreasDefaultY() {
         return mySolidAreasDefaultY;
     }
     public Player getPlayer() {
