@@ -102,12 +102,18 @@ public class MovementButtonPanel extends JPanel {
         switch (theDoor) {
             case 0:
                 myUpArrowButton.setEnabled(theState);
+                break;
             case 1:
                 myRightArrowButton.setEnabled(theState);
+                break;
             case 2:
                 myDownArrowButton.setEnabled(theState);
+                break;
             case 3:
                 myLeftArrowButton.setEnabled(theState);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid door index/case: " + theDoor);
         }
     }
     public void checkButtons() {
