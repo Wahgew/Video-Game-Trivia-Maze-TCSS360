@@ -36,11 +36,6 @@ public class GamePanel extends JPanel implements Runnable {
         repaint();
 
     }
-    public void playMusic(final int theIndex) {
-        mySoundManager.setFile(theIndex);
-        mySoundManager.play();
-        mySoundManager.loop();
-    }
     public void setMyGame(Game game) {
         myGame = game;
         addKeyListener(myGame.getKeyHandler());

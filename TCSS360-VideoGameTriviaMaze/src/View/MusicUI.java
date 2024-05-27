@@ -13,12 +13,19 @@ public class MusicUI {
     private JSlider slider;
     private float currentVolume = 0;
     private FloatControl floatControl;
+    private boolean myShowUI;
 
-    public MusicUI() {
-        mySoundManager = new SoundManager();
-        volumeButton();
+    //    public MusicUI() {
+//        mySoundManager = new SoundManager();
+//        volumeButton();
+//    }
+    public MusicUI(SoundManager theSoundManager, boolean theShowUI) {
+        mySoundManager = theSoundManager;
+        this.myShowUI = theShowUI;
+        if (myShowUI) {
+            volumeButton();
+        }
     }
-
     private void volumeButton() {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,6 +45,7 @@ public class MusicUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //  mySoundManager.playMusic(0,0);
+                mySoundManager.play();
                 floatControl = mySoundManager.getFloatControl();
                 slider.setEnabled(true);
             }
@@ -68,6 +76,7 @@ public class MusicUI {
                     }
                     System.out.println("Current Volume: " + currentVolume);
                     floatControl.setValue(currentVolume);
+                    mySoundManager.setVolume(currentVolume);
                 }
             }
         });

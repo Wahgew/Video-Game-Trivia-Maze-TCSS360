@@ -37,6 +37,7 @@ public class GameFrame extends JFrame {
     private boolean myGamePanelFocus;
     private transient PlayerHealth myPlayerHealth;
     private SoundManager mySoundManager;
+    private MusicUI myMusicUI;
 
     public GameFrame() {
         Player p = Player.getInstance();
@@ -54,6 +55,7 @@ public class GameFrame extends JFrame {
         myGameData = new GameDataManger();
         myHighScore = new HighScore();
         mySoundManager = new SoundManager();
+        //myMusicUI = new MusicUI(mySoundManager);
         mySoundManager.playMusic(0, -20.0f);
     }
     public void playMusic(final int theIndex) {
@@ -92,8 +94,10 @@ public class GameFrame extends JFrame {
         // Request focus for theGamePanel and start the game thread
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
+        myMusicUI = new MusicUI(mySoundManager,false);
         mySoundManager.stop();
         mySoundManager.playMusic(2,-40);
+
     }
 
     public void switchToMazeLayout() {
