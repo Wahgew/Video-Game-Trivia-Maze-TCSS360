@@ -62,6 +62,7 @@ public class Player {
     private int myConsecutiveAns;
     private boolean myVictory;
     private int myHealth;
+    private String myMazeLayout;
     private HashMap<Integer, Boolean> myQuestionsAnswered;
     @JsonIgnore
     private final PropertyChangeSupport myPCS = new PropertyChangeSupport(this);
@@ -306,6 +307,10 @@ public class Player {
        return myDirection;
     }
 
+    public String getMyMazeLayout() {
+        return myMazeLayout;
+    }
+
     @JsonIgnore
     public PropertyChangeSupport getMyPCS() {
         return myPCS;
@@ -323,44 +328,48 @@ public class Player {
         return myVictory;
     }
 
-    public void setMyScore(int myScore) {
-        this.myScore = myScore;
+    public void setMyScore(int theScore) {
+        myScore = theScore;
     }
 
-    public void setMyCorrectTotal(int myCorrectTotal) {
-        this.myCorrectTotal = myCorrectTotal;
+    public void setMyCorrectTotal(int theCorrectTotal) {
+        myCorrectTotal = theCorrectTotal;
     }
 
-    public void setMyIncorrectTotal(int myIncorrectTotal) {
-        this.myIncorrectTotal = myIncorrectTotal;
+    public void setMyIncorrectTotal(int theIncorrectTotal) {
+        myIncorrectTotal = theIncorrectTotal;
     }
 
-    public void setMyConsecutiveAns(int myConsecutiveAns) {
-        this.myConsecutiveAns = myConsecutiveAns;
+    public void setMyConsecutiveAns(int theConsecutiveAns) {
+        myConsecutiveAns = theConsecutiveAns;
     }
 
-    public void setMyHealth(int myHealth) {
-        this.myHealth = myHealth;
+    public void setMyHealth(int theHealth) {
+        myHealth = theHealth;
     }
 
-    public void setMyDirection(Direction myDirection) {
-        this.myDirection = myDirection;
+    public void setMyDirection(Direction theDirection) {
+        myDirection = theDirection;
     }
 
-    public void setMyLocationCol(int myLocationCol) {
-        this.myLocationCol = myLocationCol;
+    public void setMyLocationCol(int theLocationCol) {
+        myLocationCol = theLocationCol;
     }
 
-    public void setMyLocationRow(int myLocationRow) {
-        this.myLocationRow = myLocationRow;
+    public void setMyLocationRow(int theLocationRow) {
+        myLocationRow = theLocationRow;
     }
 
-    public void setMyQuestionsAnswered(HashMap<Integer, Boolean> myQuestionsAnswered) {
-        this.myQuestionsAnswered = myQuestionsAnswered;
+    public void setMyQuestionsAnswered(HashMap<Integer, Boolean> theQuestionsAnswered) {
+        myQuestionsAnswered = theQuestionsAnswered;
     }
 
-    public void setMyVictory(boolean myVictory) {
-        this.myVictory = myVictory;
+    public void setMyVictory(boolean theVictory) {
+        myVictory = theVictory;
+    }
+
+    public void setMyMazeLayout(String theMazeLayout) {
+        myMazeLayout = theMazeLayout;
     }
 
     boolean checkVictory() {
