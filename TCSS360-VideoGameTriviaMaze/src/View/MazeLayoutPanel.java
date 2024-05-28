@@ -28,20 +28,24 @@ public class MazeLayoutPanel extends JPanel { // TODO: this should pop up on "Ne
     private void setupButtons() {
         //GamePanel gamePanel = new GamePanel();
         myLayoutButton1.addActionListener(e -> {
-            Maze.resetMaze("MaxDoorsLayout.txt");
+            //Maze.resetMaze("MaxDoorsLayout.txt");
+            Maze.resetMaze("Maze2x2Test.txt");
             Player.resetPlayer();
+            //Player.getInstance().setMyMazeLayout("MaxDoorsLayout.txt");
+            Player.getInstance().setMyMazeLayout("Maze2x2Test.txt");
             myGameFrame.switchToGamePanel(new GamePanel());
         });
         myLayoutButton2.addActionListener(e -> {
-            //Maze.getInstance("MazeyMazeLayout.txt");
             Maze.resetMaze("MazeyMazeLayout.txt");
             Player.resetPlayer();
+            Player.getInstance().setMyMazeLayout("MaxDoorsLayout.txt");
             myGameFrame.switchToGamePanel(new GamePanel());
         });
         myLayoutButton3.addActionListener(e -> {
             //Maze.getInstance("ZigZagLayout.txt");
             Maze.resetMaze("ZigZagLayout.txt");
             Player.resetPlayer();
+            Player.getInstance().setMyMazeLayout("MaxDoorsLayout.txt");
             myGameFrame.switchToGamePanel(new GamePanel());
         });
     }

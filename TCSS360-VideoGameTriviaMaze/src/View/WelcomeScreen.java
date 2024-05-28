@@ -1,15 +1,12 @@
 package View;
 
-import Controller.MazeController;
+
 import Model.GameDataManger;
-import Model.Maze;
-import Model.Player;
 import Model.QuestionAnswerDatabase;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 
 public class WelcomeScreen extends JPanel {
@@ -27,8 +24,6 @@ public class WelcomeScreen extends JPanel {
     public WelcomeScreen() {
         setPreferredSize(new Dimension(Screen_Width, Screen_Height));
         myBackground = backgroundIcon.getImage();
-        Player p = Player.getInstance();
-        //myGameData = new GameDataManger(p.getMyHealth(), p.getMyScore(),p.getCorrectAns(),p.getCorrectTotal(),p.getIncorrectTotal(),p.getQuestionsAnswered());
         myGameData = new GameDataManger();
         mySoundManager = new SoundManager();
         setLayout(null);
@@ -89,34 +84,25 @@ public class WelcomeScreen extends JPanel {
         myNewGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
             gameFrame.switchToMazeLayout();
-            //gameFrame.switchToGamePanel(new GamePanel());
         });
         myLoadGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
-//            if (gameFrame.getMyGamePanel().loadGame()) {
-//                gameFrame.switchToGamePanel(gameFrame.getMyGamePanel());
-//            }
             myGameData.loadGameData();
             QuestionAnswerDatabase.getInstance().removeSeenQuestions();
-            gameFrame.switchToGamePanel(gameFrame.getMyGamePanel());
+            gameFrame.switchToGamePanel(new GamePanel());
+            MovementButtonPanel.loadIcons();
         });
-        myAboutUsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
-                                "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 21.", "About",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
-            }
+        myAboutUsButton.addActionListener(e -> {
+            final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
+                            "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 21.", "About",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
         });
-        myExitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                final int jOption = JOptionPane.showConfirmDialog(null,
-                        "Are you sure you want to Exit?", "Exit",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,Speed_Icon);
-                if (jOption == JOptionPane.YES_NO_OPTION) {
-                    System.exit(0);
-                }
+        myExitButton.addActionListener(e -> {
+            final int jOption = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to Exit?", "Exit",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,Speed_Icon);
+            if (jOption == JOptionPane.YES_NO_OPTION) {
+                System.exit(0);
             }
         });
     }

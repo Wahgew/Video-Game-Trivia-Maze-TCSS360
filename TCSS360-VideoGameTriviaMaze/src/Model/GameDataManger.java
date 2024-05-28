@@ -1,9 +1,13 @@
 package Model;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameDataManger {
     private static final String SAVE_FILE_PATH = "src/Resource/save.json";
@@ -11,8 +15,21 @@ public class GameDataManger {
     public void saveGameData() {
         ObjectMapper om = new ObjectMapper();
         File saveFile = new File(SAVE_FILE_PATH);
+
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Maze.class, new Maze.MazeSerializer());
+        module.addSerializer(Room.class, new Room.RoomSerializer());
+        module.addSerializer(Door.class, new Door.DoorSerializer());
+        om.registerModule(module);
+
         try {
-            om.writeValue(saveFile, Player.getInstance());
+            Player player = Player.getInstance();
+            Maze maze = Maze.getInstance();
+
+            HashMap<String, Object> gameData = new HashMap<>();
+            gameData.put("mazeInstance", maze);
+            gameData.put("playerInstance", player);
+            om.writerWithDefaultPrettyPrinter().writeValue(saveFile, gameData);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -22,11 +39,25 @@ public class GameDataManger {
         ObjectMapper objectMapper = new ObjectMapper();
         File loadFile = new File(SAVE_FILE_PATH);
 
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Door.class, new Door.DoorDeserializer());
+        module.addDeserializer(Room.class, new Room.RoomDeserializer());
+        module.addDeserializer(Maze.class, new Maze.MazeDeserializer());
+        objectMapper.registerModule(module);
+
         try {
-            Player loadedPlayer = objectMapper.readValue(loadFile, Player.class);
+            Map<String, Object> gameData = objectMapper.readValue(loadFile, new TypeReference<>() {
+            });
+            Maze loadedMaze = objectMapper.convertValue(gameData.get("mazeInstance"), Maze.class);
+
+            Maze.setMySingleton(loadedMaze);
+
+            // Deserialize player
+            Player loadedPlayer = objectMapper.convertValue(gameData.get("playerInstance"), Player.class);
             Player instance = Player.getInstance();
             instance.setMyLocationRow(loadedPlayer.getMyLocationRow());
             instance.setMyLocationCol(loadedPlayer.getMyLocationCol());
+            instance.setMyMazeLayout(loadedPlayer.getMyMazeLayout());
             instance.setMyScore(loadedPlayer.getMyScore());
             instance.setMyDirection(loadedPlayer.getMyDirection());
             instance.setMyCorrectTotal(loadedPlayer.getMyCorrectTotal());
@@ -34,6 +65,7 @@ public class GameDataManger {
             instance.setMyVictory(loadedPlayer.getMyVictory());
             instance.setMyHealth(loadedPlayer.getMyHealth());
             instance.setMyQuestionsAnswered(loadedPlayer.getMyQuestionsAnswered());
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -6,10 +6,7 @@ import Model.Player;
 import Model.QuestionAnswerDatabase;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GameFrame extends JFrame {
     private static final String GameTitle = "TRIVIA LABYRINTH MAZE ";
@@ -97,7 +94,7 @@ public class GameFrame extends JFrame {
         myMusicUI = new MusicUI(mySoundManager,false);
         mySoundManager.stop();
         mySoundManager.playMusic(2,-40);
-
+        MovementButtonPanel.loadIcons();
     }
 
     public void switchToMazeLayout() {

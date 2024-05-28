@@ -1,6 +1,14 @@
 package Model;
 
-import javax.swing.*;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * The Door class represents a door object with a lock and attempt status.
@@ -14,7 +22,7 @@ import javax.swing.*;
  * @author Sopheanith Ny
  * @version 0.0.1 April 20, 2024
  */
-public class Door {
+public class Door implements Serializable {
 
     /**
      * Door lock status.
@@ -50,12 +58,28 @@ public class Door {
     }
 
     /**
+     * Constructs a new Door object with the specified parameters.
+     */
+    Door(final Direction theDirection, boolean theLockStatus, boolean theAttemptStatus, boolean theLeadsOutOfBounds) {
+        myLockStatus = theLockStatus;
+        myAttemptStatus = theAttemptStatus;
+        myLeadsOutOfBounds = theLeadsOutOfBounds;
+        myQuestion = null;
+        myDirection = theDirection;
+        myQdb = QuestionAnswerDatabase.getInstance();
+    }
+
+    /**
      * Gets the lock status of the door.
      *
      * @return true if the door is locked, false if it is unlocked
      */
     public boolean getMyLockStatus() {
         return myLockStatus;
+    }
+
+    public Direction getMyDirection() {
+        return myDirection;
     }
 
     /**
@@ -74,10 +98,13 @@ public class Door {
     }
     public String getMyMovementIcon() {
         String caseIcon = "/Resource/"; // default icon
+        //String caseIcon = "/Resource/";
         if (myLockStatus && myAttemptStatus && !myLeadsOutOfBounds) {
             caseIcon += (myDirection.toString() + "Locked.png"); // locked icon
         } else if (myLockStatus & !myAttemptStatus && !myLeadsOutOfBounds) {
             caseIcon += (myDirection.toString() + "Question.png"); // question icon
+        } else if (!myLockStatus & !myAttemptStatus && !myLeadsOutOfBounds) {
+            caseIcon += (myDirection.toString() + "Question.png");
         } else {
             caseIcon += (myDirection.toString() + "Icon.png");
         }
@@ -154,6 +181,57 @@ public class Door {
     public Question askQuestion() {
         myQuestion = QuestionAnswerDatabase.getInstance().getRandomQuestion();
         return myQuestion;
+    }
+
+    public static class DoorSerializer extends StdSerializer<Door> {
+        public DoorSerializer() {
+            this(null);
+        }
+
+        public DoorSerializer(Class<Door> t) {
+            super(t);
+        }
+
+        @Override
+        public void serialize(Door door, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+            jsonGenerator.writeStartObject();
+            jsonGenerator.writeBooleanField("myLockStatus", door.getMyLockStatus());
+            jsonGenerator.writeBooleanField("myAttemptStatus", door.getMyAttemptStatus());
+            jsonGenerator.writeBooleanField("myLeadsOutOfBounds", door.getMyLeadsOutOfBounds());
+            jsonGenerator.writeStringField("myDirection", door.myDirection.toString());
+            jsonGenerator.writeBooleanField("myLockStatus", door.getMyLockIconStatus());
+            jsonGenerator.writeStringField("myMovementIcon", door.getMyMovementIcon());
+            jsonGenerator.writeEndObject();
+        }
+    }
+
+    public static class DoorDeserializer extends StdDeserializer<Door> {
+        public DoorDeserializer() {
+            this(null);
+        }
+
+        public DoorDeserializer(Class<?> vc) {
+            super(vc);
+        }
+
+        @Override
+        public Door deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+            JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+
+            boolean lockStatus = node.get("myLockStatus").asBoolean();
+            boolean attemptStatus = node.get("myAttemptStatus").asBoolean();
+            boolean leadsOutOfBounds = node.get("myLeadsOutOfBounds").asBoolean();
+            String directionString = node.get("myDirection").asText();
+            Direction direction = switch (directionString) {
+                case "up" -> Direction.NORTH;
+                case "down" -> Direction.SOUTH;
+                case "left" -> Direction.WEST;
+                case "right" -> Direction.EAST;
+                default -> null;
+            };
+
+            return new Door(direction, lockStatus, attemptStatus, leadsOutOfBounds);
+        }
     }
 
     @Override

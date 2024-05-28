@@ -9,10 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MovementButtonPanel extends JPanel {
-    private JButton myUpArrowButton;
-    private JButton myDownArrowButton;
-    private JButton myLeftArrowButton;
-    private JButton myRightArrowButton;
+    private static JButton myUpArrowButton;
+    private static JButton myDownArrowButton;
+    private static JButton myLeftArrowButton;
+    private static JButton myRightArrowButton;
     private JButton myTestButton;
 
     private final MazeController myController;
@@ -111,7 +111,7 @@ public class MovementButtonPanel extends JPanel {
                 throw new IllegalArgumentException("Invalid door index/case: " + theDoor);
         }
     }
-    public void setButtonIcon(int theDoor, String theIcon) {
+    public static void setButtonIcon(int theDoor, String theIcon) {
         switch (theDoor) {
             case 0:
                 myUpArrowButton.setIcon(resizeImage(theIcon, 60, 85));
@@ -150,9 +150,24 @@ public class MovementButtonPanel extends JPanel {
 
     }
 
-    private ImageIcon resizeImage(String path, int width, int height) {
-        System.out.println(getClass().getResource(path));
-        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+    public static void loadIcons() {
+        int playerRow = Player.getInstance().getMyLocationRow();
+        int playerCol = Player.getInstance().getMyLocationCol();
+
+        setButtonIcon(0, Maze.getInstance().getMyRoom(playerRow, playerCol).
+                getMyDoor(Direction.NORTH).getMyMovementIcon());
+        setButtonIcon(1, Maze.getInstance().getMyRoom(playerRow, playerCol).
+                getMyDoor(Direction.EAST).getMyMovementIcon());
+        setButtonIcon(2, Maze.getInstance().getMyRoom(playerRow, playerCol).
+                getMyDoor(Direction.SOUTH).getMyMovementIcon());
+        setButtonIcon(3, Maze.getInstance().getMyRoom(playerRow, playerCol).
+                getMyDoor(Direction.WEST).getMyMovementIcon());
+    }
+
+
+    private static ImageIcon resizeImage(String path, int width, int height) {
+        System.out.println(MovementButtonPanel.class.getResource(path));
+        ImageIcon icon = new ImageIcon(MovementButtonPanel.class.getResource(path));
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);

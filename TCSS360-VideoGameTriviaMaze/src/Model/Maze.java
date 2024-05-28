@@ -1,6 +1,13 @@
 package Model;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -80,7 +87,7 @@ public class Maze {
         mazeInstantiate();
     }
     private Maze(String theFileName) {
-        Scanner fileScan = null;
+        Scanner fileScan;
         myRandom = null;
         try {
             fileScan = new Scanner(new File("src/Resource/MazeLayouts/" + theFileName));
@@ -91,6 +98,13 @@ public class Maze {
         myMaze = fileMazeInstantiate(fileScan);
         checkOOBMaze();
     }
+
+    private Maze(String theLayout, Room[][] theRooms) {
+        myLayout = theLayout;
+        myRandom = null;
+        myMaze = theRooms;
+    }
+
     /**
      * Getter for Singleton instance of Maze,
      * with no parameter creates a default size of 4x4 rooms if
@@ -117,6 +131,14 @@ public class Maze {
 
     public static synchronized void resetMaze(int theXsize, int theYsize) {
         mySingleton = new Maze(theXsize, theXsize);
+    }
+
+    public static synchronized void resetMaze(String theLayout, Room[][] theRoom) {
+        mySingleton = new Maze(theLayout, theRoom);
+    }
+
+    public static synchronized void setMySingleton(Maze theMaze) {
+        mySingleton = theMaze;
     }
 
     /**
@@ -226,7 +248,27 @@ public class Maze {
         return myMaze[0].length;
     }
 
-    void mazeInstantiate() { //
+    public String getMyLayout() {
+        return myLayout;
+    }
+
+    public void setMyEntranceColumn(int theEntranceColumn) {
+        myEntranceColumn = theEntranceColumn;
+    }
+
+    public void setMyEntranceRow(int theEntranceRow) {
+        myEntranceRow = theEntranceRow;
+    }
+
+    public void setMyExitColumn(int theExitColumn) {
+        myExitColumn = theExitColumn;
+    }
+
+    public void setMyExitRow(int theExitRow) {
+        myExitRow = theExitRow;
+    }
+
+    void mazeInstantiate() {
         for (int i = 0; i < getMyMazeRows(); i++) {
             for (int j = 0; j < getMyMazeCols(); j++) {
                 myMaze[i][j] = new Room();
@@ -390,5 +432,75 @@ public class Maze {
             mazeString.append("\n");
         }
         return mazeString.toString();
+    }
+
+    public static class MazeSerializer extends StdSerializer<Maze> {
+        public MazeSerializer() {
+            this(null);
+        }
+
+        public MazeSerializer(Class<Maze> t) {
+            super(t);
+        }
+
+        @Override
+        public void serialize(Maze maze, JsonGenerator theJgen, SerializerProvider theProvider) throws IOException {
+            theJgen.writeStartObject();
+            theJgen.writeStringField("myLayout", maze.getMyLayout());
+            theJgen.writeNumberField("myMazeRows", maze.getMyMazeRows());
+            theJgen.writeNumberField("myMazeCols", maze.getMyMazeCols());
+            theJgen.writeNumberField("myEntranceRow", maze.getMyEntranceRow());
+            theJgen.writeNumberField("myEntranceColumn", maze.getMyEntranceColumn());
+            theJgen.writeNumberField("myExitRow", maze.getMyExitRow());
+            theJgen.writeNumberField("myExitColumn", maze.getMyExitColumn());
+
+            theJgen.writeArrayFieldStart("rooms");
+            for (int i = 0; i < maze.getMyMazeRows(); i++) {
+                for (int j = 0; j < maze.getMyMazeCols(); j++) {
+                    theJgen.writeObject(maze.getMyRoom(i, j));
+                }
+            }
+            theJgen.writeEndArray();
+            theJgen.writeEndObject();
+        }
+    }
+
+    public static class MazeDeserializer extends JsonDeserializer<Maze> {
+        @Override
+        public Maze deserialize(JsonParser theJsonParser, DeserializationContext theDeserialization) throws IOException {
+            JsonNode node = theJsonParser.getCodec().readTree(theJsonParser);
+            String layout = node.get("myLayout").asText();
+            int rows = node.get("myMazeRows").asInt();
+            int cols = node.get("myMazeCols").asInt();
+
+
+            // Initialize the rooms array
+            Room[][] rooms = new Room[rows][cols];
+            JsonNode roomsNode = node.get("rooms");
+            if (roomsNode == null) {
+                throw new IOException("Missing 'rooms' node in JSON data.");
+            }
+
+            // Deserialize each room from the rooms array
+            int index = 0;
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    if (index < roomsNode.size()) {
+                        rooms[i][j] = theJsonParser.getCodec().treeToValue(roomsNode.get(index++), Room.class);
+                    } else {
+                        rooms[i][j] = null; // Handle missing room entries if necessary
+                    }
+                }
+            }
+
+            // Reset the maze singleton with the deserialized data
+            Maze.resetMaze(layout, rooms);
+            Maze.getInstance().setMyEntranceRow(node.get("myEntranceRow").asInt());
+            Maze.getInstance().setMyEntranceColumn(node.get("myEntranceColumn").asInt());
+            Maze.getInstance().setMyExitRow(node.get("myExitRow").asInt());
+            Maze.getInstance().setMyExitColumn(node.get("myExitColumn").asInt());
+
+            return Maze.getInstance();
+        }
     }
 }

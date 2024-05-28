@@ -1,7 +1,15 @@
 package Model;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * Room class represents a room withing a maze
@@ -91,5 +99,64 @@ public class Room {
 
     public void setImage(BufferedImage read) { // TODO: DO WE NEED TO REMOVE THIS???
 
+    }
+
+    public void setDoors(Door[] doors) {
+        if (doors.length != 4) {
+            throw new IllegalArgumentException("A room must have exactly 4 doors.");
+        }
+        System.arraycopy(doors, 0, myDoors, 0, doors.length);
+    }
+
+    public static class RoomSerializer extends StdSerializer<Room> {
+        public RoomSerializer() {
+            this(null);
+        }
+
+        public RoomSerializer(Class<Room> t) {
+            super(t);
+        }
+
+        @Override
+        public void serialize(Room theRoom, JsonGenerator theGen, SerializerProvider theProvider) throws IOException {
+            theGen.writeStartObject();
+            theGen.writeStringField("roomFileName", theRoom.getRoomFileName());
+            theGen.writeArrayFieldStart("doors");
+            for (Direction direction : Direction.values()) {
+                Door door = theRoom.getMyDoor(direction);
+                theGen.writeObject(door);
+            }
+            theGen.writeEndArray();
+            theGen.writeEndObject();
+        }
+    }
+
+    public static class RoomDeserializer extends StdDeserializer<Room> {
+        public RoomDeserializer() {
+            this(null);
+        }
+
+        public RoomDeserializer(Class<?> vc) {
+            super(vc);
+        }
+
+        @Override
+        public Room deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+            JsonNode node = jp.getCodec().readTree(jp);
+            JsonNode doorsNode = node.get("doors");
+            if (doorsNode == null || doorsNode.size() != 4) {
+                throw new IOException("Invalid 'doors' node in JSON data.");
+            }
+
+            Door[] doors = new Door[4];
+            for (int i = 0; i < 4; i++) {
+                JsonNode doorNode = doorsNode.get(i);
+                doors[i] = jp.getCodec().treeToValue(doorNode, Door.class);
+            }
+
+            Room room = new Room();
+            room.setDoors(doors);
+            return room;
+        }
     }
 }
