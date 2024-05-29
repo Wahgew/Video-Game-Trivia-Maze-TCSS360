@@ -91,10 +91,11 @@ public class GameFrame extends JFrame {
         // Request focus for theGamePanel and start the game thread
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
-        myMusicUI = new MusicUI(mySoundManager,false);
+        MovementButtonPanel.loadIcons();
+        myMusicUI = new MusicUI(mySoundManager,true);
         mySoundManager.stop();
         mySoundManager.playMusic(2,-40);
-        MovementButtonPanel.loadIcons();
+
     }
 
     public void switchToMazeLayout() {

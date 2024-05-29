@@ -13,14 +13,18 @@ public class MazeLayoutPanel extends JPanel { // TODO: this should pop up on "Ne
     private final JButton myLayoutButton3;
 
     public MazeLayoutPanel(GameFrame theFrame) {
-        myLayoutButton1 = new JButton("Max Doors Layout"); // TODO: add pictures of layouts?
-        myLayoutButton2 = new JButton("Mazey Maze Layout");
-        myLayoutButton3 = new JButton("Zig-Zag Layout");
+        ImageIcon MaxDoors = resizeImage("/Resource/MaxDoors.jpg", 400, 600);
+        ImageIcon ZigZag = resizeImage("/Resource/ZigZag.jpg", 400, 600);
+        ImageIcon MazeyMaze = resizeImage("/Resource/MazeyMaze.jpg", 400, 600);
+
+        myLayoutButton1 = new JButton(MaxDoors); // TODO: add pictures of layouts?
+        myLayoutButton2 = new JButton(MazeyMaze);
+        myLayoutButton3 = new JButton(ZigZag);
 
         setLayout(new GridLayout(1, 3));
         add(myLayoutButton1);
-        add(myLayoutButton2);
         add(myLayoutButton3);
+        add(myLayoutButton2);
 
         myGameFrame = theFrame;
         setupButtons();
@@ -48,5 +52,11 @@ public class MazeLayoutPanel extends JPanel { // TODO: this should pop up on "Ne
             Player.getInstance().setMyMazeLayout("MaxDoorsLayout.txt");
             myGameFrame.switchToGamePanel(new GamePanel());
         });
+    }
+    private ImageIcon resizeImage(String path, int width, int height) {
+        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+        Image img = icon.getImage();
+        Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImg);
     }
 }
