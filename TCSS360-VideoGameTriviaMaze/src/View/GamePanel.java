@@ -66,6 +66,11 @@ public class GamePanel extends JPanel implements Runnable {
             myRoomImage.setHorizontalAlignment(JLabel.CENTER);
             myRoomImage.setVerticalAlignment(JLabel.CENTER);
             add(myRoomImage, BorderLayout.CENTER);
+
+//            JPanel t = new JPanel();
+//            t.setBackground(Color.YELLOW); //TODO: Call transition fade here.
+//            add(t);
+
             revalidate();
             repaint();
         }

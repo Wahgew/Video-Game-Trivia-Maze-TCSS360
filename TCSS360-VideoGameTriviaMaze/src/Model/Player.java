@@ -64,6 +64,7 @@ public class Player {
     private int myHealth;
     private String myMazeLayout;
     private HashMap<Integer, Boolean> myQuestionsAnswered;
+    private boolean myCheatOn;
     @JsonIgnore
     private final PropertyChangeSupport myPCS = new PropertyChangeSupport(this);
 
@@ -81,6 +82,7 @@ public class Player {
         myCorrectTotal = 0;
         myIncorrectTotal = 0;
         myVictory = false;
+        myCheatOn = false;
         myQuestionsAnswered = new HashMap<>();
     }
 
@@ -380,4 +382,6 @@ public class Player {
     private void fireScoreChange() {
         myPCS.firePropertyChange("score", null, myScore);
     }
+
+
 }

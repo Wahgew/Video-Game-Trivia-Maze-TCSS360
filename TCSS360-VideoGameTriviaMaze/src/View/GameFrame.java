@@ -13,7 +13,7 @@ public class GameFrame extends JFrame {
     private static final int Border = 15;
     private JMenuBar myMenuBar;
     private JMenuItem mySaveGame;
-    private JMenuItem myLoadGame;
+    private JMenuItem myCheats;
     private JMenuItem myAboutUs;
     private JMenuItem myExitGame;
     private JMenuItem myHintGame;
@@ -144,7 +144,7 @@ public class GameFrame extends JFrame {
         JMenu myGameMenu = new JMenu("Game Setting");
         JMenu myHelpMenu = new JMenu("Help");
         mySaveGame = new JMenuItem("Save Game");
-        myLoadGame = new JMenuItem("Load Game");
+        myCheats = new JMenuItem("Cheats");
         myAboutUs = new JMenuItem("About Us");
         myHintGame = new JMenuItem("Hint");
         myExitGame = new JMenuItem("Exit");
@@ -156,7 +156,7 @@ public class GameFrame extends JFrame {
         myMenuBar.add(myHelpMenu);
 
         myGameMenu.add(mySaveGame);
-        myGameMenu.add(myLoadGame);
+        myGameMenu.add(myCheats);
         myGameMenu.add(myResetHighScores);
         myGameMenu.add(myExitGame);
         myHelpMenu.add(myHintGame);
@@ -201,9 +201,17 @@ public class GameFrame extends JFrame {
                     JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
         });
         mySaveGame.addActionListener(e -> myGameData.saveGameData());
-        myLoadGame.addActionListener(e -> {
-            myGameData.loadGameData();
-            QuestionAnswerDatabase.getInstance().removeSeenQuestions();
+        myCheats.addActionListener(e -> {
+            int jOption = JOptionPane.showConfirmDialog(null,
+                    "Are you sure you want to turn on cheats, high scores will be turned off!", "Dev Cheats",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (jOption == JOptionPane.YES_OPTION) {
+                QuestionPanel.cheatToggle();
+
+
+                JOptionPane.showMessageDialog(null, "Cheats Enable, High score is disabled", "Dev Cheats",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
         });
 
         myResetHighScores.addActionListener(e -> {

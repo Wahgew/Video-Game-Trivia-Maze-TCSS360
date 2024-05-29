@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.RoundRectangle2D;
+import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.List;
 import Resource.R;
@@ -31,6 +32,7 @@ public class QuestionPanel implements ActionListener {
     private final Door myDoor;
     private String myCorrectAnswer; //
     private Clip[] myAudio;
+    private static boolean myCheats = false;
 
     public QuestionPanel(final Door theDoor,final GamePanel theGamePanel) {
         if (theDoor == null || theGamePanel == null) {
@@ -266,7 +268,7 @@ public class QuestionPanel implements ActionListener {
             myDialog.dispose();
             GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
             frame.switchToEndGamePanel();
-        } else if (thePlayerAnswer.equalsIgnoreCase(myCorrectAnswer)) {
+        } else if (thePlayerAnswer.equalsIgnoreCase(myCorrectAnswer) || myCheats) {
             Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), true);
             myDoor.questionAttempted(true, Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol(), Player.getInstance().getMyDirection());
             Player.getInstance().movePlayer(Player.getInstance().getMyDirection());
@@ -485,6 +487,10 @@ public class QuestionPanel implements ActionListener {
                 }
             }
         });
+    }
+
+    protected static void cheatToggle() {
+        myCheats = true;
     }
 
     static class resultPanel extends JPanel {
