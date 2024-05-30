@@ -10,16 +10,17 @@ import java.io.InputStream;
 import java.net.URL;
 
 public class SoundManager {
-    private Clip clip;
-    private float previousVolume = 0;
-    private float currentVolume = 0;
-    private FloatControl floatControl;
-    private boolean mute = false;
-    private URL soundURL;
-    private JSlider slider;
+    private Clip myClip;
+    private float myPreviousVolume = 0;
+    private float myCurrentVolume = 0;
+    private FloatControl myFloatControl;
+    private boolean myMute = false;
+    private URL myURLSound;
+    private JSlider mySlider;
     private final String[] mySoundURL;
+    private static SoundManager mySingletonMusic;
 
-    public SoundManager() {
+    private SoundManager() {
         mySoundURL = new String[5];
         mySoundURL[0] = "/Resource/Sounds2/IntroGame.wav";
         mySoundURL[1] = "/Resource/Sounds2/LongTime.wav";
@@ -28,80 +29,101 @@ public class SoundManager {
         mySoundURL[4] = "/Resource/Sounds2/GamePlay.wav";
     }
 
+    public static SoundManager getInstance() {
+        if (mySingletonMusic == null) {
+            mySingletonMusic = new SoundManager();
+        }
+        return mySingletonMusic;
+    }
+
     public void setFile(final int theFile) {
         try {
             InputStream is = getClass().getResourceAsStream(mySoundURL[theFile]);
             AudioInputStream sound = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
-            clip = AudioSystem.getClip();
-            clip.open(sound);
-            floatControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            myClip = AudioSystem.getClip();
+            myClip.open(sound);
+            myFloatControl = (FloatControl) myClip.getControl(FloatControl.Type.MASTER_GAIN);
         } catch (Exception exception) {
             System.out.println("Error: Audio file could not be opened.");
             exception.printStackTrace();
         }
     }
+
+    public void setSlider(JSlider theSlider) {
+        mySlider = theSlider;
+    }
+
+
     public void play() {
-        floatControl.setValue(currentVolume);
-        if (clip != null) {
-            clip.setFramePosition(0);
-            clip.start();
+        myFloatControl.setValue(myCurrentVolume);
+        if (myClip != null) {
+            myClip.setFramePosition(0);
+            myClip.start();
         } else {
             System.out.println("Clip is not initialized for play.");
         }
     }
     public void loop() {
-        if (clip != null) {
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        if (myClip != null) {
+            myClip.loop(Clip.LOOP_CONTINUOUSLY);
         } else {
             System.out.println("Clip is not initialized for loop.");
         }
     }
     public void stop() {
-        if (clip != null) {
-            clip.stop();
+        if (myClip != null) {
+            myClip.stop();
         } else {
             System.out.println("Clip is not initialized for stop.");
         }
     }
     public void setVolume(float volume) {
-        currentVolume = volume;
-        if (floatControl != null) {
-            floatControl.setValue(currentVolume);
+        myCurrentVolume = volume;
+        if (myFloatControl != null) {
+            myFloatControl.setValue(myCurrentVolume);
         }
     }
     public void volumeUp() {
-        if (floatControl != null) {
-            currentVolume += 1.0f;
-            if (currentVolume > 6.0f) {
-                currentVolume = 6.0f;
+        if (myFloatControl != null) {
+            myCurrentVolume += 1.0f;
+            if (myCurrentVolume > 6.0f) {
+                myCurrentVolume = 6.0f;
             }
-            floatControl.setValue(currentVolume);
-            System.out.println("Current Volume: " + currentVolume);
+            myFloatControl.setValue(myCurrentVolume);
+            System.out.println("Current Volume: " + myCurrentVolume);
         }
     }
     public void volumeDown() {
-        currentVolume -= 1.0f;
-        System.out.println("Current Volume:" + currentVolume);
-        if (currentVolume < -80.0f) {
-            currentVolume = -80.0f;
+        myCurrentVolume -= 1.0f;
+        System.out.println("Current Volume:" + myCurrentVolume);
+        if (myCurrentVolume < -80.0f) {
+            myCurrentVolume = -80.0f;
         }
-        floatControl.setValue(currentVolume);
+        myFloatControl.setValue(myCurrentVolume);
     }
     public void mute() {
-        if (mute == false) {
-            previousVolume = currentVolume;
-            System.out.println("Current Volume:" + currentVolume);
-            currentVolume =  -80.0f;
-            floatControl.setValue(currentVolume);
-            mute = true;
+        if (!myMute) {
+            myPreviousVolume = myCurrentVolume;
+            System.out.println("Current Volume:" + myCurrentVolume);
+            myCurrentVolume = -80.0f;
+            if (myFloatControl != null) {
+                myFloatControl.setValue(myCurrentVolume);
+            }
+            myMute = true;
 
-            slider.setValue(slider.getMinimum());
-        } else if (mute == true) {
-            currentVolume = previousVolume;
-            slider.setValue((int) currentVolume);
-            System.out.println("Current Volume:" + currentVolume);
-            floatControl.setValue(currentVolume);
-            mute = false;
+            if (mySlider != null) {
+                mySlider.setValue(mySlider.getMinimum());
+            }
+        } else {
+            myCurrentVolume = myPreviousVolume;
+            if (mySlider != null) {
+                mySlider.setValue((int) myCurrentVolume);
+            }
+            System.out.println("Current Volume:" + myCurrentVolume);
+            if (myFloatControl != null) {
+                myFloatControl.setValue(myCurrentVolume);
+            }
+            myMute = false;
         }
     }
     public void playMusic(final int theIndex, final float theVolume) {
@@ -110,8 +132,8 @@ public class SoundManager {
         play();
         loop();
     }
-    public FloatControl getFloatControl() {
-        return floatControl;
+    public FloatControl getMyFloatControl() {
+        return myFloatControl;
     }
 //    private void volumeButton() {
 //        JFrame frame = new JFrame();
