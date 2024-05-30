@@ -42,7 +42,6 @@ public class GameFrame extends JFrame {
         myWelcomeScreen = new WelcomeScreen();
         setContentPane(myWelcomeScreen);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
         setTitle(GameTitle);
         pack();
         setLocationRelativeTo(null);
@@ -51,9 +50,10 @@ public class GameFrame extends JFrame {
         //myGameData = new GameDataManger(p.getMyHealth(), p.getMyScore(),p.getCorrectAns(),p.getCorrectTotal(),p.getIncorrectTotal(),p.getQuestionsAnswered());
         myGameData = new GameDataManger();
         myHighScore = new HighScore();
-        mySoundManager = new SoundManager();
+        mySoundManager = SoundManager.getInstance();
         //myMusicUI = new MusicUI(mySoundManager);
         mySoundManager.playMusic(0, -20.0f);
+        setResizable(false);
     }
     public void playMusic(final int theIndex) {
         mySoundManager.setFile(theIndex);
@@ -73,7 +73,9 @@ public class GameFrame extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         // Add left UI game panel to the left side of the main panel
-        mainPanel.add(new LeftUIGamePanel(theGamePanel), BorderLayout.WEST);
+        myLeftUIGamePanel = new LeftUIGamePanel(theGamePanel);
+        mainPanel.add(myLeftUIGamePanel, BorderLayout.WEST);
+        myLeftUIGamePanel.addPropertyChangeListener(myWelcomeScreen);
 
         mainPanel.revalidate();
         mainPanel.repaint();
@@ -92,7 +94,10 @@ public class GameFrame extends JFrame {
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
         MovementButtonPanel.loadIcons();
-        myMusicUI = new MusicUI(mySoundManager,true);
+        //myMusicUI = new MusicUI(mySoundManager,true);
+        myMusicUI = new MusicUI(mySoundManager);
+        //MusicUI.showMusicUI(mySoundManager);
+
         mySoundManager.stop();
         mySoundManager.playMusic(2,-40);
 
@@ -206,8 +211,8 @@ public class GameFrame extends JFrame {
                     "Are you sure you want to turn on cheats, high scores will be turned off!", "Dev Cheats",
                     JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (jOption == JOptionPane.YES_OPTION) {
-                QuestionPanel.cheatToggle();
-
+                QuestionPanel.cheatToggle(true);
+                Player.getInstance().setMyCheat(true);
 
                 JOptionPane.showMessageDialog(null, "Cheats Enable, High score is disabled", "Dev Cheats",
                         JOptionPane.INFORMATION_MESSAGE);
