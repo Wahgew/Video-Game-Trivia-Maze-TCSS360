@@ -2,14 +2,17 @@ package View;
 
 
 import Model.GameDataManger;
+import Model.Player;
 import Model.QuestionAnswerDatabase;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
 
 
-
-public class WelcomeScreen extends JPanel {
+public class WelcomeScreen extends JPanel implements PropertyChangeListener {
     private static final int Screen_Width = ScreenSetting.Screen_Width;
     private static final int Screen_Height = ScreenSetting.Screen_Height;
     private JButton myNewGameButton;
@@ -25,7 +28,7 @@ public class WelcomeScreen extends JPanel {
         setPreferredSize(new Dimension(Screen_Width, Screen_Height));
         myBackground = backgroundIcon.getImage();
         myGameData = new GameDataManger();
-        mySoundManager = new SoundManager();
+        mySoundManager = SoundManager.getInstance();
         setLayout(null);
         setUpButtons();
         revalidate();
@@ -83,15 +86,22 @@ public class WelcomeScreen extends JPanel {
     public void addButtonListener() {
         myNewGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
+            Player.resetPlayer();
+            QuestionPanel.cheatToggle(false);
             gameFrame.switchToMazeLayout();
         });
-        myLoadGameButton.addActionListener(e -> {
-            GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
-            myGameData.loadGameData();
-            QuestionAnswerDatabase.getInstance().removeSeenQuestions();
-            gameFrame.switchToGamePanel(new GamePanel());
-            MovementButtonPanel.loadIcons();
-        });
+        File saveFile = new File("src/Resource/save.json");
+        if (saveFile.exists()) {
+            myLoadGameButton.addActionListener(e -> {
+                GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
+                myGameData.loadGameData();
+                QuestionAnswerDatabase.getInstance().removeSeenQuestions();
+                gameFrame.switchToGamePanel(new GamePanel());
+                MovementButtonPanel.loadIcons();
+            });
+        } else {
+            myLoadGameButton.setEnabled(false);
+        }
         myAboutUsButton.addActionListener(e -> {
             final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
                             "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 21.", "About",
@@ -113,5 +123,21 @@ public class WelcomeScreen extends JPanel {
 
     public JButton getMyNewGameButton() {
         return myNewGameButton;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent theEvt) {
+        if ("saveFileCreated".equals(theEvt.getPropertyName())) {
+            // Update the enabled state of myLoadGameButton
+            File saveFile = new File("src/Resource/save.json");
+            myLoadGameButton.setEnabled(saveFile.exists());
+            myLoadGameButton.addActionListener(e -> {
+                GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
+                myGameData.loadGameData();
+                QuestionAnswerDatabase.getInstance().removeSeenQuestions();
+                gameFrame.switchToGamePanel(new GamePanel());
+                MovementButtonPanel.loadIcons();
+            });
+        }
     }
 }
