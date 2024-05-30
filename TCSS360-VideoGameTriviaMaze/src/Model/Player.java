@@ -61,10 +61,10 @@ public class Player {
     private int myIncorrectTotal;
     private int myConsecutiveAns;
     private boolean myVictory;
+    private boolean myCheat;
     private int myHealth;
     private String myMazeLayout;
     private HashMap<Integer, Boolean> myQuestionsAnswered;
-    private boolean myCheatOn;
     @JsonIgnore
     private final PropertyChangeSupport myPCS = new PropertyChangeSupport(this);
 
@@ -82,7 +82,7 @@ public class Player {
         myCorrectTotal = 0;
         myIncorrectTotal = 0;
         myVictory = false;
-        myCheatOn = false;
+        myCheat = false;
         myQuestionsAnswered = new HashMap<>();
     }
 
@@ -296,6 +296,10 @@ public class Player {
         return myIncorrectTotal;
     }
 
+    public int getMyConsecutiveAns() {
+        return myConsecutiveAns;
+    }
+
     public HashMap<Integer, Boolean> getMyQuestionsAnswered() {
         return myQuestionsAnswered;
     }
@@ -311,6 +315,10 @@ public class Player {
 
     public String getMyMazeLayout() {
         return myMazeLayout;
+    }
+
+    public boolean getMyCheat() {
+        return myCheat;
     }
 
     @JsonIgnore
@@ -368,6 +376,10 @@ public class Player {
 
     public void setMyVictory(boolean theVictory) {
         myVictory = theVictory;
+    }
+
+    public void setMyCheat(boolean theCheat) {
+        myCheat = theCheat;
     }
 
     public void setMyMazeLayout(String theMazeLayout) {
