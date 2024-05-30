@@ -62,6 +62,8 @@ public class GameDataManger {
             instance.setMyDirection(loadedPlayer.getMyDirection());
             instance.setMyCorrectTotal(loadedPlayer.getMyCorrectTotal());
             instance.setMyIncorrectTotal(loadedPlayer.getMyIncorrectTotal());
+            instance.setMyConsecutiveAns(loadedPlayer.getMyConsecutiveAns());
+            instance.setMyCheat(loadedPlayer.getMyCheat());
             instance.setMyVictory(loadedPlayer.getMyVictory());
             instance.setMyHealth(loadedPlayer.getMyHealth());
             instance.setMyQuestionsAnswered(loadedPlayer.getMyQuestionsAnswered());
