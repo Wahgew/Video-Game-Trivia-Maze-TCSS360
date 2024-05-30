@@ -199,7 +199,6 @@ public class Door implements Serializable {
             jsonGenerator.writeBooleanField("myAttemptStatus", door.getMyAttemptStatus());
             jsonGenerator.writeBooleanField("myLeadsOutOfBounds", door.getMyLeadsOutOfBounds());
             jsonGenerator.writeStringField("myDirection", door.myDirection.toString());
-            jsonGenerator.writeBooleanField("myLockStatus", door.getMyLockIconStatus());
             jsonGenerator.writeStringField("myMovementIcon", door.getMyMovementIcon());
             jsonGenerator.writeEndObject();
         }

@@ -30,7 +30,7 @@ public class EndPanel extends JPanel {
         myPlayer = thePlayer;
         myGamePanel = theGamePanel;
         myHighScore = new HighScore();
-        mySoundManager = new SoundManager();
+        mySoundManager = SoundManager.getInstance();
         loadCustomFont();
         setPreferredSize(new Dimension(ScreenWidth, ScreenHeight));
         setBackground(Color.BLACK);
@@ -55,12 +55,17 @@ public class EndPanel extends JPanel {
         double correctPercentage = totalQuestions > 0 ? (correctTotal * 100.0 / totalQuestions) : 0.0;
 
         String systemUserName = HighScore.getSystemUserName();
-        myHighScore.saveHighScore(score, systemUserName);
-
         String highScoreMessage = String.format("\n\nHigh Score: %d by %s on %s\n",
                 myHighScore.getScore(),
                 myHighScore.getPlayerName(),
                 myHighScore.getDate());
+
+        if (!Player.getInstance().getMyCheat()) {
+            myHighScore.saveHighScore(score, systemUserName);
+        } else {
+            highScoreMessage += "\n\nCurrent high score is not saved due to cheats being enabled.\n";
+        }
+
 
         String statistics = String.format("\n\nPlayer Statistics:\n\nScore: %d\nCorrect Answers: %d\nIncorrect Answers: %d\nOverall Percentage: %.2f%%\n\n",
                 score, correctTotal, incorrectTotal, correctPercentage);
