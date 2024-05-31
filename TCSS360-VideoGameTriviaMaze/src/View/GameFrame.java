@@ -37,24 +37,24 @@ public class GameFrame extends JFrame {
     private MusicUI myMusicUI;
 
     public GameFrame() {
-        Player p = Player.getInstance();
+        setUndecorated(true);
+        setSize(Toolkit.getDefaultToolkit().getScreenSize());
         setIconImage(logoIcon.getImage());
         myWelcomeScreen = new WelcomeScreen();
         setContentPane(myWelcomeScreen);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle(GameTitle);
         pack();
-        setLocationRelativeTo(null);
         setVisible(true);
+        setLocationRelativeTo(null);
+        setResizable(false);
         myGamePanelFocus = false; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
-        //myGameData = new GameDataManger(p.getMyHealth(), p.getMyScore(),p.getCorrectAns(),p.getCorrectTotal(),p.getIncorrectTotal(),p.getQuestionsAnswered());
         myGameData = new GameDataManger();
         myHighScore = new HighScore();
         mySoundManager = SoundManager.getInstance();
-        //myMusicUI = new MusicUI(mySoundManager);
         mySoundManager.playMusic(0, -20.0f);
-        setResizable(false);
     }
+
     public void playMusic(final int theIndex) {
         mySoundManager.setFile(theIndex);
         mySoundManager.play();
@@ -64,10 +64,15 @@ public class GameFrame extends JFrame {
         return myGamePanel;
     }
 
+    public LeftUIGamePanel getMyLeftUIGamePanel() {
+        return myLeftUIGamePanel;
+    }
+
     public void switchToGamePanel(final GamePanel theGamePanel) {
         myGamePanel = theGamePanel;
         resumeButton();
         menuBar();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Create main panel with BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -85,7 +90,7 @@ public class GameFrame extends JFrame {
 
         // Set the content pane of the frame to the main panel
         setContentPane(mainPanel);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Revalidate the frame to apply changes
         revalidate();
@@ -100,7 +105,6 @@ public class GameFrame extends JFrame {
 
         mySoundManager.stop();
         mySoundManager.playMusic(2,-40);
-
     }
 
     public void switchToMazeLayout() {
@@ -121,7 +125,7 @@ public class GameFrame extends JFrame {
         setContentPane(myWelcomeScreen);
         mySoundManager.stop();
         mySoundManager.playMusic(0,0);
-        pack(); // Reset to preferred size
+        //pack(); // Reset to preferred size
         setLocationRelativeTo(null);
         revalidate();
         repaint();
@@ -315,8 +319,5 @@ public class GameFrame extends JFrame {
 
 
         }
-    }
-    public boolean getGamePanelFocus() {
-        return myGamePanelFocus;
     }
 }
