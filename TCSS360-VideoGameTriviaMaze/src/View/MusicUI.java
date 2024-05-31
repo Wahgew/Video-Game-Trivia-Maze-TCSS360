@@ -11,6 +11,7 @@ public class MusicUI {
     private float currentVolume = 0;
     private FloatControl floatControl;
     private boolean myShowUI;
+    private JFrame frame;
 
     //    public MusicUI() {
 //        mySoundManager = new SoundManager();

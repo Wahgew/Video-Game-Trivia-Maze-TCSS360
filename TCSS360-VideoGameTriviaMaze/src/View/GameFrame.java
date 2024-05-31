@@ -99,10 +99,8 @@ public class GameFrame extends JFrame {
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
         MovementButtonPanel.loadIcons();
-        //myMusicUI = new MusicUI(mySoundManager,true);
         myMusicUI = new MusicUI(mySoundManager);
         //MusicUI.showMusicUI(mySoundManager);
-
         mySoundManager.stop();
         mySoundManager.playMusic(2,-40);
     }
