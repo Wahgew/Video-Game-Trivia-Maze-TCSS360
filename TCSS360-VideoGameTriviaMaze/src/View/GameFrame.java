@@ -37,24 +37,24 @@ public class GameFrame extends JFrame {
     private MusicUI myMusicUI;
 
     public GameFrame() {
-        setUndecorated(true);
-        setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        Player p = Player.getInstance();
         setIconImage(logoIcon.getImage());
         myWelcomeScreen = new WelcomeScreen();
         setContentPane(myWelcomeScreen);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         setTitle(GameTitle);
         pack();
-        setVisible(true);
         setLocationRelativeTo(null);
-        setResizable(false);
+        setVisible(true);
         myGamePanelFocus = false; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
+        //myGameData = new GameDataManger(p.getMyHealth(), p.getMyScore(),p.getCorrectAns(),p.getCorrectTotal(),p.getIncorrectTotal(),p.getQuestionsAnswered());
         myGameData = new GameDataManger();
         myHighScore = new HighScore();
-        mySoundManager = SoundManager.getInstance();
+        mySoundManager = new SoundManager();
+        //myMusicUI = new MusicUI(mySoundManager);
         mySoundManager.playMusic(0, -20.0f);
     }
-
     public void playMusic(final int theIndex) {
         mySoundManager.setFile(theIndex);
         mySoundManager.play();
@@ -64,23 +64,16 @@ public class GameFrame extends JFrame {
         return myGamePanel;
     }
 
-    public LeftUIGamePanel getMyLeftUIGamePanel() {
-        return myLeftUIGamePanel;
-    }
-
     public void switchToGamePanel(final GamePanel theGamePanel) {
         myGamePanel = theGamePanel;
         resumeButton();
         menuBar();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Create main panel with BorderLayout
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         // Add left UI game panel to the left side of the main panel
-        myLeftUIGamePanel = new LeftUIGamePanel(theGamePanel);
-        mainPanel.add(myLeftUIGamePanel, BorderLayout.WEST);
-        myLeftUIGamePanel.addPropertyChangeListener(myWelcomeScreen);
+        mainPanel.add(new LeftUIGamePanel(theGamePanel), BorderLayout.WEST);
 
         mainPanel.revalidate();
         mainPanel.repaint();
@@ -90,7 +83,7 @@ public class GameFrame extends JFrame {
 
         // Set the content pane of the frame to the main panel
         setContentPane(mainPanel);
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Revalidate the frame to apply changes
         revalidate();
@@ -99,12 +92,10 @@ public class GameFrame extends JFrame {
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
         MovementButtonPanel.loadIcons();
-        //myMusicUI = new MusicUI(mySoundManager,true);
-        myMusicUI = new MusicUI(mySoundManager);
-        //MusicUI.showMusicUI(mySoundManager);
 
         mySoundManager.stop();
         mySoundManager.playMusic(2,-40);
+        myMusicUI = new MusicUI(mySoundManager,true);
     }
 
     public void switchToMazeLayout() {
@@ -125,7 +116,7 @@ public class GameFrame extends JFrame {
         setContentPane(myWelcomeScreen);
         mySoundManager.stop();
         mySoundManager.playMusic(0,0);
-        //pack(); // Reset to preferred size
+        pack(); // Reset to preferred size
         setLocationRelativeTo(null);
         revalidate();
         repaint();
@@ -215,8 +206,8 @@ public class GameFrame extends JFrame {
                     "Are you sure you want to turn on cheats, high scores will be turned off!", "Dev Cheats",
                     JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (jOption == JOptionPane.YES_OPTION) {
-                QuestionPanel.cheatToggle(true);
-                Player.getInstance().setMyCheat(true);
+                QuestionPanel.cheatToggle();
+
 
                 JOptionPane.showMessageDialog(null, "Cheats Enable, High score is disabled", "Dev Cheats",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -319,5 +310,8 @@ public class GameFrame extends JFrame {
 
 
         }
+    }
+    public boolean getGamePanelFocus() {
+        return myGamePanelFocus;
     }
 }

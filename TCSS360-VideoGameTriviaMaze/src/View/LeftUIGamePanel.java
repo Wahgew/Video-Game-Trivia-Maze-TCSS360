@@ -34,7 +34,7 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         myGameData = new GameDataManger();
         myGamePanel = theGamePanel;
         myPlayerHealth = new PlayerHealth(Player.getInstance());
-        //mySoundManager = new SoundManager();
+        mySoundManager = new SoundManager();
         loadCustomFont();
         myScore = new JLabel("Score: "+ Player.getInstance().getMyScore());
         myScore.setFont(pixelMplus);
@@ -177,7 +177,6 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
         myMusicButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //mySoundManager = new SoundManager();
-                //myMusicUI = new MusicUI();
                 myMusicUI = new MusicUI(mySoundManager, true);
             }
         });
