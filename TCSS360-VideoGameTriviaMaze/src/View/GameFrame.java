@@ -53,6 +53,7 @@ public class GameFrame extends JFrame {
         myHighScore = new HighScore();
         mySoundManager = new SoundManager();
         //myMusicUI = new MusicUI(mySoundManager);
+        myMusicUI = new MusicUI(mySoundManager, false);
         mySoundManager.playMusic(0, -20.0f);
     }
     public void playMusic(final int theIndex) {
@@ -92,10 +93,10 @@ public class GameFrame extends JFrame {
         theGamePanel.requestFocusInWindow();
         theGamePanel.startGameThread();
         MovementButtonPanel.loadIcons();
-        myMusicUI = new MusicUI(mySoundManager,true);
+
         mySoundManager.stop();
         mySoundManager.playMusic(2,-40);
-
+        myMusicUI = new MusicUI(mySoundManager,false);
     }
 
     public void switchToMazeLayout() {
