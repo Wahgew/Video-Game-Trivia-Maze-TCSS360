@@ -53,7 +53,7 @@ public class GameFrame extends JFrame {
         myHighScore = new HighScore();
         mySoundManager = new SoundManager();
         //myMusicUI = new MusicUI(mySoundManager);
-        myMusicUI = new MusicUI(mySoundManager, false);
+        myMusicUI = new MusicUI(mySoundManager, true);
         mySoundManager.playMusic(0, -20.0f);
     }
     public void playMusic(final int theIndex) {
