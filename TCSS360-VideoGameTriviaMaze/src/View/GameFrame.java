@@ -131,7 +131,7 @@ public class GameFrame extends JFrame {
     public void switchToEndGamePanel() {
         setContentPane(new EndPanel(Player.getInstance(), myGamePanel));
         myMenuBar.removeAll();
-        mySoundManager.stop();
+        //mySoundManager.stop();
         //mySoundManager.playMusic(1);
         revalidate();
     }
