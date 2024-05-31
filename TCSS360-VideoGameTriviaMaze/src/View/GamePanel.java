@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
     public GamePanel() {
         myGameOver = false;
         myRoomImage = new JLabel();
-        mySoundManager = new SoundManager();
+        mySoundManager = SoundManager.getInstance();
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
         setSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));

@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.RoundRectangle2D;
-import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.List;
 import Resource.R;
@@ -489,11 +488,11 @@ public class QuestionPanel implements ActionListener {
         });
     }
 
-    protected static void cheatToggle() {
-        myCheats = true;
+    protected static void cheatToggle(boolean theCheatStatus) {
+        myCheats = theCheatStatus;
     }
 
-    static class resultPanel extends JPanel {
+    private class resultPanel extends JPanel {
         private static final int border = 15;
         private static final Color DARK_GRAY = new Color(127, 127, 127);
         private static final Color LIGHT_GRAY = new Color(209, 209, 209);
@@ -551,6 +550,9 @@ public class QuestionPanel implements ActionListener {
                Component component = (Component) e.getSource();
                Window window = SwingUtilities.getWindowAncestor(component);
                window.dispose();
+                GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
+                frame.getMyLeftUIGamePanel().getMySwitchToWelcomeScreenButton().setEnabled(true);
+                frame.getMyLeftUIGamePanel().getMySaveGameButton().setEnabled(true);
             });
 
         }

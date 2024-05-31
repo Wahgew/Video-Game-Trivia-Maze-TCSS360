@@ -6,11 +6,9 @@ import Model.Player;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -18,7 +16,6 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
     private PlayerHealth myPlayerHealth;
     private GameDataManger myGameData;
     private MovementButtonPanel myMovementButtonPanel;
-    private SoundManager mySoundManager;
     private MusicUI myMusicUI;
     private JButton mySaveGameButton;
     private JButton mySwitchToWelcomeScreenButton;
@@ -28,13 +25,13 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
     private JLabel myScore;
     private Font pixelMplus;
     private final GamePanel myGamePanel;
-    private Game myGame;
+    private final PropertyChangeSupport myPCS = new PropertyChangeSupport(this);
 
     public LeftUIGamePanel(GamePanel theGamePanel) {
         myGameData = new GameDataManger();
         myGamePanel = theGamePanel;
         myPlayerHealth = new PlayerHealth(Player.getInstance());
-        mySoundManager = new SoundManager();
+        //mySoundManager = new SoundManager();
         loadCustomFont();
         myScore = new JLabel("Score: "+ Player.getInstance().getMyScore());
         myScore.setFont(pixelMplus);
@@ -158,41 +155,65 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
             frame.switchToWelcomeScreen();
             myGamePanel.requestFocus();
         });
-        myExitGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final int jOption = JOptionPane.showConfirmDialog(myGamePanel,
-                        "Are you sure you want to Exit?", "Exit",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if (jOption == JOptionPane.YES_NO_OPTION) {
-                    System.exit(0);
-                }
-                myGamePanel.requestFocus();
+        myExitGameButton.addActionListener(e -> {
+            final int jOption = JOptionPane.showConfirmDialog(myGamePanel,
+                    "Are you sure you want to Exit?", "Exit",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (jOption == JOptionPane.YES_NO_OPTION) {
+                System.exit(0);
             }
+            myGamePanel.requestFocus();
         });
         mySaveGameButton.addActionListener(e -> {
             myGameData.saveGameData();
-            myGamePanel.requestFocus();  
+            myPCS.firePropertyChange("saveFileCreated", null, null);
+            myGamePanel.requestFocus();
         });
-        myMusicButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //mySoundManager = new SoundManager();
-                myMusicUI = new MusicUI(mySoundManager, true);
-            }
+        myMusicButton.addActionListener(e -> {
+            //mySoundManager = new SoundManager();
+            //myMusicUI = new MusicUI();
+            //myMusicUI = new MusicUI(mySoundManager, true);
+            myMusicUI = new MusicUI(SoundManager.getInstance());
+            //MusicUI.showMusicUI(SoundManager.getInstance());
         });
     }
-    private ImageIcon resizeImage(String path, int width, int height) {
-        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+    private ImageIcon resizeImage(String thePath, int theWidth, int theHeight) {
+        ImageIcon icon = new ImageIcon(getClass().getResource(thePath));
         Image img = icon.getImage();
-        Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        Image resizedImg = img.getScaledInstance(theWidth, theHeight, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
     }
+
     @Override
     public void propertyChange(PropertyChangeEvent theEvt) {
         if (theEvt.getPropertyName().equals("score")) {
             updatePlayerScoreLabel();
         }
+
+        if (theEvt.getPropertyName().equals("buttonEnable")) {
+            boolean enableButtons = (boolean) theEvt.getNewValue();
+            if (enableButtons) {
+                enableButtons();
+            }
+        }
     }
+
+    public void addPropertyChangeListener(PropertyChangeListener theListener) {
+        myPCS.addPropertyChangeListener(theListener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener theistener) {
+        myPCS.removePropertyChangeListener(theistener);
+    }
+
+    public JButton getMySaveGameButton() {
+        return mySaveGameButton;
+    }
+
+    public JButton getMySwitchToWelcomeScreenButton() {
+        return mySwitchToWelcomeScreenButton;
+    }
+
     public MovementButtonPanel getMyMovementButtonPanel() {
         return myMovementButtonPanel;
     }
@@ -200,5 +221,10 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
     private void updatePlayerScoreLabel() {
         myScore.setFont(pixelMplus);
         myScore.setText("Score " + Player.getInstance().getMyScore());
+    }
+
+    private void enableButtons() {
+        mySaveGameButton.setEnabled(true);
+        mySwitchToWelcomeScreenButton.setEnabled(true);
     }
 }
