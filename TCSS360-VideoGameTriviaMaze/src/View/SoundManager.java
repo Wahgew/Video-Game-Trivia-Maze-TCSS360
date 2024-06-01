@@ -26,7 +26,7 @@ public class SoundManager {
         mySoundURL[1] = "/Resource/Sounds2/LongTime.wav";
         mySoundURL[2] = "/Resource/Sounds2/GamePlay.wav";
         mySoundURL[3] = "/Resource/Sounds2/Lose.wav";
-        mySoundURL[4] = "/Resource/Sounds2/GamePlay.wav";
+        mySoundURL[4] = "/Resource/Sounds2/Miami_original_mix.wav";
     }
 
     public static SoundManager getInstance() {
