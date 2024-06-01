@@ -11,20 +11,6 @@ public class MusicUI {
     private float currentVolume = 0;
     private FloatControl floatControl;
     private boolean myShowUI;
-    private JFrame frame;
-
-    //    public MusicUI() {
-//        mySoundManager = new SoundManager();
-//        volumeButton();
-//    }
-
-//    public MusicUI(SoundManager theSoundManager, boolean theShowUI) {
-//        mySoundManager = theSoundManager;
-//        this.myShowUI = theShowUI;
-//        if (myShowUI) {
-//            volumeButton();
-//        }
-//    }
 
     MusicUI(SoundManager theSoundManager) {
         if (myFrame != null) {
@@ -33,14 +19,12 @@ public class MusicUI {
         mySoundManager = theSoundManager;
         initializeUI();
     }
-
-//    public static void showMusicUI(SoundManager soundManager) {
-//        if (myFrame != null) {
-//            myFrame.dispose();
-//        } else {
-//            new MusicUI(soundManager);
-//        }
-//    }
+    public void showUI() {
+        if (myFrame != null) {
+            myFrame.dispose();
+        }
+        initializeUI();
+    }
 
     private void initializeUI() {
         myFrame = new JFrame("Music UI");
@@ -88,13 +72,4 @@ public class MusicUI {
         myFrame.pack();
         myFrame.setVisible(true);
     }
-
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                new MusicUI();
-//            }
-//        });
-//    }
 }

@@ -21,13 +21,13 @@ public class GamePanel extends JPanel implements Runnable {
     private transient SoundManager mySoundManager;
 
     private boolean needFade;
-    private FadeScreen myFade;
+    //private FadeScreen myFade;
 
     public GamePanel() {
         myGameOver = false;
         myRoomImage = new JLabel();
         mySoundManager = SoundManager.getInstance();
-        myFade = new FadeScreen();
+        //myFade = new FadeScreen();
         needFade = false;
 
 
