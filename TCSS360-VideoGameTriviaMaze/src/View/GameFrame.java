@@ -64,6 +64,14 @@ public class GameFrame extends JFrame {
         return myGamePanel;
     }
 
+    public JMenuItem getMySaveGame() {
+        return mySaveGame;
+    }
+
+    public JMenuItem getMyCheats() {
+        return myCheats;
+    }
+
     public LeftUIGamePanel getMyLeftUIGamePanel() {
         return myLeftUIGamePanel;
     }
@@ -130,7 +138,7 @@ public class GameFrame extends JFrame {
     }
     public void switchToEndGamePanel() {
         setContentPane(new EndPanel(Player.getInstance(), myGamePanel));
-        myMenuBar.removeAll();
+        //myMenuBar.removeAll();
         //mySoundManager.stop();
         //mySoundManager.playMusic(1);
         revalidate();
