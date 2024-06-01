@@ -117,7 +117,7 @@ public class EndPanel extends JPanel {
 
     public void startTimer() {
         JPanel thisPanel = this;
-        myTime = new Timer(20, new ActionListener() {
+        myTime = new Timer(40, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (myIndex < myStringBuilder.length()) {
