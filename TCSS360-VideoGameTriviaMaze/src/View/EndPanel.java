@@ -12,6 +12,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * EndPanel class represents the end screen of the game, displaying player's statistics,
+ * high scores, and end messages based on game outcomes.
+ *
+ * @author Peter W Madin, Ken Egawa, Sopheanith Ny
+ * @version 6/7/2024
+ */
 public class EndPanel extends JPanel {
     private static final int ScreenWidth = ScreenSetting.Screen_Width;
     private static final int ScreenHeight = ScreenSetting.Screen_Height;
@@ -26,6 +33,14 @@ public class EndPanel extends JPanel {
     private SoundManager mySoundManager;
     private Font pixelMplus;
 
+    /**
+     * Constructs the EndPanel with the given player and game panel.
+     * Initializes UI components, calculates player statistics,
+     * and prepares end messages.
+     *
+     * @param thePlayer the player instance containing player data
+     * @param theGamePanel the game panel instance
+     */
     public EndPanel(Player thePlayer, GamePanel theGamePanel) {
         myPlayer = thePlayer;
         myGamePanel = theGamePanel;
@@ -100,6 +115,10 @@ public class EndPanel extends JPanel {
         myIndex = 0;
         startTimer();
     }
+
+    /**
+     * Loads a custom font from resources to be used in the end panel.
+     */
     private void loadCustomFont() {
         try {
             InputStream is = getClass().getResourceAsStream("/Resource/PixelMplus12-Regular.ttf");
@@ -115,6 +134,9 @@ public class EndPanel extends JPanel {
         }
     }
 
+    /**
+     * Starts a timer to gradually display the end message text character by character.
+     */
     public void startTimer() {
         JPanel thisPanel = this;
         myTime = new Timer(40, new ActionListener() {
@@ -136,6 +158,12 @@ public class EndPanel extends JPanel {
         });
         myTime.start();
     }
+
+    /**
+     * Custom painting for the end panel, setting the background color to black.
+     *
+     * @param theGraphics the Graphics object to protect
+     */
     public void paintComponent(Graphics theGraphics) {
         super.paintComponent(theGraphics);
         theGraphics.setColor(Color.BLACK);
