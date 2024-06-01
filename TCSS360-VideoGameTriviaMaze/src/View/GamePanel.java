@@ -19,10 +19,18 @@ public class GamePanel extends JPanel implements Runnable {
     KeyboardsHandler keyboardsHandler = new KeyboardsHandler();
     private JLabel myRoomImage;
     private transient SoundManager mySoundManager;
+
+    private boolean needFade;
+    private FadeScreen myFade;
+
     public GamePanel() {
         myGameOver = false;
         myRoomImage = new JLabel();
         mySoundManager = SoundManager.getInstance();
+        myFade = new FadeScreen();
+        needFade = false;
+
+
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
         setSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
@@ -44,6 +52,24 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update(){
+        System.out.println("The game is running");
+        if (Player.getInstance().getMyVictory()) {
+            // Dispose all open JDialog instances
+            for (Window window : Window.getWindows()) {
+                if (window instanceof JDialog) {
+                    window.dispose();
+                }
+            }
+
+            // Check if the GamePanel has a Window ancestor
+            Window windowAncestor = SwingUtilities.getWindowAncestor(this);
+            if (windowAncestor instanceof GameFrame) {
+                GameFrame frame = (GameFrame) windowAncestor;
+                frame.switchToEndGamePanel();
+                myGameThread = null;
+            }
+        }
+
         myGame.getMyPlayerManager().updateSpriteKeyPressed();
         myGameOver = Player.getInstance().getMyVictory();
         if (!myGameOver) {
@@ -66,7 +92,7 @@ public class GamePanel extends JPanel implements Runnable {
             myRoomImage.setHorizontalAlignment(JLabel.CENTER);
             myRoomImage.setVerticalAlignment(JLabel.CENTER);
             add(myRoomImage, BorderLayout.CENTER);
-
+//
 //            JPanel t = new JPanel();
 //            t.setBackground(Color.YELLOW); //TODO: Call transition fade here.
 //            add(t);
@@ -135,6 +161,15 @@ public class GamePanel extends JPanel implements Runnable {
     public PlayerManager getMyPlayerManager() {
         return myGame.getMyPlayerManager();
     }
+
+    public Thread getMyGameThread() {
+        return myGameThread;
+    }
+
+    public void setMyGameThread(Thread theThread) {
+        myGameThread = theThread;
+    }
+
     public void setGameOver(boolean theGameOver){
         myGameOver = theGameOver;
     }
