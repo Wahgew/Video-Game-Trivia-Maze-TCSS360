@@ -25,7 +25,12 @@ public class MusicUI {
         }
         initializeUI();
     }
-
+    public void hideUI() {
+        if (myFrame != null) {
+            myFrame.dispose();
+            myFrame = null;
+        }
+    }
     private void initializeUI() {
         myFrame = new JFrame("Music UI");
         myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

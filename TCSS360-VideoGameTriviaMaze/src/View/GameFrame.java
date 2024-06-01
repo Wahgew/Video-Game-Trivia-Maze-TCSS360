@@ -135,7 +135,8 @@ public class GameFrame extends JFrame {
         mySaveGame.setEnabled(false);
         myWelcomeButton.setEnabled(false);
         mySoundManager.stop();
-        mySoundManager.playMusic(0,0);
+        mySoundManager.playMusic(0,-20f);
+        myMusicUI.hideUI();
         //pack(); // Reset to preferred size
         setLocationRelativeTo(null);
         revalidate();
