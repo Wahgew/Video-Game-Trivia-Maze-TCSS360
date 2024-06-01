@@ -550,9 +550,9 @@ public class QuestionPanel implements ActionListener {
                Component component = (Component) e.getSource();
                Window window = SwingUtilities.getWindowAncestor(component);
                window.dispose();
-                GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
-                frame.getMyLeftUIGamePanel().getMySwitchToWelcomeScreenButton().setEnabled(true);
-                frame.getMyLeftUIGamePanel().getMySaveGameButton().setEnabled(true);
+               GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
+               frame.getMyLeftUIGamePanel().getMySwitchToWelcomeScreenButton().setEnabled(true);
+               frame.getMyLeftUIGamePanel().getMySaveGameButton().setEnabled(true);
             });
 
         }
