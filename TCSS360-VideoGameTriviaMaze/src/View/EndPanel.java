@@ -31,6 +31,11 @@ public class EndPanel extends JPanel {
         myGamePanel = theGamePanel;
         myHighScore = new HighScore();
         mySoundManager = SoundManager.getInstance();
+        myGamePanel.setMyGameThread(null);
+
+        GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
+        frame.getMySaveGame().setEnabled(false);
+        frame.getMyCheats().setEnabled(false);
         loadCustomFont();
         setPreferredSize(new Dimension(ScreenWidth, ScreenHeight));
         setBackground(Color.BLACK);
@@ -83,7 +88,7 @@ public class EndPanel extends JPanel {
         } else if (myPlayer.getMyVictory()) {
             GameDataManger.checkAndHandleVictory();
             mySoundManager.stop();
-            mySoundManager.playMusic(2,-20f);
+            mySoundManager.playMusic(4,-20f);
             endMessage = "Let's go... You Made it!\n\n" +
                     "Congratulations on the crazy journey through TRIVIA LABYRINTH MAZE.\n" +
                     "You have made it through the end! YEEEEEE!\n";
