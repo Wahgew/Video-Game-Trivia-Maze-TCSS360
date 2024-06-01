@@ -3,7 +3,6 @@ package View;
 import Model.GameDataManger;
 import Model.HighScore;
 import Model.Player;
-import Model.QuestionAnswerDatabase;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +12,7 @@ public class GameFrame extends JFrame {
     private static final int Border = 15;
     private JMenuBar myMenuBar;
     private JMenuItem mySaveGame;
+    private JMenuItem myWelcomeButton;
     private JMenuItem myCheats;
     private JMenuItem myAboutUs;
     private JMenuItem myExitGame;
@@ -22,7 +22,8 @@ public class GameFrame extends JFrame {
     private JMenuItem myResetHighScores;
 
     private final ImageIcon logoIcon = new ImageIcon(getClass().getResource("/Resource/Logo1.png"));
-    private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
+    private final ImageIcon speedIcon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
+    private final ImageIcon authorIcon = new ImageIcon(getClass().getResource("/Resource/Author_image.png"));
 
     private GamePanel myGamePanel;
     private MazeLayoutPanel myMazeLayoutPanel;
@@ -80,6 +81,7 @@ public class GameFrame extends JFrame {
         myGamePanel = theGamePanel;
         resumeButton();
         menuBar();
+        myWelcomeButton.setEnabled(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Create main panel with BorderLayout
@@ -127,8 +129,11 @@ public class GameFrame extends JFrame {
         repaint();
     }
     public void switchToWelcomeScreen() {
+        myGamePanel.setMyGameThread(null);
         setExtendedState(JFrame.NORMAL);
         setContentPane(myWelcomeScreen);
+        mySaveGame.setEnabled(false);
+        myWelcomeButton.setEnabled(false);
         mySoundManager.stop();
         mySoundManager.playMusic(0,0);
         //pack(); // Reset to preferred size
@@ -145,7 +150,6 @@ public class GameFrame extends JFrame {
     }
     private void resumeButton() {
         myResumeGameButton = new JButton("RESUME GAME");
-        //myResumeGameButton.setBackground(BEIGE);
         myResumeGameButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         myResumeGameButton.addActionListener(e -> {
             Component component = (Component) e.getSource();
@@ -159,6 +163,7 @@ public class GameFrame extends JFrame {
         JMenu myGameMenu = new JMenu("Game Setting");
         JMenu myHelpMenu = new JMenu("Help");
         mySaveGame = new JMenuItem("Save Game");
+        myWelcomeButton = new JMenuItem("Welcome Screen");
         myCheats = new JMenuItem("Cheats");
         myAboutUs = new JMenuItem("About Us");
         myHintGame = new JMenuItem("Hint");
@@ -171,13 +176,15 @@ public class GameFrame extends JFrame {
         myMenuBar.add(myHelpMenu);
 
         myGameMenu.add(mySaveGame);
-        myGameMenu.add(myCheats);
+        myGameMenu.add(myWelcomeButton);
         myGameMenu.add(myResetHighScores);
+        myGameMenu.add(myCheats);
         myGameMenu.add(myExitGame);
         myHelpMenu.add(myHintGame);
         myHelpMenu.add(myInstructionGame);
         myHelpMenu.add(myAboutUs);
         setJMenuBar(myMenuBar);
+        myWelcomeButton.setEnabled(false);
         menuBarListener();
 
     }
@@ -185,7 +192,7 @@ public class GameFrame extends JFrame {
         myExitGame.addActionListener(e -> {
             final int jOption = JOptionPane.showConfirmDialog(null,
                     "Are you sure you want to Exit?", "Exit",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,Speed_Icon);
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, speedIcon);
             if (jOption == JOptionPane.YES_NO_OPTION) {
                 showDialog(new exitPanel());
                 System.exit(0);
@@ -194,7 +201,7 @@ public class GameFrame extends JFrame {
         myAboutUs.addActionListener(e -> {
             final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
                     "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 21.", "About",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, authorIcon);
         });
         //myHintGame.addActionListener(e -> showDialog(new hintPanel()));
         myInstructionGame.addActionListener(e -> { // TODO: REWRITE THIS WITH UPDATED INSTRUCTIONS
@@ -213,7 +220,7 @@ public class GameFrame extends JFrame {
                             + "The player must find another route to exit the maze.<br>"
                             + "Reach the exit to win the game!<br>"
                             + "Good luck and have fun!</p></html>", "Instruction",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, speedIcon);
         });
         mySaveGame.addActionListener(e -> myGameData.saveGameData());
         myCheats.addActionListener(e -> {
@@ -228,6 +235,12 @@ public class GameFrame extends JFrame {
                         JOptionPane.INFORMATION_MESSAGE);
             }
         });
+
+        myWelcomeButton.addActionListener(e -> {
+            switchToWelcomeScreen();
+            myWelcomeButton.setEnabled(false);
+            myGamePanel.requestFocus();
+                });
 
         myResetHighScores.addActionListener(e -> {
             int jOption = JOptionPane.showConfirmDialog(null,

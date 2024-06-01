@@ -20,8 +20,9 @@ public class WelcomeScreen extends JPanel implements PropertyChangeListener {
     private JButton myAboutUsButton;
     private JButton myExitButton;
     private final Image myBackground;
-    private final ImageIcon Speed_Icon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
+    private final ImageIcon speedIcon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
     private final ImageIcon backgroundIcon= new ImageIcon(getClass().getResource("/Resource/Background.jpg"));
+    private final ImageIcon authorIcon = new ImageIcon(getClass().getResource("/Resource/Author_image.png"));
     private final GameDataManger myGameData;
     private transient SoundManager mySoundManager;
     public WelcomeScreen() {
@@ -105,12 +106,12 @@ public class WelcomeScreen extends JPanel implements PropertyChangeListener {
         myAboutUsButton.addActionListener(e -> {
             final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
                             "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 21.", "About",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, Speed_Icon);
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, authorIcon);
         });
         myExitButton.addActionListener(e -> {
             final int jOption = JOptionPane.showConfirmDialog(null,
                     "Are you sure you want to Exit?", "Exit",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,Speed_Icon);
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, speedIcon);
             if (jOption == JOptionPane.YES_NO_OPTION) {
                 System.exit(0);
             }
