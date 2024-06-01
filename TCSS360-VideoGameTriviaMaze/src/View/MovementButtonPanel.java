@@ -7,17 +7,47 @@ import Model.Player;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * Panel containing buttons for player movement.
+ *
+ * @author Peter W Madin, Ken Egawa, Sopheanith Ny
+ * @version 6/7/2024
+ */
 public class MovementButtonPanel extends JPanel {
+    /**
+     * Button for moving up
+     */
     private static JButton myUpArrowButton;
+    /**
+     * Button for moving down
+     */
     private static JButton myDownArrowButton;
+    /**
+     * Button for moving left
+     */
     private static JButton myLeftArrowButton;
+    /**
+     * Button for moving right
+     */
     private static JButton myRightArrowButton;
+    /**
+     * Test button for internal use
+     */
     private JButton myTestButton;
-
+    /**
+     * Controller for handling player movement
+     */
     private final MazeController myController;
+    /**
+     * Panel containing the game view
+     */
     private final GamePanel myGamePanel;
 
+    /**
+     * Constructs a MovementButtonPanel.
+     *
+     * @param theGamePanel The panel containing the game view.
+     */
     public MovementButtonPanel(GamePanel theGamePanel) {
         myGamePanel = theGamePanel;
         myController = new MazeController();
@@ -30,6 +60,10 @@ public class MovementButtonPanel extends JPanel {
         checkButtons();
         checkIcons();
     }
+
+    /**
+     * Creates movement buttons and sets up their appearance.
+     */
     private void createButtons() {
         ImageIcon upArrowIcon = resizeImage("/Resource/upIcon.png", 60, 60);
         ImageIcon downArrowIcon = resizeImage("/Resource/downIcon.png", 60, 60);
@@ -60,6 +94,10 @@ public class MovementButtonPanel extends JPanel {
         add(myRightArrowButton);
 
     }
+
+    /**
+     * Configures the appearance of movement buttons.
+     */
     private void configureButtons() {
         myUpArrowButton.setBorderPainted(false);
         myDownArrowButton.setBorderPainted(false);
@@ -72,6 +110,9 @@ public class MovementButtonPanel extends JPanel {
         myRightArrowButton.setContentAreaFilled(false);
     }
 
+    /**
+     * Adds action listeners to movement buttons.
+     */
     private void addButtonListeners() {
         myUpArrowButton.addActionListener(e -> handleMovement(Direction.NORTH));
         myDownArrowButton.addActionListener(e -> handleMovement(Direction.SOUTH));
@@ -79,20 +120,35 @@ public class MovementButtonPanel extends JPanel {
         myRightArrowButton.addActionListener(e -> handleMovement(Direction.EAST));
     }
 
+    /**
+     * Handles player movement in response to button clicks.
+     *
+     * @param theDirection The direction of movement.
+     */
     public void handleMovement(Direction theDirection) {
         setButtonsState(false);
         myController.handlePlayerMovement(theDirection, myGamePanel);
         myGamePanel.requestFocus();
-//        if (!myGamePanel.isGameOver()) {
-//            MazeController.promptAnswer((GameFrame) SwingUtilities.getWindowAncestor(this));
-//        }
     }
+
+    /**
+     * Sets the state of all movement buttons.
+     *
+     * @param theState The state to set.
+     */
     public void setButtonsState(boolean theState) {
         myUpArrowButton.setEnabled(theState);
         myDownArrowButton.setEnabled(theState);
         myLeftArrowButton.setEnabled(theState);
         myRightArrowButton.setEnabled(theState);
     }
+
+    /**
+     * Sets the state of a specific movement button.
+     *
+     * @param theDoor  The index of the button (0: up, 1: right, 2: down, 3: left).
+     * @param theState The state to set.
+     */
     public void setButtonState(int theDoor, boolean theState) {
         switch (theDoor) {
             case 0:
@@ -111,6 +167,13 @@ public class MovementButtonPanel extends JPanel {
                 throw new IllegalArgumentException("Invalid door index/case: " + theDoor);
         }
     }
+
+    /**
+     * Sets the icon of a specific movement button.
+     *
+     * @param theDoor The index of the button (0: up, 1: right, 2: down, 3: left).
+     * @param theIcon The path to the icon image.
+     */
     public static void setButtonIcon(int theDoor, String theIcon) {
         switch (theDoor) {
             case 0:
@@ -129,12 +192,20 @@ public class MovementButtonPanel extends JPanel {
                 throw new IllegalArgumentException("Invalid door index/case: " + theDoor);
         }
     }
+
+    /**
+     * Checks and updates the state of all movement buttons based on player's valid moves.
+     */
     public void checkButtons() {
         setButtonState(0, Player.getInstance().validPlayerMove(Direction.NORTH));
         setButtonState(1, Player.getInstance().validPlayerMove(Direction.EAST));
         setButtonState(2, Player.getInstance().validPlayerMove(Direction.SOUTH));
         setButtonState(3, Player.getInstance().validPlayerMove(Direction.WEST));
     }
+
+    /**
+     * Checks and updates the icons of all movement buttons based on player's current position.
+     */
     public void checkIcons() {
         int playerRow = Player.getInstance().getMyLocationRow();
         int playerCol = Player.getInstance().getMyLocationCol();
@@ -150,6 +221,9 @@ public class MovementButtonPanel extends JPanel {
 
     }
 
+    /**
+     * Loads and sets the icons of all movement buttons.
+     */
     public static void loadIcons() {
         int playerRow = Player.getInstance().getMyLocationRow();
         int playerCol = Player.getInstance().getMyLocationCol();
@@ -164,7 +238,14 @@ public class MovementButtonPanel extends JPanel {
                 getMyDoor(Direction.WEST).getMyMovementIcon());
     }
 
-
+    /**
+     * Resizes an image to the specified dimensions.
+     *
+     * @param path   The path to the image.
+     * @param width  The width of the resized image.
+     * @param height The height of the resized image.
+     * @return The resized image icon.
+     */
     private static ImageIcon resizeImage(String path, int width, int height) {
         //System.out.println(MovementButtonPanel.class.getResource(path));
         ImageIcon icon = new ImageIcon(MovementButtonPanel.class.getResource(path));

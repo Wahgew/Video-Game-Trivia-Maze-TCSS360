@@ -15,24 +15,79 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.*;
 import java.util.List;
 import Resource.R;
-
-
+/**
+ * The QuestionPanel class manages the GUI display for questions when the player interacts with a door.
+ * It allows the player to answer questions through multiple choice options or a short answer text field.
+ * It also handles the result of the player's answer and updates the game accordingly.
+ *
+ * @author Peter W Madin, Ken Egawa, Sopheanith Ny
+ * @version 6/7/2024
+ */
 public class QuestionPanel implements ActionListener {
+    /**
+     * The dialog for displaying the question panel
+     */
     private final JDialog myDialog;
+    /**
+     *  Panel for the question
+     */
     private final JPanel myQuestionPanel;
+    /**
+     * Panel for the answer options
+     */
     private final JPanel myAnswerOptionPanel;
+    /**
+     * Text area for displaying the question
+     */
     private final JTextPane myQuestionArea;
+    /**
+     * Button for answer option 1
+     */
     private final JButton myAnswerButton1;
+    /**
+     * Button for answer option 2
+     */
     private final JButton myAnswerButton2;
+    /**
+     * Button for answer option 3
+     */
     private final JButton myAnswerButton3;
+    /**
+     * Button for answer option 4
+     */
     private final JButton myAnswerButton4;
+    /**
+     * Text field for short answer
+     */
     private final JTextField myTextAnswer;
+    /**
+     * The game panel
+     */
     private final GamePanel myGamePanel;
+    /**
+     * The door associated with the question
+     */
     private final Door myDoor;
+    /**
+     * The correct answer to the question
+     */
     private String myCorrectAnswer; //
+    /**
+     * Array to store audio clips for auditory questions
+     */
     private Clip[] myAudio;
+    /**
+     * Flag to enable cheats
+     */
     private static boolean myCheats = false;
 
+    /**
+     * Constructs a QuestionPanel object.
+     *
+     * @param theDoor The door associated with the question.
+     * @param theGamePanel The game panel.
+     * @throws IllegalArgumentException if theDoor or theGamePanel is null.
+     */
     public QuestionPanel(final Door theDoor,final GamePanel theGamePanel) {
         if (theDoor == null || theGamePanel == null) {
             throw new IllegalArgumentException("The doors and game panel cannot be null");
@@ -64,6 +119,11 @@ public class QuestionPanel implements ActionListener {
         }
     }
 
+    /**
+     * Loads an image question into a JPanel for display.
+     *
+     * @return JPanel containing the image question
+     */
     private JPanel loadImage() {
         assert myDoor.getQuestionObject() instanceof ImageQuestion;
         ImageQuestion imageQuestion = (ImageQuestion) myDoor.getQuestionObject();
@@ -102,6 +162,11 @@ public class QuestionPanel implements ActionListener {
         return imagePanel;
     }
 
+    /**
+     * Loads an auditory question into a JPanel for display.
+     *
+     * @return JPanel containing the auditory question
+     */
     private JPanel loadAudio() {
         assert myDoor.getQuestionObject() instanceof AuditoryQuestion;
         AuditoryQuestion audioQuestion = (AuditoryQuestion) myDoor.getQuestionObject();
@@ -141,6 +206,11 @@ public class QuestionPanel implements ActionListener {
         return audioPanel;
     }
 
+    /**
+     * Loads the question options based on the type of question.
+     *
+     * @param theQuestion The question to be loaded
+     */
     private void loadQuestionOption(final Question theQuestion) {
         if (theQuestion == null) {
             throw new IllegalArgumentException("Question cannot be null");
@@ -166,6 +236,11 @@ public class QuestionPanel implements ActionListener {
         }
     }
 
+    /**
+     * Sets up the answer buttons based on the provided answer choices.
+     *
+     * @param theAnswerChoices The answer choices for the question
+     */
     private void setupAnswerButtons(TreeMap<String, Boolean> theAnswerChoices) {
         List<JButton> answerButtons = Arrays.asList(myAnswerButton1, myAnswerButton2, myAnswerButton3, myAnswerButton4);
         Collections.shuffle(answerButtons);
@@ -210,6 +285,12 @@ public class QuestionPanel implements ActionListener {
         }
     }
 
+    /**
+     * Sets up the GUI display for a short answer field question type.
+     *
+     * This method disables and hides answer buttons, enabling and showing a text field for the user's input.
+     * It also clears the text field and adds an action listener to handle user input.
+     */
     private void setupShortAnswerField() {
         // Disable and hide the answer buttons
         myAnswerButton1.setEnabled(false);
@@ -259,6 +340,11 @@ public class QuestionPanel implements ActionListener {
         }
     }
 
+    /**
+     * Checks the player's answers and updates the game accordingly.
+     *
+     * @param thePlayerAnswer the player's answer
+     */
     public void checkAnswers(final String thePlayerAnswer) {
         if (thePlayerAnswer == null) {
             throw new IllegalArgumentException("The player's answer cannot be null");
@@ -304,7 +390,11 @@ public class QuestionPanel implements ActionListener {
         myGamePanel.getMyMovementButtonPanel().checkIcons();
     }
 
-
+    /**
+     * Displays a dialog with the result of the player's answer.
+     *
+     * @param theCorrectAnswer the correctness of the player's answer
+     */
     public void dialogForResult(final String theCorrectAnswer) {
         resultPanel rePanel = new resultPanel(theCorrectAnswer);
         myDialog.dispose();
@@ -409,6 +499,9 @@ public class QuestionPanel implements ActionListener {
         myDialog.setVisible(true);
     }
 
+    /**
+     * Sets up the GUI display for short answer questions.
+     */
     private void popUpForShort() {
         // JDialog for the pop up.
         myDialog.setTitle("Gamers Rise");
@@ -466,6 +559,12 @@ public class QuestionPanel implements ActionListener {
         myAnswerOptionPanel.requestFocus();
     }
 
+    /**
+     * Adds a placeholder text to a JTextField.
+     *
+     * @param textField      the JTextField to add the placeholder to
+     * @param thePlaceholder the placeholder text
+     */
     private void addPlaceholder(JTextField textField, String thePlaceholder) {
         textField.setForeground(R.Colors.TEXT_LABEL);
         textField.setText(thePlaceholder);
@@ -488,10 +587,18 @@ public class QuestionPanel implements ActionListener {
         });
     }
 
+    /**
+     * Toggles cheat mode.
+     *
+     * @param theCheatStatus the status of cheat mode
+     */
     protected static void cheatToggle(boolean theCheatStatus) {
         myCheats = theCheatStatus;
     }
 
+    /**
+     * A JPanel class for displaying the result of the player's answer.
+     */
     private class resultPanel extends JPanel {
         private static final int border = 15;
         private static final Color DARK_GRAY = new Color(127, 127, 127);

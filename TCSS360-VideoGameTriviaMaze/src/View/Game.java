@@ -12,10 +12,22 @@ import java.io.Serializable;
  * @version 6/7/2024
  */
 public class Game implements Serializable {
+
+    /**
+     * The player instance representing the player in the game.
+     */
     private Player myPlayer;
+
+    /**
+     * The player manager responsible for managing the player.
+     */
     private PlayerManager myPlayerManager;
+
+    /**
+     * The keyboard handler for handling keyboard inputs.
+     */
     private KeyboardsHandler myKeyHandler;
-    private transient PlayerCollision myCollisionChecker;
+
 
     /**
      * Constructs a new Game instance, initializing the keyboard handler,
@@ -27,7 +39,6 @@ public class Game implements Serializable {
         myKeyHandler = new KeyboardsHandler();
         myPlayer = Player.getInstance();
         myPlayerManager = new PlayerManager(myKeyHandler, theGamePanel, myPlayer);
-        myCollisionChecker = new PlayerCollision(theGamePanel);
     }
 
     /**
@@ -40,17 +51,8 @@ public class Game implements Serializable {
         if (theGamePanel == null) {
             throw new IllegalArgumentException("GamePanel cannot be null");
         }
-        myCollisionChecker = new PlayerCollision(theGamePanel);
     }
 
-    /**
-     * Returns the collision checker associated with this game.
-     *
-     * @return the PlayerCollision instance used for collision checking
-     */
-    public PlayerCollision getMyCollisionChecker() {
-        return myCollisionChecker;
-    }
 
     /**
      * Returns the keyboard handler for this game.

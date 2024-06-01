@@ -3,15 +3,39 @@ package View;
 import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * A user interface for controlling music playback and volume.
+ *
+ * @author Peter W Madin, Ken Egawa, Sopheanith Ny
+ * @version 6/7/2024
+ */
 public class MusicUI {
+    /**
+     * The sound manager responsible for music playback.
+     */
     private final SoundManager mySoundManager;
+    /**
+     * The slider for adjusting volume.
+     */
     private JSlider mySlider;
+    /**
+     * The frame containing the music UI.
+     */
     private static JFrame myFrame;
+    /**
+     * The current volume level.
+     */
     private float currentVolume = 0;
+    /**
+     * The FloatControl object for volume adjustment.
+     */
     private FloatControl floatControl;
-    private boolean myShowUI;
 
+    /**
+     * Constructs a MusicUI object with the specified sound manager.
+     *
+     * @param theSoundManager the sound manager responsible for music playback
+     */
     MusicUI(SoundManager theSoundManager) {
         if (myFrame != null) {
             myFrame.dispose();
@@ -19,18 +43,30 @@ public class MusicUI {
         mySoundManager = theSoundManager;
         initializeUI();
     }
+
+    /**
+     * Displays the music UI.
+     */
     public void showUI() {
         if (myFrame != null) {
             myFrame.dispose();
         }
         initializeUI();
     }
+
+    /**
+     * Hides the music UI.
+     */
     public void hideUI() {
         if (myFrame != null) {
             myFrame.dispose();
             myFrame = null;
         }
     }
+
+    /**
+     * Initializes the music UI components.
+     */
     private void initializeUI() {
         myFrame = new JFrame("Music UI");
         myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

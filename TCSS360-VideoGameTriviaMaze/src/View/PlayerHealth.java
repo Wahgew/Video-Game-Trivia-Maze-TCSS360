@@ -5,19 +5,40 @@ import Model.Player;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
+/**
+ * Represents the player's health in the game.
+ *
+ * @author Peter W Madin, Ken Egawa, Sopheanith Ny
+ * @version 6/7/2024
+ */
 public class PlayerHealth {
+
+    /**
+     * The image representing the player's health.
+     */
+
     private transient BufferedImage myImage;
-    private static final Font ARIAL_30 = new Font("Arial", Font.BOLD, 30);
+
+    /**
+     * The player associated with this health object.
+     */
     private Player myPlayer;
+
+    /**
+     * The custom font for rendering text.
+     */
     private Font pixelMplus;
 
+    /**
+     * Constructs a PlayerHealth object with the specified player.
+     *
+     * @param thePlayer the player object to associate with this health
+     * @throws IllegalArgumentException if thePlayer is null
+     */
     public PlayerHealth(final Player thePlayer) {
         if (thePlayer == null) {
             throw new IllegalArgumentException("Please enter non-null player object");
@@ -25,6 +46,10 @@ public class PlayerHealth {
         myPlayer = thePlayer;
         loadCustomFont();
     }
+
+    /**
+     * Loads the player health image.
+     */
     public void playerHealthImage() {
         try {
             myImage = (ImageIO.read(getClass().getResourceAsStream("/Resource/Heart.png")));
@@ -32,6 +57,10 @@ public class PlayerHealth {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Loads the custom font.
+     */
     private void loadCustomFont() {
 
         try {
@@ -48,6 +77,12 @@ public class PlayerHealth {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Draws the player's health on the graphics context.
+     *
+     * @param g the graphics context on which to draw the health
+     */
     public void draw(final Graphics g) {
         if (myPlayer.getMyHealth() > 0) {
             //g.setFont(ARIAL_30);

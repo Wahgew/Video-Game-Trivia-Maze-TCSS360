@@ -9,27 +9,69 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * The GamePanel class represents the panel where the game is displayed.
+ *
+ * @author Peter W Madin, Ken Egawa, Sopheanith Ny
+ * @version 6/7/2024
+ */
 public class GamePanel extends JPanel implements Runnable {
+
+    /**
+     * The thread responsible for running the game loop.
+     */
     private transient Thread myGameThread;
+
+    /**
+     * A boolean indicating whether the game is over.
+     */
     private boolean myGameOver;
+
+    /**
+     * The instance of the Game class associated with this panel.
+     */
     public Game myGame;
+
+    /**
+     * The health manager for the player.
+     */
     private transient PlayerHealth myPlayerHealth;
+
+    /**
+     * The panel containing movement buttons.
+     */
     private MovementButtonPanel myMovementButtonPanel;
+
+    /**
+     * The handler for keyboard input.
+     */
     KeyboardsHandler keyboardsHandler = new KeyboardsHandler();
+
+    /**
+     * The label displaying the current room image.
+     */
     private JLabel myRoomImage;
+
+    /**
+     * The manager for handling sound in the game.
+     */
     private transient SoundManager mySoundManager;
 
+    /**
+     * A boolean indicating whether a fade effect is needed.
+     */
     private boolean needFade;
     //private FadeScreen myFade;
 
+    /**
+     * Constructs a GamePanel object.
+     */
     public GamePanel() {
         myGameOver = false;
         myRoomImage = new JLabel();
         mySoundManager = SoundManager.getInstance();
         //myFade = new FadeScreen();
         needFade = false;
-
 
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
@@ -42,8 +84,13 @@ public class GamePanel extends JPanel implements Runnable {
         updateRoomImage();
         revalidate();
         repaint();
-
     }
+
+    /**
+     * Sets the Game instance associated with this panel.
+     *
+     * @param game the Game instance to set
+     */
     public void setMyGame(Game game) {
         myGame = game;
         addKeyListener(myGame.getKeyHandler());
@@ -51,6 +98,9 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
+    /**
+     * Updates the game state.
+     */
     public void update(){
         //System.out.println("The game is running");
         if (Player.getInstance().getMyVictory()) {
@@ -78,6 +128,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Updates the room image displayed on the panel.
+     */
     public void updateRoomImage() {
         BufferedImage mapImage = null;
         try {
@@ -102,6 +155,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Paints the game components on the panel.
+     *
+     * @param theGraph the graphics context to paint on
+     */
     @Override
     public void paintComponent(Graphics theGraph) {
         int panelWidth = getWidth();
@@ -122,6 +180,9 @@ public class GamePanel extends JPanel implements Runnable {
         g2.dispose();
     }
 
+    /**
+     * Runs the game loop.
+     */
     @Override
     public void run() {
         //Setting up game loop with better FPS
@@ -151,34 +212,73 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    /**
+     * Starts the game thread.
+     */
     public void startGameThread() {
         myGameThread = new Thread(this);
         myGameThread.start();
     }
-    public PlayerCollision getCollision() {
-        return myGame.getMyCollisionChecker();
-    }
+
+    /**
+     * Retrieves the player manager associated with the game.
+     *
+     * @return the PlayerManager instance used for managing the player
+     */
     public PlayerManager getMyPlayerManager() {
         return myGame.getMyPlayerManager();
     }
 
+    /**
+     * Retrieves the game thread associated with this panel.
+     *
+     * @return the game thread
+     */
     public Thread getMyGameThread() {
         return myGameThread;
     }
 
+    /**
+     * Sets the game thread associated with this panel.
+     *
+     * @param theThread the game thread to set
+     */
     public void setMyGameThread(Thread theThread) {
         myGameThread = theThread;
     }
 
+    /**
+     * Sets the game over state.
+     *
+     * @param theGameOver the game over state to set
+     */
     public void setGameOver(boolean theGameOver){
         myGameOver = theGameOver;
     }
+
+    /**
+     * Checks if the game is over.
+     *
+     * @return true if the game is over, otherwise false
+     */
     public boolean isGameOver() {
         return myGameOver;
     }
+
+    /**
+     * Sets the movement button panel associated with this game panel.
+     *
+     * @param theMovementButtonPanel the movement button panel to set
+     */
     public void setMyMovementButtonPanel(MovementButtonPanel theMovementButtonPanel) {
         myMovementButtonPanel = theMovementButtonPanel;
     }
+
+    /**
+     * Retrieves the movement button panel associated with this game panel.
+     *
+     * @return the movement button panel
+     */
     public MovementButtonPanel getMyMovementButtonPanel() {
         return myMovementButtonPanel;
     }

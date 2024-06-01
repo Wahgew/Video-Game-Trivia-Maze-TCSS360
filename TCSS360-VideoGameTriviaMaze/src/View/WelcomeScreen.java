@@ -12,19 +12,77 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 
 
+/**
+ * Represents the welcome screen of the game.
+ *
+ * @author Peter W Madin, Ken Egawa, Sopheanith Ny
+ * @version 6/7/2024
+ */
 public class WelcomeScreen extends JPanel implements PropertyChangeListener {
+
+    /**
+     * The width of the screen.
+     */
     private static final int Screen_Width = ScreenSetting.Screen_Width;
+
+    /**
+     * The height of the screen.
+     */
     private static final int Screen_Height = ScreenSetting.Screen_Height;
+
+    /**
+     * Button for starting a new game.
+     */
     private JButton myNewGameButton;
+
+    /**
+     * Button for loading a saved game.
+     */
     private JButton myLoadGameButton;
+
+    /**
+     * Button for displaying information about the game.
+     */
     private JButton myAboutUsButton;
+
+    /**
+     * Button for exiting the game.
+     */
     private JButton myExitButton;
+
+    /**
+     * The background image of the welcome screen.
+     */
     private final Image myBackground;
+
+    /**
+     * Icon for displaying the Speed crying.
+     */
     private final ImageIcon speedIcon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
+
+    /**
+     * Icon for the background image of the welcome screen.
+     */
     private final ImageIcon backgroundIcon= new ImageIcon(getClass().getResource("/Resource/Background.jpg"));
+
+    /**
+     * Icon for displaying the author's image.
+     */
     private final ImageIcon authorIcon = new ImageIcon(getClass().getResource("/Resource/Author_image.png"));
+
+    /**
+     * Manages game data.
+     */
     private final GameDataManger myGameData;
+
+    /**
+     * Manages sound effects and music.
+     */
     private transient SoundManager mySoundManager;
+
+    /**
+     * Constructs a WelcomeScreen object.
+     */
     public WelcomeScreen() {
         setPreferredSize(new Dimension(Screen_Width, Screen_Height));
         myBackground = backgroundIcon.getImage();
@@ -36,6 +94,9 @@ public class WelcomeScreen extends JPanel implements PropertyChangeListener {
         repaint();
     }
 
+    /**
+     * Sets up the buttons on the welcome screen.
+     */
     private void setUpButtons() {
         myNewGameButton = new JButton();
         myLoadGameButton = new JButton();
@@ -84,6 +145,10 @@ public class WelcomeScreen extends JPanel implements PropertyChangeListener {
         add(myAboutUsButton);
         add(myExitButton);
     }
+
+    /**
+     * Adds action listeners to the buttons.
+     */
     public void addButtonListener() {
         myNewGameButton.addActionListener(e -> {
             GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
@@ -117,15 +182,32 @@ public class WelcomeScreen extends JPanel implements PropertyChangeListener {
             }
         });
     }
+
+    /**
+     * Paints the background image on the panel.
+     *
+     * @param theGraphics The graphics context to paint.
+     */
+    @Override
     public void paintComponent(final Graphics theGraphics) {
         super.paintComponent(theGraphics);
         theGraphics.drawImage(myBackground,0, 0, getWidth(), getHeight(), this);
     }
 
+    /**
+     * Gets the new game button.
+     *
+     * @return The new game button.
+     */
     public JButton getMyNewGameButton() {
         return myNewGameButton;
     }
 
+    /**
+     * Handles property change events.
+     *
+     * @param theEvt The property change event.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent theEvt) {
         if ("saveFileCreated".equals(theEvt.getPropertyName())) {

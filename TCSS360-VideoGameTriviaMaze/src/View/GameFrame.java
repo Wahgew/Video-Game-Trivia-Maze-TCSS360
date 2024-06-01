@@ -6,37 +6,142 @@ import Model.Player;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * The GameFrame class represents the main frame for the Trivia Labyrinth Maze game.
+ * It handles the GUI components, game panel switching, and menu actions.
+ *
+ * @author Peter W Madin, Ken Egawa, Sopheanith Ny
+ * @version 6/7/2024
+ */
 public class GameFrame extends JFrame {
+    /**
+     * The title of the game.
+     */
     private static final String GameTitle = "TRIVIA LABYRINTH MAZE ";
+
+    /**
+     * The border size for the game frame.
+     */
     private static final int Border = 15;
+
+    /**
+     * The menu bar of the game frame.
+     */
     private JMenuBar myMenuBar;
+
+    /**
+     * The menu item for saving the game.
+     */
     private JMenuItem mySaveGame;
+
+    /**
+     * The menu item for displaying the welcome screen.
+     */
     private JMenuItem myWelcomeButton;
+
+    /**
+     * The menu item for enabling cheats.
+     */
     private JMenuItem myCheats;
+
+    /**
+     * The menu item for displaying information about the game.
+     */
     private JMenuItem myAboutUs;
+
+    /**
+     * The menu item for exiting the game.
+     */
     private JMenuItem myExitGame;
+
+    /**
+     * The menu item for providing hints in the game.
+     */
     private JMenuItem myHintGame;
+
+    /**
+     * The menu item for displaying game instructions.
+     */
     private JMenuItem myInstructionGame;
+
+    /**
+     * The button for resuming the game.
+     */
     private JButton myResumeGameButton;
+
+    /**
+     * The menu item for resetting high scores.
+     */
     private JMenuItem myResetHighScores;
 
+    /**
+     * The icon for the game logo.
+     */
     private final ImageIcon logoIcon = new ImageIcon(getClass().getResource("/Resource/Logo1.png"));
+
+    /**
+     * The icon for the speed image.
+     */
     private final ImageIcon speedIcon = new ImageIcon(getClass().getResource("/Resource/SPEED_CRYING.gif"));
+
+    /**
+     * The icon for the author image.
+     */
     private final ImageIcon authorIcon = new ImageIcon(getClass().getResource("/Resource/Author_image.png"));
 
+    /**
+     * The game panel associated with this frame.
+     */
     private GamePanel myGamePanel;
+
+    /**
+     * The maze layout panel associated with this frame.
+     */
     private MazeLayoutPanel myMazeLayoutPanel;
+
+    /**
+     * The game data manager.
+     */
     private GameDataManger myGameData;
+
+    /**
+     * The left UI game panel.
+     */
     private LeftUIGamePanel myLeftUIGamePanel;
+
+    /**
+     * The high score manager.
+     */
     private HighScore myHighScore;
+
+    /**
+     * The welcome screen panel.
+     */
     private WelcomeScreen myWelcomeScreen;
 
+    /**
+     * A flag indicating whether the game panel has focus.
+     */
     private boolean myGamePanelFocus;
+
+    /**
+     * The player's health (transient and not serialized).
+     */
     private transient PlayerHealth myPlayerHealth;
+
+    /**
+     * The sound manager for handling game sounds.
+     */
     private SoundManager mySoundManager;
+
+    /**
+     * The music UI for controlling music playback.
+     */
     private MusicUI myMusicUI;
 
+    /**
+     * Constructs a new GameFrame instance, initializing the frame properties and game components.
+     */
     public GameFrame() {
         setUndecorated(true);
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -56,27 +161,47 @@ public class GameFrame extends JFrame {
         mySoundManager.playMusic(0, -20.0f);
     }
 
-    public void playMusic(final int theIndex) {
-        mySoundManager.setFile(theIndex);
-        mySoundManager.play();
-        mySoundManager.loop();
-    }
+    /**
+     * Returns the game panel associated with this frame.
+     *
+     * @return the GamePanel instance
+     */
     public GamePanel getMyGamePanel() {
         return myGamePanel;
     }
 
+    /**
+     * Returns the menu item for saving the game.
+     *
+     * @return the JMenuItem for saving the game
+     */
     public JMenuItem getMySaveGame() {
         return mySaveGame;
     }
 
+    /**
+     * Returns the menu item for enabling cheats.
+     *
+     * @return the JMenuItem for enabling cheats
+     */
     public JMenuItem getMyCheats() {
         return myCheats;
     }
 
+    /**
+     * Returns the left UI game panel.
+     *
+     * @return the LeftUIGamePanel instance
+     */
     public LeftUIGamePanel getMyLeftUIGamePanel() {
         return myLeftUIGamePanel;
     }
 
+    /**
+     * Switches to the specified game panel, updating the UI components.
+     *
+     * @param theGamePanel the GamePanel to switch to
+     */
     public void switchToGamePanel(final GamePanel theGamePanel) {
         myGamePanel = theGamePanel;
         resumeButton();
@@ -115,6 +240,9 @@ public class GameFrame extends JFrame {
         mySoundManager.playMusic(2,-40);
     }
 
+    /**
+     * Switches to the maze layout panel, updating the content pane.
+     */
     public void switchToMazeLayout() {
         // Create a new panel to hold the MazeLayoutPanel
         JPanel mazeLayoutPanel = new JPanel(new BorderLayout());
@@ -128,6 +256,10 @@ public class GameFrame extends JFrame {
         revalidate();
         repaint();
     }
+
+    /**
+     * Switches to the welcome screen, updating the content pane and stopping the game thread.
+     */
     public void switchToWelcomeScreen() {
         myGamePanel.setMyGameThread(null);
         setExtendedState(JFrame.NORMAL);
@@ -142,6 +274,10 @@ public class GameFrame extends JFrame {
         revalidate();
         repaint();
     }
+
+    /**
+     * Switches to the end game panel, updating the content pane.
+     */
     public void switchToEndGamePanel() {
         setContentPane(new EndPanel(Player.getInstance(), myGamePanel));
         //myMenuBar.removeAll();
@@ -149,6 +285,10 @@ public class GameFrame extends JFrame {
         //mySoundManager.playMusic(1);
         revalidate();
     }
+
+    /**
+     * Initializes and sets the resume button with its action listener.
+     */
     private void resumeButton() {
         myResumeGameButton = new JButton("RESUME GAME");
         myResumeGameButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
@@ -159,6 +299,9 @@ public class GameFrame extends JFrame {
         });
     }
 
+    /**
+     * Initializes the menu bar with its menu items and listeners.
+     */
     private void menuBar() {
         myMenuBar = new JMenuBar();
         JMenu myGameMenu = new JMenu("Game Setting");
@@ -171,7 +314,6 @@ public class GameFrame extends JFrame {
         myExitGame = new JMenuItem("Exit");
         myInstructionGame = new JMenuItem("Instruction");
         myResetHighScores = new JMenuItem("Reset High Scores");
-
 
         myMenuBar.add(myGameMenu);
         myMenuBar.add(myHelpMenu);
@@ -189,6 +331,10 @@ public class GameFrame extends JFrame {
         menuBarListener();
 
     }
+
+    /**
+     * Adds action listeners to the menu items.
+     */
     private void menuBarListener() {
         myExitGame.addActionListener(e -> {
             final int jOption = JOptionPane.showConfirmDialog(null,
@@ -255,6 +401,12 @@ public class GameFrame extends JFrame {
         });
 
     }
+
+    /**
+     * Displays a dialog with the specified panel.
+     *
+     * @param thePanel the panel to display in the dialog
+     */
     public void showDialog(final JPanel thePanel) {
         JDialog dialog = new JDialog(this, "Dialog", true);
         dialog.getContentPane().add(thePanel);
@@ -297,8 +449,14 @@ public class GameFrame extends JFrame {
             add(exitButton);
         }
     }
-    //class hintPanel extends JPanel {}
+
+    /**
+     * The exitPanel class represents the panel displayed when confirming exit.
+     */
     class instructionPanel extends JPanel {
+        /**
+         * Constructs an exitPanel with labels and a button for confirming exit.
+         */
         public instructionPanel() {
             setBackground(Color.GRAY);
             JLabel instructionLabel1 = new JLabel("Instruction");
@@ -336,8 +494,6 @@ public class GameFrame extends JFrame {
             add(instructionPanel1);
             add(instructionPanel2);
             add(myResumeGameButton, BorderLayout.SOUTH);
-
-
         }
     }
 }

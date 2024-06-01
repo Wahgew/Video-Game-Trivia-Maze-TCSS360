@@ -20,17 +20,65 @@ import java.io.InputStream;
  * @version 6/7/2024
  */
 public class EndPanel extends JPanel {
+
+    /**
+     * The width of the screen, retrieved from the ScreenSetting class.
+     */
     private static final int ScreenWidth = ScreenSetting.Screen_Width;
+
+    /**
+     * The height of the screen, retrieved from the ScreenSetting class.
+     */
     private static final int ScreenHeight = ScreenSetting.Screen_Height;
+
+    /**
+     * The color white, used for text display.
+     */
     private static final Color White = new Color(255, 255, 255);
+
+    /**
+     * The JTextArea used to display the end message.
+     */
     private JTextArea myText;
+
+    /**
+     * A StringBuilder to build the end message string.
+     */
     private StringBuilder myStringBuilder;
+
+    /**
+     * An index to track the current position in the end message string.
+     */
     private int myIndex;
+
+    /**
+     * A Timer to control the gradual display of the end message.
+     */
     private Timer myTime;
+
+    /**
+     * The player instance containing the player's data.
+     */
     private Player myPlayer;
+
+    /**
+     * The game panel instance, representing the current state of the game.
+     */
     private GamePanel myGamePanel;
+
+    /**
+     * The high score manager, used to save and retrieve high scores.
+     */
     private HighScore myHighScore;
+
+    /**
+     * The sound manager, used to control game sounds.
+     */
     private SoundManager mySoundManager;
+
+    /**
+     * The custom font used for displaying text in the end panel.
+     */
     private Font pixelMplus;
 
     /**
