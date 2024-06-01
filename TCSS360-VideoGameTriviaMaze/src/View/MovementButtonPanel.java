@@ -166,7 +166,7 @@ public class MovementButtonPanel extends JPanel {
 
 
     private static ImageIcon resizeImage(String path, int width, int height) {
-        System.out.println(MovementButtonPanel.class.getResource(path));
+        //System.out.println(MovementButtonPanel.class.getResource(path));
         ImageIcon icon = new ImageIcon(MovementButtonPanel.class.getResource(path));
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);

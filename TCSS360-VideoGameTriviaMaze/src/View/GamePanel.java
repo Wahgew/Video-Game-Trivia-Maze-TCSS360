@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update(){
-        System.out.println("The game is running");
+        //System.out.println("The game is running");
         if (Player.getInstance().getMyVictory()) {
             // Dispose all open JDialog instances
             for (Window window : Window.getWindows()) {
