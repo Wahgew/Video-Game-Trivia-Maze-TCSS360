@@ -1,0 +1,1008 @@
+{
+  "playerInstance" : {
+    "myLocationRow" : 5,
+    "myLocationCol" : 4,
+    "myScore" : 3500,
+    "myDirection" : "EAST",
+    "myCorrectTotal" : 9,
+    "myIncorrectTotal" : 0,
+    "myConsecutiveAns" : 9,
+    "myVictory" : false,
+    "myCheat" : true,
+    "myHealth" : 3,
+    "myMazeLayout" : "MaxDoorsLayout.txt",
+    "myQuestionsAnswered" : {
+      "80" : true,
+      "18" : true,
+      "114" : true,
+      "23" : true,
+      "9" : true,
+      "27" : true,
+      "12" : true,
+      "13" : true,
+      "14" : true
+    }
+  },
+  "mazeInstance" : {
+    "myLayout" : "MaxDoorsLayout.txt",
+    "myMazeRows" : 6,
+    "myMazeCols" : 6,
+    "myEntranceRow" : 0,
+    "myEntranceColumn" : 0,
+    "myExitRow" : 5,
+    "myExitColumn" : 5,
+    "rooms" : [ {
+      "roomFileName" : "src/Resource/MazeRooms/maze_ES.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftIcon.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_ESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_ESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_ESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_ESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_SW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NES.png",
+      "doors" : [ {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftIcon.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NSW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NES.png",
+      "doors" : [ {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftIcon.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NSW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NES.png",
+      "doors" : [ {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftIcon.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NSW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NES.png",
+      "doors" : [ {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftIcon.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NESW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NSW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NE.png",
+      "doors" : [ {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upIcon.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftIcon.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NEW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downIcon.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftIcon.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NEW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downIcon.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftIcon.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NEW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downIcon.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftIcon.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NEW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downIcon.png"
+      }, {
+        "myLockStatus" : false,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftIcon.png"
+      } ]
+    }, {
+      "roomFileName" : "src/Resource/MazeRooms/maze_NW.png",
+      "doors" : [ {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "up",
+        "myMovementIcon" : "/Resource/upQuestion.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "right",
+        "myMovementIcon" : "/Resource/rightIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : true,
+        "myLeadsOutOfBounds" : true,
+        "myDirection" : "down",
+        "myMovementIcon" : "/Resource/downIcon.png"
+      }, {
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
+        "myLeadsOutOfBounds" : false,
+        "myDirection" : "left",
+        "myMovementIcon" : "/Resource/leftQuestion.png"
+      } ]
+    } ]
+  }
+}

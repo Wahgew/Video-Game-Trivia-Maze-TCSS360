@@ -11,7 +11,7 @@ import java.awt.*;
  * It handles the GUI components, game panel switching, and menu actions.
  *
  * @author Peter W Madin, Ken Egawa, Sopheanith Ny
- * @version 6/7/2024
+ * @version 6/1/2024
  */
 public class GameFrame extends JFrame {
     /**
@@ -93,6 +93,11 @@ public class GameFrame extends JFrame {
      * The game panel associated with this frame.
      */
     private GamePanel myGamePanel;
+
+    /**
+     * The main panel that components will be attached to.
+     */
+    private JPanel myMainPanel;
 
     /**
      * The maze layout panel associated with this frame.
@@ -204,27 +209,28 @@ public class GameFrame extends JFrame {
      */
     public void switchToGamePanel(final GamePanel theGamePanel) {
         myGamePanel = theGamePanel;
+        myMainPanel = new JPanel(new BorderLayout());
+        myMainPanel.setBackground(Color.BLACK);
         resumeButton();
         menuBar();
         myWelcomeButton.setEnabled(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Create main panel with BorderLayout
-        JPanel mainPanel = new JPanel(new BorderLayout());
+//        JPanel mainPanel = new JPanel(new BorderLayout());
 
         // Add left UI game panel to the left side of the main panel
         myLeftUIGamePanel = new LeftUIGamePanel(theGamePanel);
-        mainPanel.add(myLeftUIGamePanel, BorderLayout.WEST);
+        myMainPanel.add(myLeftUIGamePanel, BorderLayout.WEST);
         myLeftUIGamePanel.addPropertyChangeListener(myWelcomeScreen);
 
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        myMainPanel.revalidate();
+        myMainPanel.repaint();
 
         // Add theGamePanel to the center of the main panel
-        mainPanel.add(theGamePanel, BorderLayout.CENTER);
-
+        myMainPanel.add(theGamePanel, BorderLayout.CENTER);
         // Set the content pane of the frame to the main panel
-        setContentPane(mainPanel);
+        setContentPane(myMainPanel);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         // Revalidate the frame to apply changes
@@ -239,6 +245,11 @@ public class GameFrame extends JFrame {
         mySoundManager.stop();
         mySoundManager.playMusic(2,-40);
     }
+
+    public void fadeScreen() {
+        myMainPanel.add(new FadeScreen(myGamePanel));
+    }
+
 
     /**
      * Switches to the maze layout panel, updating the content pane.

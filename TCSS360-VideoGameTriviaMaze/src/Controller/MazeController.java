@@ -51,6 +51,7 @@ public class MazeController {
             theGamePanel.updateRoomImage();
             theGamePanel.getMyMovementButtonPanel().checkButtons();
             theGamePanel.getMyMovementButtonPanel().checkIcons();
+            myGame.fadeScreen();
         }
     }
 

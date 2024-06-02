@@ -346,12 +346,12 @@ public class QuestionPanel implements ActionListener {
      * @param thePlayerAnswer the player's answer
      */
     public void checkAnswers(final String thePlayerAnswer) {
+        GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
         if (thePlayerAnswer == null) {
             throw new IllegalArgumentException("The player's answer cannot be null");
         }
         if (Player.getInstance().getMyVictory()) {
             myDialog.dispose();
-            GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
             frame.switchToEndGamePanel();
         } else if (thePlayerAnswer.equalsIgnoreCase(myCorrectAnswer) || myCheats) {
             Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), true);
@@ -359,6 +359,7 @@ public class QuestionPanel implements ActionListener {
             Player.getInstance().movePlayer(Player.getInstance().getMyDirection());
             dialogForResult("Correct");
             callUpdate();
+             frame.fadeScreen();
         } else {
             Player.getInstance().QuestionsAnswered(myDoor.getQuestionObject().getID(), false);
             myDoor.questionAttempted(false, Player.getInstance().getMyLocationRow(),
@@ -367,14 +368,12 @@ public class QuestionPanel implements ActionListener {
             if (Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(),
                     Player.getInstance().getMyLocationCol()).softLockCheck()) { // check if player's current room is soft locked.
                 myDialog.dispose();
-                GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
                 frame.switchToEndGamePanel();
             } else if (Player.getInstance().getMyHealth() > 0) { //myGamePanel.getMyGame().getMyPlayer().getMyHealth()
                 dialogForResult("Incorrect");
                 callUpdate();
             } else { // player has lost case.
                 myDialog.dispose();
-                GameFrame frame = (GameFrame) SwingUtilities.getWindowAncestor(myGamePanel);
                 frame.switchToEndGamePanel();
             }
         }
