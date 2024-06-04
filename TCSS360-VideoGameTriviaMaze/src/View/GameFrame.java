@@ -10,8 +10,10 @@ import java.awt.*;
  * The GameFrame class represents the main frame for the Trivia Labyrinth Maze game.
  * It handles the GUI components, game panel switching, and menu actions.
  *
- * @author Peter W Madin, Ken Egawa, Sopheanith Ny
- * @version 6/1/2024
+ * @author Peter Madin
+ * @author Ken Egawa
+ * @author Sopheanith Ny
+ * @version 0.0.7 June 1, 2024
  */
 public class GameFrame extends JFrame {
     /**
@@ -54,10 +56,10 @@ public class GameFrame extends JFrame {
      */
     private JMenuItem myExitGame;
 
-    /**
-     * The menu item for providing hints in the game.
-     */
-    private JMenuItem myHintGame;
+//    /**
+//     * The menu item for providing hints in the game.
+//     */
+//    private JMenuItem myHintGame;
 
     /**
      * The menu item for displaying game instructions.
@@ -115,7 +117,7 @@ public class GameFrame extends JFrame {
     private LeftUIGamePanel myLeftUIGamePanel;
 
     /**
-     * The high score manager.
+     * The high-score manager.
      */
     private HighScore myHighScore;
 
@@ -123,16 +125,6 @@ public class GameFrame extends JFrame {
      * The welcome screen panel.
      */
     private WelcomeScreen myWelcomeScreen;
-
-    /**
-     * A flag indicating whether the game panel has focus.
-     */
-    private boolean myGamePanelFocus;
-
-    /**
-     * The player's health (transient and not serialized).
-     */
-    private transient PlayerHealth myPlayerHealth;
 
     /**
      * The sound manager for handling game sounds.
@@ -159,7 +151,6 @@ public class GameFrame extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         setResizable(false);
-        myGamePanelFocus = false; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
         myGameData = new GameDataManager();
         myHighScore = new HighScore();
         mySoundManager = SoundManager.getInstance();
@@ -216,9 +207,6 @@ public class GameFrame extends JFrame {
         myWelcomeButton.setEnabled(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        // Create main panel with BorderLayout
-//        JPanel mainPanel = new JPanel(new BorderLayout());
-
         // Add left UI game panel to the left side of the main panel
         myLeftUIGamePanel = new LeftUIGamePanel(theGamePanel);
         myMainPanel.add(myLeftUIGamePanel, BorderLayout.WEST);
@@ -246,6 +234,9 @@ public class GameFrame extends JFrame {
         mySoundManager.playMusic(2,-40);
     }
 
+    /**
+     * Switches to fade screen when loading into new room.
+     */
     public void fadeScreen() {
         myMainPanel.add(new FadeScreen(myGamePanel));
     }
@@ -321,7 +312,7 @@ public class GameFrame extends JFrame {
         myWelcomeButton = new JMenuItem("Welcome Screen");
         myCheats = new JMenuItem("Cheats");
         myAboutUs = new JMenuItem("About Us");
-        myHintGame = new JMenuItem("Hint");
+        //myHintGame = new JMenuItem("Hint");
         myExitGame = new JMenuItem("Exit");
         myInstructionGame = new JMenuItem("Instruction");
         myResetHighScores = new JMenuItem("Reset High Scores");
@@ -334,7 +325,7 @@ public class GameFrame extends JFrame {
         myGameMenu.add(myResetHighScores);
         myGameMenu.add(myCheats);
         myGameMenu.add(myExitGame);
-        myHelpMenu.add(myHintGame);
+        //myHelpMenu.add(myHintGame);
         myHelpMenu.add(myInstructionGame);
         myHelpMenu.add(myAboutUs);
         setJMenuBar(myMenuBar);
@@ -357,20 +348,21 @@ public class GameFrame extends JFrame {
             }
         });
         myAboutUs.addActionListener(e -> {
-            final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
-                    "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 21.", "About",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, authorIcon);
+            JOptionPane.showConfirmDialog(null, """
+                            Game: Trivia Labyrinth Maze.
+                            Author: Peter W Madin, Ken Egawa and Sopheanith Ny.
+                            Version: 1.0.0
+                            JDK: Java 20.""", "About",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, authorIcon);
         });
         //myHintGame.addActionListener(e -> showDialog(new hintPanel()));
         myInstructionGame.addActionListener(e -> { // TODO: REWRITE THIS WITH UPDATED INSTRUCTIONS
-            final int jOption = JOptionPane.showConfirmDialog(null, "<html><p align='justify'>Objective:<br>"
+            JOptionPane.showConfirmDialog(null, "<html><p align='justify'>Objective:<br>"
                             + "Navigate through the maze, answer the trivia questions as prompted when you reach a door to open the pathway, and reach the exit!<br><br>"
                             + "Controls:<br>"
-                            + "Use arrow key buttons or keyboard arrows to navigate through the maze.<br>"
                             + "Press 'New Game' to begin the game.<br>"
-                            + "Press 'Load Game' or 'Reset' to restart the game.<br><br>"
+                            + "Press 'Load Game' or go back to Welcome Screen to start a new game<br><br>"
                             + "Gameplay:<br>"
-                            + "Move the player using arrow key buttons or keyboard arrows.<br>"
                             + "When the player encounters a door, a video game based trivia question will be prompted on the screen.<br>"
                             + "Trivia question types include short answer, multiple choice, true/false, audio and image.<br>"
                             + "Answer the question correctly, and the player is free to continue on the maze,<br>"
@@ -378,7 +370,7 @@ public class GameFrame extends JFrame {
                             + "The player must find another route to exit the maze.<br>"
                             + "Reach the exit to win the game!<br>"
                             + "Good luck and have fun!</p></html>", "Instruction",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, speedIcon);
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, speedIcon);
         });
         mySaveGame.addActionListener(e -> myGameData.saveGameData());
         myCheats.addActionListener(e -> {

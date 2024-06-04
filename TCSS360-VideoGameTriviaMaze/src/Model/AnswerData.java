@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -17,9 +15,16 @@ import java.util.TreeMap;
  * @version 0.0.2 May 9, 2024
  */
 public class AnswerData {
-    private final TreeMap<String, Boolean> myAnswers;
-    private final String myCorrectAnswer;
 
+    /**
+     * TreeMap to store all answer data entries and their correctness.
+     */
+    private final TreeMap<String, Boolean> myAnswers;
+
+    /**
+     * The correct answer String.
+     */
+    private final String myCorrectAnswer;
 
     /**
      * Constructs an AnswerData object with the specified list of answers and correct index.
@@ -32,14 +37,10 @@ public class AnswerData {
     }
 
     /**
-     * Gets the list of answer choices.
+     * Finds the correct answer from the map of answers.
      *
-     * @return the list of answer choices
+     * @return the correct answer as a String, or null if no correct answer is found
      */
-    public TreeMap<String, Boolean> getAnswerChoices() {
-        return myAnswers;
-    }
-
     public String findCorrectAns() {
         for (Map.Entry<String, Boolean> entry : myAnswers.entrySet()) {
             if (entry.getValue()) {
@@ -49,10 +50,30 @@ public class AnswerData {
         return null;
     }
 
+    /**
+     * Gets the correct answer stored in the myCorrectAnswer field.
+     *
+     * @return the correct answer as a String
+     */
     public String getRightAnswer() {
         return myCorrectAnswer;
     }
 
+    /**
+     * Gets the list of answer choices.
+     *
+     * @return the list of answer choices
+     */
+    public TreeMap<String, Boolean> getAnswerChoices() {
+        return myAnswers;
+    }
+
+    /**
+     * Returns a string representation of all the answers.
+     * Each answer is separated by a comma and a space.
+     *
+     * @return a comma-separated string of all answers
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

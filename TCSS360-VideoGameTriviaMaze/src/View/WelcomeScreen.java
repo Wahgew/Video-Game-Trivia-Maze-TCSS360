@@ -169,8 +169,8 @@ public class WelcomeScreen extends JPanel implements PropertyChangeListener {
             myLoadGameButton.setEnabled(false);
         }
         myAboutUsButton.addActionListener(e -> {
-            final int jOption = JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
-                            "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.\nJDK: Java 21.", "About",
+            JOptionPane.showConfirmDialog(null, "Game: Trivia Labyrinth Maze.\n" +
+                            "Author: Peter W Madin, Ken Egawa and Sopheanith Ny.\nVersion: 1.0.0\nJDK: Java 20.", "About",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.DEFAULT_OPTION, authorIcon);
         });
         myExitButton.addActionListener(e -> {

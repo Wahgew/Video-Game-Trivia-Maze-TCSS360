@@ -94,6 +94,9 @@ public class Player {
         return mySingleton;
     }
 
+    /**
+     * Reset the player instance, creating a new player instance.
+     */
     public static synchronized void resetPlayer() {
         mySingleton = new Player();
     }
