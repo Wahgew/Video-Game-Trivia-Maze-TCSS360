@@ -9,13 +9,45 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * FadeScreen is a JPanel that handles a fade-in effect by gradually increasing
+ * the alpha value of a black background image.
+ * It implements ActionListener to handle the fade effect timer.
+ *
+ *
+ * @author Peter Madin
+ * @author Ken Egawa
+ * @author Sopheanith Ny
+ * @version 0.0.4 May 30, 2024
+ */
 public class FadeScreen extends JPanel implements ActionListener {
+
+    /**
+     * Timer to control the fade-in effect.
+     */
     Timer myAlpha = new Timer(20, this);
 
+
+    /**
+     * BufferedImage to hold the background image.
+     */
     BufferedImage myBuffImage;
-    float myAlphaValue = 1f;
+
+    /**
+     * Alpha value for the fade-in effect.
+     */
+    float myAlphaValue = 0f;
+
+    /**
+     * Reference to the GamePanel to control the game state.
+     */
     private GamePanel myGameP;
 
+    /**
+     * Constructor for FadeScreen.
+     *
+     * @param theGamePanel the GamePanel instance to control the game state
+     */
     public FadeScreen(GamePanel theGamePanel) {
         myGameP = theGamePanel;
         myGameP.setMyGameThread(null);
@@ -23,6 +55,9 @@ public class FadeScreen extends JPanel implements ActionListener {
         myAlpha.start();
     }
 
+    /**
+     * Loads the background image for the fade-in effect.
+     */
     public void loadImage() {
         myBuffImage = null;
 
@@ -34,6 +69,12 @@ public class FadeScreen extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Paints the panel with the background image and applies the alpha composite
+     * for the fade-in effect.
+     *
+     * @param theG the Graphics object to protect
+     */
     public void paint(Graphics theG) {
         super.paint(theG);
         Graphics2D g2d = (Graphics2D) theG;
@@ -42,11 +83,16 @@ public class FadeScreen extends JPanel implements ActionListener {
         g2d.drawImage(myBuffImage,0, 0, null);
     }
 
+    /**
+     * Handles the timer action events to update the alpha value and repaint the panel.
+     *
+     * @param e the ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        myAlphaValue -= 0.1f;
+        myAlphaValue += 0.1f;
 
-        if (myAlphaValue < 0) {
+        if (myAlphaValue > 1) {
             myAlphaValue = 0;
             myAlpha.stop();
             myGameP.startGameThread();

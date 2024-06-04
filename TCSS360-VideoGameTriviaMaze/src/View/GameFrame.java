@@ -1,6 +1,6 @@
 package View;
 
-import Model.GameDataManger;
+import Model.GameDataManager;
 import Model.HighScore;
 import Model.Player;
 
@@ -107,7 +107,7 @@ public class GameFrame extends JFrame {
     /**
      * The game data manager.
      */
-    private GameDataManger myGameData;
+    private GameDataManager myGameData;
 
     /**
      * The left UI game panel.
@@ -160,7 +160,7 @@ public class GameFrame extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         myGamePanelFocus = false; // TEMPORARY WORKAROUND FOR MazeController TODO: REPLACE THIS LATER
-        myGameData = new GameDataManger();
+        myGameData = new GameDataManager();
         myHighScore = new HighScore();
         mySoundManager = SoundManager.getInstance();
         mySoundManager.playMusic(0, -20.0f);

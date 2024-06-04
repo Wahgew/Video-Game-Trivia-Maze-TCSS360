@@ -2,13 +2,7 @@ package Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeSupport;
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -54,6 +48,7 @@ public class Player {
      * Player's facing a direction.
      */
     private Direction myDirection;
+
     /**
      * Number of correct answers given by the player.
      */
@@ -114,6 +109,11 @@ public class Player {
         }
     }
 
+    /**
+     * Gets the player's current health.
+     *
+     * @return the player's health
+     */
     public int getMyHealth() {
         return myHealth;
     }
@@ -166,61 +166,7 @@ public class Player {
         }
         return moveAllowed;
     }
-    boolean attemptMove(Direction theDirection) {
-        boolean allowMove = false;
-        int playerRow = myLocationRow;
-        int playerCol = myLocationCol;
-        switch (theDirection) {
-            case NORTH -> playerRow--;
-            case SOUTH -> playerRow++;
-            case EAST -> playerCol++;
-            case WEST -> playerCol--;
-        }
-        if (playerRow >= 0 && playerRow < Maze.getInstance().getMyMazeRows()
-                && playerCol >= 0 && playerCol < Maze.getInstance().getMyMazeCols()) {
-            if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyLockStatus()) { // check if door is locked
-                allowMove = true;
-            } else if (!Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).getMyAttemptStatus()) { // check if player has attempted door
-                Question randQuestion = Maze.getInstance().getMyRoom(myLocationRow, myLocationCol).getMyDoor(theDirection).askQuestion();
-                if (Objects.equals(randQuestion.getType(), "Audio")) {
-                    AuditoryQuestion audioQuestion = (AuditoryQuestion) randQuestion;
-                    Clip audio = audioQuestion.playMusic();
-                    audio.start();
-                    JOptionPane.showMessageDialog(null, audioQuestion.getQuestion() + "\nPress OK to stop playing."); // temporary testing
-                    audio.stop();
-                }
-                String userAns;
-                if (Objects.equals(randQuestion.getType(), "Multi")) {
-                    userAns = JOptionPane.showInputDialog(randQuestion.getQuestion() + "\n" + randQuestion.getAnswers()).toLowerCase();
-                } else if (Objects.equals(randQuestion.getType(), "Image")) {
-                    assert randQuestion instanceof ImageQuestion;
-                    ImageQuestion imgQ = (ImageQuestion) randQuestion;
-                    System.out.println("Debug IMAGE: " + "src/" + imgQ.getImagePath());
-                    try {
-                        BufferedImage buffImage = ImageIO.read(new File("src/" + imgQ.getImagePath()));
-                        JOptionPane.showMessageDialog(null, new JLabel(new ImageIcon(buffImage)),
-                                imgQ.getQuestion(), JOptionPane.PLAIN_MESSAGE);
-                        // Cannot invoke "java.awt.Image.getProperty(String, java.awt.image.ImageObserver)" because "image" is null <-- FILE FORMAT OR COLOR PROFILE ERROR
-                        // NEED TO RE-EXPORT IN PHOTOSHOP OR GIMP AS sRGB, ASK KEN IF YOU NEED HELP
-                        userAns = JOptionPane.showInputDialog(randQuestion.getQuestion()).toLowerCase();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    userAns = JOptionPane.showInputDialog(randQuestion.getQuestion()).toLowerCase(); // temporary testing
-                }
-                if (userAns.equals(randQuestion.getCorrectAnswer().toLowerCase())) { // check player's answer
-                    allowMove = true;
-                    //Door.questionAttempted(true, myLocationRow, myLocationCol, theDirection);
-                    scoreUpdate(true);
-                } else { // player failed to answer correctly
-                    //Door.questionAttempted(false, myLocationRow, myLocationCol, theDirection);
-                    scoreUpdate(false);
-                }
-            }
-        }
-        return allowMove;
-    }
+
     /**
      * Called to update player score when question is attempted.
      * Players earn points for correct answers, with the score multiplier increasing with consecutive correct answers
@@ -243,6 +189,12 @@ public class Player {
         }
         fireScoreChange();
     }
+
+    /**
+     * Moves the player in the specified direction if the move is valid.
+     *
+     * @param theDirection the direction to move the player
+     */
     public void movePlayer(Direction theDirection) {
         if (validPlayerMove(theDirection)) {
             myDirection = theDirection;
@@ -255,16 +207,7 @@ public class Player {
             myVictory = checkVictory();
         }
     }
-    public void movePlayer(int theMove) { //TESTING VERSION
-        if (validPlayerMove(Direction.getDirectionInt(theMove))) {
-            switch (theMove) {
-                case 0 -> myLocationRow--; // North
-                case 1 -> myLocationCol++; // East
-                case 2 -> myLocationRow++; // South
-                case 3 -> myLocationCol--; // West
-            }
-        }
-    }
+
     /**
      * Gets the row index of the player's current location.
      *
@@ -292,14 +235,29 @@ public class Player {
         return myCorrectTotal;
     }
 
+    /**
+     * Gets the number of incorrect answers given by the player.
+     *
+     * @return the number of incorrect answers given by the player
+     */
     public int getMyIncorrectTotal() {
         return myIncorrectTotal;
     }
 
+    /**
+     * Gets the number of consecutive correct answers given by the player.
+     *
+     * @return the number of consecutive correct answers given by the player
+     */
     public int getMyConsecutiveAns() {
         return myConsecutiveAns;
     }
 
+    /**
+     * Gets the questions answered by the player.
+     *
+     * @return a HashMap containing the questions answered by the player
+     */
     public HashMap<Integer, Boolean> getMyQuestionsAnswered() {
         return myQuestionsAnswered;
     }
@@ -313,14 +271,29 @@ public class Player {
        return myDirection;
     }
 
+    /**
+     * Gets the layout of the maze.
+     *
+     * @return a string representing the layout of the maze
+     */
     public String getMyMazeLayout() {
         return myMazeLayout;
     }
 
+    /**
+     * Checks if the player is using cheat mode.
+     *
+     * @return true if the player is using cheat mode, false otherwise
+     */
     public boolean getMyCheat() {
         return myCheat;
     }
 
+    /**
+     * Gets the PropertyChangeSupport instance.
+     *
+     * @return the PropertyChangeSupport instance
+     */
     @JsonIgnore
     public PropertyChangeSupport getMyPCS() {
         return myPCS;
@@ -334,66 +307,139 @@ public class Player {
     public int getMyScore() {
         return myScore;
     }
+
+    /**
+     * Checks if the player has achieved victory.
+     *
+     * @return true if the player has achieved victory, false otherwise
+     */
     public boolean getMyVictory() {
         return myVictory;
     }
 
+    /**
+     * Sets the player's score.
+     *
+     * @param theScore the new score for the player
+     */
     public void setMyScore(int theScore) {
         myScore = theScore;
     }
 
+    /**
+     * Sets the number of correct answers given by the player.
+     *
+     * @param theCorrectTotal the new number of correct answers
+     */
     public void setMyCorrectTotal(int theCorrectTotal) {
         myCorrectTotal = theCorrectTotal;
     }
 
+    /**
+     * Sets the number of incorrect answers given by the player.
+     *
+     * @param theIncorrectTotal the new number of incorrect answers
+     */
     public void setMyIncorrectTotal(int theIncorrectTotal) {
         myIncorrectTotal = theIncorrectTotal;
     }
 
+    /**
+     * Sets the number of consecutive correct answers given by the player.
+     *
+     * @param theConsecutiveAns the new number of consecutive correct answers
+     */
     public void setMyConsecutiveAns(int theConsecutiveAns) {
         myConsecutiveAns = theConsecutiveAns;
     }
 
+    /**
+     * Sets the player's health.
+     *
+     * @param theHealth the new health value for the player
+     */
     public void setMyHealth(int theHealth) {
         myHealth = theHealth;
     }
 
+    /**
+     * Sets the player's direction.
+     *
+     * @param theDirection the new direction for the player
+     */
     public void setMyDirection(Direction theDirection) {
         myDirection = theDirection;
     }
 
+    /**
+     * Sets the column index of the player's location.
+     *
+     * @param theLocationCol the new column index of the player's location
+     */
     public void setMyLocationCol(int theLocationCol) {
         myLocationCol = theLocationCol;
     }
 
+    /**
+     * Sets the row index of the player's location.
+     *
+     * @param theLocationRow the new row index of the player's location
+     */
     public void setMyLocationRow(int theLocationRow) {
         myLocationRow = theLocationRow;
     }
 
+    /**
+     * Sets the questions answered by the player.
+     *
+     * @param theQuestionsAnswered the new set of questions answered
+     */
     public void setMyQuestionsAnswered(HashMap<Integer, Boolean> theQuestionsAnswered) {
         myQuestionsAnswered = theQuestionsAnswered;
     }
 
+    /**
+     * Sets the player's victory status.
+     *
+     * @param theVictory the new victory status
+     */
     public void setMyVictory(boolean theVictory) {
         myVictory = theVictory;
     }
 
+    /**
+     * Sets the player's cheat mode status.
+     *
+     * @param theCheat the new cheat mode status
+     */
     public void setMyCheat(boolean theCheat) {
         myCheat = theCheat;
     }
 
+    /**
+     * Sets the layout of the maze.
+     *
+     * @param theMazeLayout the new layout of the maze
+     */
     public void setMyMazeLayout(String theMazeLayout) {
         myMazeLayout = theMazeLayout;
     }
 
+    /**
+     * Checks if the player has achieved victory by comparing the player's
+     * current location with the exit location of the maze.
+     *
+     * @return true if the player has reached the exit, false otherwise
+     */
     boolean checkVictory() {
         return (Maze.getInstance().getMyExitRow() == getMyLocationRow()
                 && Maze.getInstance().getMyExitColumn() == getMyLocationCol());
     }
 
+    /**
+     * Fires a property change event for the player's score.
+     */
     private void fireScoreChange() {
         myPCS.firePropertyChange("score", null, myScore);
     }
-
-
 }

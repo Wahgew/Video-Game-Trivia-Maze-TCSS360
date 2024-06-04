@@ -59,12 +59,12 @@ public class MazeController {
      * Displays a question panel when the player encounters a door. It also disables
      * certain buttons in the UI while the question panel is active.
      *
-     * @param door The door that the player has encountered.
-     * @param gamePanel The game panel that displays the current state of the game.
+     * @param theDoor The door that the player has encountered.
+     * @param theGamePanel The game panel that displays the current state of the game.
      */
-    private void displayQuestionPanel(Door door, GamePanel gamePanel) {
+    private void displayQuestionPanel(Door theDoor, GamePanel theGamePanel) {
         myGame.getMyLeftUIGamePanel().getMySaveGameButton().setEnabled(false);
         myGame.getMyLeftUIGamePanel().getMySwitchToWelcomeScreenButton().setEnabled(false);
-        SwingUtilities.invokeLater(() -> new QuestionPanel(door ,gamePanel));
+        SwingUtilities.invokeLater(() -> new QuestionPanel(theDoor ,theGamePanel));
     }
 }

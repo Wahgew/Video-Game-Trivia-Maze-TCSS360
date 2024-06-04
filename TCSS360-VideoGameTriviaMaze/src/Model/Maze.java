@@ -23,12 +23,10 @@ import java.util.Scanner;
  * @author Ken Egawa
  * @author Peter Madin
  * @author Sopheanith Ny
- * @version 0.0.1 April 20, 2024
+ * @version 0.0.4 April 20, 2024
  */
 
 public class Maze {
-    //TODO:
-    // Define a minimum and maximum maze size.
 
     /**
      * Singleton instance of Maze.
@@ -86,6 +84,12 @@ public class Maze {
         checkEntExitGen();
         mazeInstantiate();
     }
+
+    /**
+     * Private constructor for creating a Maze instance from a file.
+     *
+     * @param theFileName the name of the file containing the maze layout
+     */
     private Maze(String theFileName) {
         Scanner fileScan;
         myRandom = null;
@@ -99,10 +103,201 @@ public class Maze {
         checkOOBMaze();
     }
 
+    /**
+     * Private constructor for creating a Maze instance with a given layout and rooms.
+     *
+     * @param theLayout the layout of the maze
+     * @param theRooms the rooms of the maze
+     */
     private Maze(String theLayout, Room[][] theRooms) {
         myLayout = theLayout;
         myRandom = null;
         myMaze = theRooms;
+    }
+
+    /**
+     * Resets the maze with a new layout from a file.
+     *
+     * @param theFileName the name of the file containing the new maze layout
+     */
+    public static synchronized void resetMaze(String theFileName) {
+        mySingleton = new Maze(theFileName);
+    }
+
+    /**
+     * Resets the maze with a given layout and rooms.
+     *
+     * @param theLayout the layout of the maze
+     * @param theRoom the rooms of the maze
+     */
+    public static synchronized void resetMaze(String theLayout, Room[][] theRoom) {
+        mySingleton = new Maze(theLayout, theRoom);
+    }
+
+    /**
+     * Generates an int, greater than or equal to zero and less than the upper bound.
+     * Used for generating random entrance and random exit location.
+     *
+     * @param theUpperBound is the exclusive upperbound for generation.
+     * @return a generated int.
+     */
+    private int generateNumber(int theUpperBound) {
+        return myRandom.nextInt(theUpperBound);
+    }
+
+    /**
+     * Instantiates the maze with default rooms.
+     */
+    void mazeInstantiate() {
+        for (int i = 0; i < getMyMazeRows(); i++) {
+            for (int j = 0; j < getMyMazeCols(); j++) {
+                myMaze[i][j] = new Room();
+                if (i == 0 || i == getMyMazeRows() - 1 || j == 0 || j == getMyMazeCols() - 1) { // check if on edge of maze rows.
+                    roomOutOfBounds(i, j);
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks if rooms on the edge of the maze are out-of-bounds.
+     */
+    void checkOOBMaze() {
+        for (int i = 0; i < getMyMazeRows(); i++) {
+            for (int j = 0; j < getMyMazeCols(); j++) {
+                if (i == 0 || i == getMyMazeRows() - 1 || j == 0 || j == getMyMazeCols() - 1) { // check if on edge of maze rows.
+                    roomOutOfBounds(i, j);
+                }
+            }
+        }
+    }
+
+    /**
+     * Instantiates the maze from a file using a Scanner.
+     *
+     * @param theScan the Scanner to read the file
+     * @return a 2D array of Room objects representing the maze
+     */
+    private Room[][] fileMazeInstantiate(Scanner theScan) {
+        int mazeRow, mazeCol;
+        mazeRow = theScan.nextInt();
+        mazeCol = theScan.nextInt();
+        char[][] inputMaze = new char[(mazeRow * 2) + 1][(mazeCol * 2) + 1];
+        Room[][] outputMaze = new Room[mazeRow][mazeCol];
+        String inputRow;
+        theScan.nextLine();
+        int inputRowCounter = -1;
+        while (theScan.hasNextLine()) {
+            inputRow = theScan.nextLine();
+            inputRowCounter++;
+            for (int i = 0; i < inputRow.length(); i++) {
+                inputMaze[inputRowCounter][i] = inputRow.charAt(i);
+            }
+        }
+        return readLayoutMaze(inputMaze, outputMaze);
+    }
+
+    /**
+     * Reads the maze layout from a char array and creates the maze.
+     *
+     * @param theInputMaze the input char array representing the maze layout
+     * @param theOutputMaze the output Room array representing the maze
+     * @return a 2D array of Room objects representing the maze
+     */
+    private Room[][] readLayoutMaze(char[][] theInputMaze, Room[][] theOutputMaze) {
+        int mazeRowCount = -1;
+        for (int i = 0; i < theInputMaze.length; i++) {
+            boolean rowHasRooms = false;
+            int mazeColCount = -1;
+            for (int j = 0; j < theInputMaze[0].length; j++) {
+                char charGrab = theInputMaze[i][j];
+                switch (charGrab) {
+                    case '□' -> {
+                        if (!rowHasRooms) {
+                            mazeRowCount++;
+                        }
+                        mazeColCount++;
+                        rowHasRooms = true;
+                        theOutputMaze[mazeRowCount][mazeColCount] = roomAdjacent(theInputMaze, new Room(), i, j);
+                    }
+                    case 'E' -> {
+                        if (!rowHasRooms) {
+                            mazeRowCount++;
+                        }
+                        rowHasRooms = true;
+                        mazeColCount++;
+                        theOutputMaze[mazeRowCount][mazeColCount] = roomAdjacent(theInputMaze, new Room(), i, j);
+                        myEntranceRow = mazeRowCount;
+                        myEntranceColumn = mazeColCount;
+                    }
+                    case '▨' -> {
+                        if (!rowHasRooms) {
+                            mazeRowCount++;
+                        }
+                        rowHasRooms = true;
+                        mazeColCount++;
+                        theOutputMaze[mazeRowCount][mazeColCount] = roomAdjacent(theInputMaze, new Room(), i, j);
+                        myExitRow = mazeRowCount;
+                        myExitColumn = mazeColCount;
+                    }
+                }
+            }
+        }
+        return theOutputMaze;
+    }
+
+    /**
+     * Sets the doors of a room to be non-passable if they are adjacent to out-of-bounds areas.
+     *
+     * @param theMaze the maze layout
+     * @param theRoom the room to update
+     * @param theRow the row index of the room
+     * @param theCol the column index of the room
+     * @return the updated room
+     */
+    private Room roomAdjacent(char[][] theMaze, Room theRoom, int theRow, int theCol) {
+        if (theRow - 1 < 0 || theMaze[theRow - 1][theCol] != '|') { // north door
+            theRoom.getMyDoor(Direction.NORTH).setNonPassable(true);
+        }
+        if (theRow + 1 >= theMaze.length || theMaze[theRow + 1][theCol] != '|') { // south door
+            theRoom.getMyDoor(Direction.SOUTH).setNonPassable(true);
+        }
+        if (theCol - 1 < 0 || theMaze[theRow][theCol - 1] != '-') { // west door
+            theRoom.getMyDoor(Direction.WEST).setNonPassable(true);
+        }
+        if (theCol + 1 >= theMaze[0].length || theMaze[theRow][theCol + 1] != '-') { // east door
+            theRoom.getMyDoor(Direction.EAST).setNonPassable(true);
+        }
+        return theRoom;
+    }
+
+    /**
+     * Ensures that the entrance and exit of the maze are not the same.
+     */
+    void checkEntExitGen() {
+        while (myEntranceRow == myExitRow && myEntranceColumn == myExitColumn) {
+            myExitRow = generateNumber(myMaze.length);
+            myExitColumn = generateNumber(myMaze[0].length);
+        }
+    }
+
+    /**
+     * If the room at parameter row and column is on the edge of the maze,
+     * sets the doors leading out-of-bounds state to true.
+     * @param theRow
+     * @param theCol
+     */
+    void roomOutOfBounds(int theRow, int theCol) {
+        if (theRow - 1 < 0) {
+            myMaze[theRow][theCol].getMyDoor(Direction.NORTH).setNonPassable(true);
+        } else if (theRow + 1 >= myMaze.length) {
+            myMaze[theRow][theCol].getMyDoor(Direction.SOUTH).setNonPassable(true);
+        }
+        if (theCol - 1 < 0) {
+            myMaze[theRow][theCol].getMyDoor(Direction.WEST).setNonPassable(true);
+        } else if (theCol + 1 >= myMaze[0].length) {
+            myMaze[theRow][theCol].getMyDoor(Direction.EAST).setNonPassable(true);
+        }
     }
 
     /**
@@ -118,38 +313,18 @@ public class Maze {
         }
         return mySingleton;
     }
+
+    /**
+     * Gets the singleton instance of the Maze class, initializing it if necessary.
+     *
+     * @param theFileName the name of the file containing the maze layout
+     * @return the singleton instance of the Maze class
+     */
     public static synchronized Maze getInstance(String theFileName) {
         if (mySingleton == null) {
             mySingleton = new Maze(theFileName);
         }
         return mySingleton;
-    }
-
-    public static synchronized void resetMaze(String theFileName) {
-        mySingleton = new Maze(theFileName);
-    }
-
-    public static synchronized void resetMaze(int theXsize, int theYsize) {
-        mySingleton = new Maze(theXsize, theXsize);
-    }
-
-    public static synchronized void resetMaze(String theLayout, Room[][] theRoom) {
-        mySingleton = new Maze(theLayout, theRoom);
-    }
-
-    public static synchronized void setMySingleton(Maze theMaze) {
-        mySingleton = theMaze;
-    }
-
-    /**
-     * Generates an int, greater than or equal to zero and less than the upper bound.
-     * Used for generating random entrance and random exit location.
-     *
-     * @param theUpperBound is the exclusive upperbound for generation.
-     * @return a generated int.
-     */
-    private int generateNumber(int theUpperBound) {
-        return myRandom.nextInt(theUpperBound);
     }
 
     /**
@@ -248,157 +423,58 @@ public class Maze {
         return myMaze[0].length;
     }
 
+    /**
+     * Gets the layout of the maze.
+     *
+     * @return the layout of the maze
+     */
     public String getMyLayout() {
         return myLayout;
     }
 
+    /**
+     * Sets the entrance column of the maze.
+     *
+     * @param theEntranceColumn the entrance column of the maze
+     */
     public void setMyEntranceColumn(int theEntranceColumn) {
         myEntranceColumn = theEntranceColumn;
     }
 
+    /**
+     * Sets the entrance row of the maze.
+     *
+     * @param theEntranceRow the entrance row of the maze
+     */
     public void setMyEntranceRow(int theEntranceRow) {
         myEntranceRow = theEntranceRow;
     }
 
+    /**
+     * Sets the exit column of the maze.
+     *
+     * @param theExitColumn the exit column of the maze
+     */
     public void setMyExitColumn(int theExitColumn) {
         myExitColumn = theExitColumn;
     }
 
+    /**
+     * Sets the exit row of the maze.
+     *
+     * @param theExitRow the exit row of the maze
+     */
     public void setMyExitRow(int theExitRow) {
         myExitRow = theExitRow;
     }
 
-    void mazeInstantiate() {
-        for (int i = 0; i < getMyMazeRows(); i++) {
-            for (int j = 0; j < getMyMazeCols(); j++) {
-                myMaze[i][j] = new Room();
-                if (i == 0 || i == getMyMazeRows() - 1 || j == 0 || j == getMyMazeCols() - 1) { // check if on edge of maze rows.
-                    roomOutOfBounds(i, j);
-                }
-            }
-        }
-    }
-    void checkOOBMaze() {
-        for (int i = 0; i < getMyMazeRows(); i++) {
-            for (int j = 0; j < getMyMazeCols(); j++) {
-                if (i == 0 || i == getMyMazeRows() - 1 || j == 0 || j == getMyMazeCols() - 1) { // check if on edge of maze rows.
-                    roomOutOfBounds(i, j);
-                }
-            }
-        }
-    }
-    private Room[][] fileMazeInstantiate(Scanner theScan) {
-        int mazeRow, mazeCol;
-        mazeRow = theScan.nextInt();
-        mazeCol = theScan.nextInt();
-        char[][] inputMaze = new char[(mazeRow * 2) + 1][(mazeCol * 2) + 1];
-        Room[][] outputMaze = new Room[mazeRow][mazeCol];
-        String inputRow;
-        theScan.nextLine();
-        int inputRowCounter = -1;
-        while (theScan.hasNextLine()) {
-            inputRow = theScan.nextLine();
-            inputRowCounter++;
-            for (int i = 0; i < inputRow.length(); i++) {
-                inputMaze[inputRowCounter][i] = inputRow.charAt(i);
-            }
-        }
-        return readLayoutMaze(inputMaze, outputMaze);
-    }
-    private Room[][] readLayoutMaze(char[][] theInputMaze, Room[][] theOutputMaze) {
-        int mazeRowCount = -1;
-        for (int i = 0; i < theInputMaze.length; i++) {
-            boolean rowHasRooms = false;
-            int mazeColCount = -1;
-            for (int j = 0; j < theInputMaze[0].length; j++) {
-                char charGrab = theInputMaze[i][j];
-                switch (charGrab) {
-                    case '□' -> {
-                        if (!rowHasRooms) {
-                            mazeRowCount++;
-                        }
-                        mazeColCount++;
-                        rowHasRooms = true;
-                        theOutputMaze[mazeRowCount][mazeColCount] = roomAdjacent(theInputMaze, new Room(), i, j);
-                    }
-                    case 'E' -> {
-                        if (!rowHasRooms) {
-                            mazeRowCount++;
-                        }
-                        rowHasRooms = true;
-                        mazeColCount++;
-                        theOutputMaze[mazeRowCount][mazeColCount] = roomAdjacent(theInputMaze, new Room(), i, j);
-                        myEntranceRow = mazeRowCount;
-                        myEntranceColumn = mazeColCount;
-                    }
-                    case '▨' -> {
-                        if (!rowHasRooms) {
-                            mazeRowCount++;
-                        }
-                        rowHasRooms = true;
-                        mazeColCount++;
-                        theOutputMaze[mazeRowCount][mazeColCount] = roomAdjacent(theInputMaze, new Room(), i, j);
-                        myExitRow = mazeRowCount;
-                        myExitColumn = mazeColCount;
-                    }
-                }
-            }
-        }
-        return theOutputMaze;
-    }
-
-    private Room roomAdjacent(char[][] theMaze, Room theRoom, int theRow, int theCol) {
-        if (theRow - 1 < 0 || theMaze[theRow - 1][theCol] != '|') { // north door
-            theRoom.getMyDoor(Direction.NORTH).setNonPassable(true);
-        }
-        if (theRow + 1 >= theMaze.length || theMaze[theRow + 1][theCol] != '|') { // south door
-            theRoom.getMyDoor(Direction.SOUTH).setNonPassable(true);
-        }
-        if (theCol - 1 < 0 || theMaze[theRow][theCol - 1] != '-') { // west door
-            theRoom.getMyDoor(Direction.WEST).setNonPassable(true);
-        }
-        if (theCol + 1 >= theMaze[0].length || theMaze[theRow][theCol + 1] != '-') { // east door
-            theRoom.getMyDoor(Direction.EAST).setNonPassable(true);
-        }
-        return theRoom;
-    }
-
-    void checkEntExitGen() {
-        while (myEntranceRow == myExitRow && myEntranceColumn == myExitColumn) {
-            myExitRow = generateNumber(myMaze.length);
-            myExitColumn = generateNumber(myMaze[0].length);
-        }
-    }
-
     /**
-     * If the room at parameter row and column is on the edge of the maze,
-     * sets the doors leading out-of-bounds state to true.
-     * @param theRow
-     * @param theCol
+     * Sets the singleton instance of the Maze class.
+     *
+     * @param theMaze the new singleton instance of the Maze class
      */
-    void roomOutOfBounds(int theRow, int theCol) {
-        if (theRow - 1 < 0) {
-            myMaze[theRow][theCol].getMyDoor(Direction.NORTH).setNonPassable(true);
-        } else if (theRow + 1 >= myMaze.length) {
-            myMaze[theRow][theCol].getMyDoor(Direction.SOUTH).setNonPassable(true);
-        }
-        if (theCol - 1 < 0) {
-            myMaze[theRow][theCol].getMyDoor(Direction.WEST).setNonPassable(true);
-        } else if (theCol + 1 >= myMaze[0].length) {
-            myMaze[theRow][theCol].getMyDoor(Direction.EAST).setNonPassable(true);
-        }
-    }
-
-    /**
-     * Getter method for the Tile
-     * @param num index of Tile
-     * @return Tile
-     */
-    public Room[] getTile(final int num) {
-        if (myMaze[num] == null) {
-            throw new IllegalArgumentException("Tile cannot be null");
-        }
-        return myMaze[num];
+    public static synchronized void setMySingleton(Maze theMaze) {
+        mySingleton = theMaze;
     }
 
     /**
@@ -434,30 +510,50 @@ public class Maze {
         return mazeString.toString();
     }
 
+    /**
+     * Serializer for the Maze class to convert Maze objects into JSON format.
+     */
     public static class MazeSerializer extends StdSerializer<Maze> {
+
+        /**
+         * Default constructor for MazeSerializer.
+         */
         public MazeSerializer() {
             this(null);
         }
 
-        public MazeSerializer(Class<Maze> t) {
-            super(t);
+        /**
+         * Constructor for MazeSerializer with a specified class type.
+         *
+         * @param the the class type
+         */
+        public MazeSerializer(Class<Maze> the) {
+            super(the);
         }
 
+        /**
+         * Serializes a Maze object into JSON format.
+         *
+         * @param theMaze the Maze object to serialize
+         * @param theJgen the JSON generator
+         * @param theProvider the serializer provider
+         * @throws IOException if an I/O error occurs
+         */
         @Override
-        public void serialize(Maze maze, JsonGenerator theJgen, SerializerProvider theProvider) throws IOException {
+        public void serialize(Maze theMaze, JsonGenerator theJgen, SerializerProvider theProvider) throws IOException {
             theJgen.writeStartObject();
-            theJgen.writeStringField("myLayout", maze.getMyLayout());
-            theJgen.writeNumberField("myMazeRows", maze.getMyMazeRows());
-            theJgen.writeNumberField("myMazeCols", maze.getMyMazeCols());
-            theJgen.writeNumberField("myEntranceRow", maze.getMyEntranceRow());
-            theJgen.writeNumberField("myEntranceColumn", maze.getMyEntranceColumn());
-            theJgen.writeNumberField("myExitRow", maze.getMyExitRow());
-            theJgen.writeNumberField("myExitColumn", maze.getMyExitColumn());
+            theJgen.writeStringField("myLayout", theMaze.getMyLayout());
+            theJgen.writeNumberField("myMazeRows", theMaze.getMyMazeRows());
+            theJgen.writeNumberField("myMazeCols", theMaze.getMyMazeCols());
+            theJgen.writeNumberField("myEntranceRow", theMaze.getMyEntranceRow());
+            theJgen.writeNumberField("myEntranceColumn", theMaze.getMyEntranceColumn());
+            theJgen.writeNumberField("myExitRow", theMaze.getMyExitRow());
+            theJgen.writeNumberField("myExitColumn", theMaze.getMyExitColumn());
 
             theJgen.writeArrayFieldStart("rooms");
-            for (int i = 0; i < maze.getMyMazeRows(); i++) {
-                for (int j = 0; j < maze.getMyMazeCols(); j++) {
-                    theJgen.writeObject(maze.getMyRoom(i, j));
+            for (int i = 0; i < theMaze.getMyMazeRows(); i++) {
+                for (int j = 0; j < theMaze.getMyMazeCols(); j++) {
+                    theJgen.writeObject(theMaze.getMyRoom(i, j));
                 }
             }
             theJgen.writeEndArray();
@@ -465,7 +561,19 @@ public class Maze {
         }
     }
 
+    /**
+     * Deserializer for the Maze class to convert JSON format into Maze objects.
+     */
     public static class MazeDeserializer extends JsonDeserializer<Maze> {
+
+        /**
+         * Deserializes a JSON object into a Maze object.
+         *
+         * @param theJsonParser the JSON parser
+         * @param theDeserialization the deserialization context
+         * @return the deserialized Maze object
+         * @throws IOException if an I/O error occurs
+         */
         @Override
         public Maze deserialize(JsonParser theJsonParser, DeserializationContext theDeserialization) throws IOException {
             JsonNode node = theJsonParser.getCodec().readTree(theJsonParser);
@@ -473,8 +581,7 @@ public class Maze {
             int rows = node.get("myMazeRows").asInt();
             int cols = node.get("myMazeCols").asInt();
 
-
-            // Initialize the rooms array
+            // Initialize the room arrays
             Room[][] rooms = new Room[rows][cols];
             JsonNode roomsNode = node.get("rooms");
             if (roomsNode == null) {

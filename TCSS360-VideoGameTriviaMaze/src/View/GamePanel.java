@@ -102,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
      * Updates the game state.
      */
     public void update(){
-        //System.out.println("The game is running");
+        System.out.println("The game is running");
         if (Player.getInstance().getMyVictory()) {
             // Dispose all open JDialog instances
             for (Window window : Window.getWindows()) {
@@ -132,6 +132,7 @@ public class GamePanel extends JPanel implements Runnable {
      * Updates the room image displayed on the panel.
      */
     public void updateRoomImage() {
+        System.out.println("the room is being updated");
         BufferedImage mapImage = null;
         try {
             mapImage = ImageIO.read(new File(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol()).getRoomFileName()));
@@ -192,7 +193,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         while (myGameThread != null) {
             // Update information player movement postions
-            update();
+            //update();
             //Draw the screen with updated information
             repaint();
             try {
