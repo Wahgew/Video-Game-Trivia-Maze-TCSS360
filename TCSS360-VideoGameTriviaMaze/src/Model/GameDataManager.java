@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameDataManger {
+public class GameDataManager {
     private static final String SAVE_FILE_PATH = "src/Resource/save.json";
 
     public void saveGameData() {

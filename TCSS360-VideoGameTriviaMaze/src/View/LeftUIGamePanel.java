@@ -1,6 +1,6 @@
 package View;
 
-import Model.GameDataManger;
+import Model.GameDataManager;
 import Model.Player;
 
 import javax.swing.*;
@@ -27,7 +27,7 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
     /**
      * The manager for game data.
      */
-    private GameDataManger myGameData;
+    private GameDataManager myGameData;
 
     /**
      * The panel containing movement buttons.
@@ -84,7 +84,7 @@ public class LeftUIGamePanel extends JPanel implements PropertyChangeListener {
      * @param theGamePanel The associated game panel.
      */
     public LeftUIGamePanel(GamePanel theGamePanel) {
-        myGameData = new GameDataManger();
+        myGameData = new GameDataManager();
         myGamePanel = theGamePanel;
         myPlayerHealth = new PlayerHealth(Player.getInstance());
         //mySoundManager = new SoundManager();

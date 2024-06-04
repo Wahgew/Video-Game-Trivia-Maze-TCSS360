@@ -1,6 +1,6 @@
 package View;
 
-import Model.GameDataManger;
+import Model.GameDataManager;
 import Model.HighScore;
 import Model.Player;
 import Model.Room;
@@ -149,7 +149,7 @@ public class EndPanel extends JPanel {
             mySoundManager.playMusic(3, -20f);
             endMessage = "Game Over" + "\nAll doors to the exit has been locked...";
         } else if (myPlayer.getMyVictory()) {
-            GameDataManger.checkAndHandleVictory();
+            GameDataManager.checkAndHandleVictory();
             mySoundManager.stop();
             mySoundManager.playMusic(4,-20f);
             endMessage = "Let's go... You Made it!\n\n" +

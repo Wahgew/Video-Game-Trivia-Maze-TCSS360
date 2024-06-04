@@ -1,7 +1,7 @@
 package View;
 
 
-import Model.GameDataManger;
+import Model.GameDataManager;
 import Model.Player;
 import Model.QuestionAnswerDatabase;
 
@@ -73,7 +73,7 @@ public class WelcomeScreen extends JPanel implements PropertyChangeListener {
     /**
      * Manages game data.
      */
-    private final GameDataManger myGameData;
+    private final GameDataManager myGameData;
 
     /**
      * Manages sound effects and music.
@@ -86,7 +86,7 @@ public class WelcomeScreen extends JPanel implements PropertyChangeListener {
     public WelcomeScreen() {
         setPreferredSize(new Dimension(Screen_Width, Screen_Height));
         myBackground = backgroundIcon.getImage();
-        myGameData = new GameDataManger();
+        myGameData = new GameDataManager();
         mySoundManager = SoundManager.getInstance();
         setLayout(null);
         setUpButtons();
