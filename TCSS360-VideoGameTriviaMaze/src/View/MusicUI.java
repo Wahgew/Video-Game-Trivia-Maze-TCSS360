@@ -25,7 +25,7 @@ public class MusicUI {
     /**
      * The current volume level.
      */
-    private float currentVolume = 0;
+    private float myCurrentVolume = 0;
     /**
      * The FloatControl object for volume adjustment.
      */
@@ -98,13 +98,13 @@ public class MusicUI {
         mySlider.setEnabled(false); // Initially disable the slider
         mySlider.addChangeListener(e -> {
             if (floatControl != null) {
-                currentVolume = mySlider.getValue();
-                if (currentVolume == -40) {
-                    currentVolume = -80;
+                myCurrentVolume = mySlider.getValue();
+                if (myCurrentVolume == -40) {
+                    myCurrentVolume = -80;
                 }
-                System.out.println("Current Volume: " + currentVolume);
-                floatControl.setValue(currentVolume);
-                mySoundManager.setVolume(currentVolume);
+                System.out.println("Current Volume: " + myCurrentVolume);
+                floatControl.setValue(myCurrentVolume);
+                mySoundManager.setVolume(myCurrentVolume);
                 SoundManager.getInstance().setSlider(mySlider);
             }
         });

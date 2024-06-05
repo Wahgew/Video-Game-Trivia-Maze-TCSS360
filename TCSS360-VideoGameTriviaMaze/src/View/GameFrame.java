@@ -56,11 +56,6 @@ public class GameFrame extends JFrame {
      */
     private JMenuItem myExitGame;
 
-//    /**
-//     * The menu item for providing hints in the game.
-//     */
-//    private JMenuItem myHintGame;
-
     /**
      * The menu item for displaying game instructions.
      */
