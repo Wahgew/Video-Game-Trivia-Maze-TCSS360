@@ -3,8 +3,7 @@ package Model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DoorTest {
     private Door door;
@@ -47,9 +46,12 @@ public class DoorTest {
         assertTrue(door.getMyAttemptStatus());
     }
 
-    //    @Test
-//    void askQuestion_DefaultDoor_ReturnsQuestion() {
-//    }
+    @Test
+    void askQuestion_DefaultDoor_ReturnsQuestion() {
+        Door door = new Door(Direction.NORTH);
+        Question question = door.askQuestion();
+        assertNotNull(question);
+    }
     @Test
     void toString_DefaultDoor_ReturnsStringRepresentation() {
         String expectedString = "Door{myLockStatus=true, myAttemptStatus=false, myLeadsOutofBounds=false}";
