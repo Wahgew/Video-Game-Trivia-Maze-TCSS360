@@ -171,6 +171,15 @@ public class GameFrame extends JFrame {
     }
 
     /**
+     * Returns the welcome screen panel.
+     *
+     * @return the panel for the welcome screen
+     */
+    public WelcomeScreen getMyWelcomeScreen() {
+        return myWelcomeScreen;
+    }
+
+    /**
      * Returns the menu item for enabling cheats.
      *
      * @return the JMenuItem for enabling cheats

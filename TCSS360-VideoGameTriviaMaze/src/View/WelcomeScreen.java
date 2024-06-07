@@ -195,12 +195,12 @@ public class WelcomeScreen extends JPanel implements PropertyChangeListener {
     }
 
     /**
-     * Gets the new game button.
+     * Gets the load game button.
      *
-     * @return The new game button.
+     * @return The load game button
      */
-    public JButton getMyNewGameButton() {
-        return myNewGameButton;
+    public JButton getMyLoadGameButton() {
+        return myLoadGameButton;
     }
 
     /**

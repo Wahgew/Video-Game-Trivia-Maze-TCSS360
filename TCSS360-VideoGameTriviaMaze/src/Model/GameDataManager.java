@@ -109,6 +109,7 @@ public class GameDataManager {
         File saveFile = new File(SAVE_FILE_PATH);
         if (saveFile.exists()) {
             if (saveFile.delete()) {
+
                 System.out.println("Save file deleted successfully.");
             } else {
                 System.out.println("Failed to delete the save file.");
@@ -127,7 +128,7 @@ public class GameDataManager {
     public static void checkAndHandleVictory() {
         Player player = Player.getInstance();
         if (player.getMyVictory()) {
-            //deleteSavedGame();
+            deleteSavedGame();
         }
     }
 }

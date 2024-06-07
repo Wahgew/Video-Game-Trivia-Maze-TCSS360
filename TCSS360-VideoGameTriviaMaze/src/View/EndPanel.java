@@ -150,6 +150,7 @@ public class EndPanel extends JPanel {
             endMessage = "Game Over" + "\nAll doors to the exit has been locked...";
         } else if (myPlayer.getMyVictory()) {
             GameDataManager.checkAndHandleVictory();
+            frame.getMyWelcomeScreen().getMyLoadGameButton().setEnabled(false);
             mySoundManager.stop();
             mySoundManager.playMusic(4,-20f);
             endMessage = "Let's go... You Made it!\n\n" +

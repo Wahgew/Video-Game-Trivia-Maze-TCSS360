@@ -60,8 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * A boolean indicating whether a fade effect is needed.
      */
-    private boolean needFade;
-    //private FadeScreen myFade;
+    private boolean myNeedFade;
 
     /**
      * Constructs a GamePanel object.
@@ -70,8 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
         myGameOver = false;
         myRoomImage = new JLabel();
         mySoundManager = SoundManager.getInstance();
-        //myFade = new FadeScreen();
-        needFade = false;
+        myNeedFade = false;
 
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
