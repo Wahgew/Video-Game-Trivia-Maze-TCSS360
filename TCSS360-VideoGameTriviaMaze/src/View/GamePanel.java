@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * The GamePanel class represents the panel where the game is displayed.
  *
@@ -100,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
      * Updates the game state.
      */
     public void update(){
-        System.out.println("The game is running");
+        //System.out.println("The game is running");
         if (Player.getInstance().getMyVictory()) {
             // Dispose all open JDialog instances
             for (Window window : Window.getWindows()) {
@@ -130,10 +132,16 @@ public class GamePanel extends JPanel implements Runnable {
      * Updates the room image displayed on the panel.
      */
     public void updateRoomImage() {
-        System.out.println("the room is being updated");
+        //System.out.println("the room is being updated");
         BufferedImage mapImage = null;
+        String roomFileName = Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol()).getRoomFileName();
         try {
-            mapImage = ImageIO.read(new File(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol()).getRoomFileName()));
+            InputStream inputStream = GamePanel.class.getResourceAsStream("/Resource/MazeRooms/" + roomFileName);
+            if (inputStream != null) {
+                mapImage = ImageIO.read(inputStream);
+            } else {
+                System.err.println("Resource file not found: " + roomFileName);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -2,6 +2,7 @@ package View;
 
 import Model.*;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -12,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.RoundRectangle2D;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.List;
 import Resource.R;
@@ -130,35 +133,47 @@ public class QuestionPanel implements ActionListener {
 
         JPanel imagePanel = new JPanel(new BorderLayout());
         imagePanel.setBackground(R.Colors.QUESTION_PANEL_BG);
-        ImageIcon imageIcon = new ImageIcon("src/" + imageQuestion.getImagePath());
-        Image originalImage = imageIcon.getImage();
 
-        // Get the original dimensions of the image
-        int originalWidth = originalImage.getWidth(null);
-        int originalHeight = originalImage.getHeight(null);
+        try {
+            String imagePath = "/" + imageQuestion.getImagePath();
+            InputStream inputStream = QuestionPanel.class.getResourceAsStream(imagePath);
+            if (inputStream != null) {
+                ImageIcon imageIcon = new ImageIcon(ImageIO.read(inputStream));
+                Image originalImage = imageIcon.getImage();
 
-        // Calculate the preferred size while maintaining aspect ratio
-        double aspectRatio = (double) originalWidth / originalHeight;
-        int maxWidth = 400; // Set a maximum width for the image
-        int maxHeight = 400; // Set a maximum height for the image
+                // Get the original dimensions of the image
+                int originalWidth = originalImage.getWidth(null);
+                int originalHeight = originalImage.getHeight(null);
 
-        int preferredWidth = maxWidth;
-        int preferredHeight = (int) (preferredWidth / aspectRatio);
+                // Calculate the preferred size while maintaining aspect ratio
+                double aspectRatio = (double) originalWidth / originalHeight;
+                int maxWidth = 400; // Set a maximum width for the image
+                int maxHeight = 400; // Set a maximum height for the image
 
-        // If the preferred height exceeds the maximum height, calculate width based on maximum height
-        if (preferredHeight > maxHeight) {
-            preferredHeight = maxHeight;
-            preferredWidth = (int) (preferredHeight * aspectRatio);
+                int preferredWidth = maxWidth;
+                int preferredHeight = (int) (preferredWidth / aspectRatio);
+
+                // If the preferred height exceeds the maximum height, calculate width based on maximum height
+                if (preferredHeight > maxHeight) {
+                    preferredHeight = maxHeight;
+                    preferredWidth = (int) (preferredHeight * aspectRatio);
+                }
+
+                // Resize the original image to the preferred size
+                Image resizedImage = originalImage.getScaledInstance(preferredWidth, preferredHeight, Image.SCALE_SMOOTH);
+                ImageIcon resizedImageIcon = new ImageIcon(resizedImage);
+                JLabel imageLabel = new JLabel(resizedImageIcon);
+
+                imagePanel.add(imageLabel, BorderLayout.CENTER);
+                imagePanel.setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+                imagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding around the image
+            } else {
+                System.err.println("Resource not found: " + imagePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        // Resize the original image to the preferred size
-        Image resizedImage = originalImage.getScaledInstance(preferredWidth, preferredHeight, Image.SCALE_SMOOTH);
-        ImageIcon resizedImageIcon = new ImageIcon(resizedImage);
-        JLabel imageLabel = new JLabel(resizedImageIcon);
-
-        imagePanel.add(imageLabel, BorderLayout.CENTER);
-        imagePanel.setPreferredSize(new Dimension(preferredWidth, preferredHeight));
-        imagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding around the image
         return imagePanel;
     }
 
@@ -177,15 +192,12 @@ public class QuestionPanel implements ActionListener {
         audioPanel.setBackground(Color.RED);
         myAudio = new Clip[]{audioQuestion.playMusic()};
 
-        playButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (myAudio[0] != null && myAudio[0].isRunning()) {
-                    myAudio[0].stop();
-                }
-                myAudio[0] = audioQuestion.playMusic();
-                myAudio[0].start();
+        playButton.addActionListener(e -> {
+            if (myAudio[0] != null && myAudio[0].isRunning()) {
+                myAudio[0].stop();
             }
+            myAudio = new Clip[]{audioQuestion.playMusic()};
+            myAudio[0].start();
         });
 
         playButton.setPreferredSize(new Dimension(150, 150));
