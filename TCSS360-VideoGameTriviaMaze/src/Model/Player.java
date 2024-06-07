@@ -107,7 +107,6 @@ public class Player {
      * @return the player's health
      */
     public int getMyHealth() {
-        System.out.println("Current health: " + myHealth);
         return myHealth;
     }
 

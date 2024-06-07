@@ -29,7 +29,9 @@ public class PlayerTest {
     }
     @Test
     void getMyHealth() {
-        assertEquals(3, player.getMyHealth());
+        player.resetPlayer();
+        //assertEquals(3, player.getMyHealth());
+        assertEquals(3, Player.getInstance().getMyHealth());
     }
 
     @Test
