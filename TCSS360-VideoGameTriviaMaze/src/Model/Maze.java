@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -94,7 +95,12 @@ public class Maze {
         Scanner fileScan;
         myRandom = null;
         try {
-            fileScan = new Scanner(new File("src/Resource/MazeLayouts/" + theFileName));
+            InputStream inputStream = Maze.class.getResourceAsStream("/Resource/MazeLayouts/" + theFileName);
+            if (inputStream != null) {
+                fileScan = new Scanner(inputStream);
+            } else {
+                throw new FileNotFoundException("Resource file not found: " + theFileName);
+            }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -178,7 +184,7 @@ public class Maze {
      * @param theScan the Scanner to read the file
      * @return a 2D array of Room objects representing the maze
      */
-    private Room[][] fileMazeInstantiate(Scanner theScan) {
+    Room[][] fileMazeInstantiate(Scanner theScan) {
         int mazeRow, mazeCol;
         mazeRow = theScan.nextInt();
         mazeCol = theScan.nextInt();
@@ -284,8 +290,8 @@ public class Maze {
     /**
      * If the room at parameter row and column is on the edge of the maze,
      * sets the doors leading out-of-bounds state to true.
-     * @param theRow
-     * @param theCol
+     * @param theRow the room's row location
+     * @param theCol the room's column location
      */
     void roomOutOfBounds(int theRow, int theCol) {
         if (theRow - 1 < 0) {

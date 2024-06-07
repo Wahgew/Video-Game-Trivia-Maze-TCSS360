@@ -75,7 +75,7 @@ public class Room {
      * @return the filename of the image representing the room
      */
     public String getRoomFileName() {
-        String mazeFile = "src/Resource/MazeRooms/maze_";
+        String mazeFile = "maze_";
         if (!getMyDoor(Direction.NORTH).getMyLeadsOutOfBounds()) {
             mazeFile += "N";
         }

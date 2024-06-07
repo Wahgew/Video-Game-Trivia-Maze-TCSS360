@@ -1,6 +1,9 @@
 package Model;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -26,7 +29,8 @@ import java.util.Scanner;
  * @version 0.0.1 May 20, 2024
  */
 public class HighScore {
-    private static final String HIGH_SCORE_FILE = "highscore.txt";
+    private static final String HIGH_SCORE_FILE = "/Resource/highscore.txt";
+    private static final String WRITABLE_HIGH_SCORE_FILE = "Resource/highscore.txt";
     private int myScore;
     private String myPlayerName;
     private LocalDateTime myDate;
@@ -70,20 +74,38 @@ public class HighScore {
      * Helper loads the high-score data from the file.
      */
     private void loadHighScore() {
-        try (Scanner scanner = new Scanner(new File(HIGH_SCORE_FILE))) {
+        // First, try loading from the writable file
+        Path writableFilePath = Paths.get(WRITABLE_HIGH_SCORE_FILE);
+        if (Files.exists(writableFilePath)) {
+            loadFromFile(writableFilePath);
+        } else {
+            // If writable file doesn't exist, load from classpath
+            try (Scanner scanner = new Scanner(HighScore.class.getResourceAsStream(HIGH_SCORE_FILE))) {
+                if (scanner.hasNextLine()) {
+                    myScore = Integer.parseInt(scanner.nextLine());
+                    myPlayerName = scanner.nextLine();
+                    myDate = LocalDateTime.parse(scanner.nextLine(), DATE_FORMATTER);
+                } else {
+                    resetHighScore();
+                }
+            } catch (Exception e) {
+                resetHighScore();
+            }
+        }
+    }
+
+    private void loadFromFile(Path path) {
+        try (Scanner scanner = new Scanner(path)) {
             if (scanner.hasNextLine()) {
                 myScore = Integer.parseInt(scanner.nextLine());
                 myPlayerName = scanner.nextLine();
                 myDate = LocalDateTime.parse(scanner.nextLine(), DATE_FORMATTER);
             } else {
-                myScore = 0;
-                myPlayerName = "N/A";
-                myDate = LocalDateTime.now();
+                resetHighScore();
             }
-        } catch (FileNotFoundException e) {
-            myScore = 0;
-            myPlayerName = "N/A";
-            myDate =LocalDateTime.now();
+        } catch (IOException e) {
+            e.printStackTrace();
+            resetHighScore();
         }
     }
 
@@ -97,16 +119,22 @@ public class HighScore {
         if (theNewScore > myScore) {
             myScore = theNewScore;
             myPlayerName = theNewPlayerName;
-            myDate =LocalDateTime.now();
-            try (PrintWriter writer = new PrintWriter(new FileWriter(HIGH_SCORE_FILE))) {
-                writer.println(myScore);
-                writer.println(myPlayerName);
-                writer.println(myDate.format(DATE_FORMATTER));
+            myDate = LocalDateTime.now();
+
+            Path writableFilePath = Paths.get(WRITABLE_HIGH_SCORE_FILE);
+            try {
+                Files.createDirectories(writableFilePath.getParent());
+                try (PrintWriter writer = new PrintWriter(new FileWriter(writableFilePath.toFile()))) {
+                    writer.println(myScore);
+                    writer.println(myPlayerName);
+                    writer.println(myDate.format(DATE_FORMATTER));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     /**
      * Retrieves the system's username.
@@ -130,10 +158,14 @@ public class HighScore {
         myScore = 0;
         myPlayerName = "N/A";
         myDate = LocalDateTime.now();
-        try (PrintWriter writer = new PrintWriter(new FileWriter(HIGH_SCORE_FILE))) {
-            writer.println(myScore);
-            writer.println(myPlayerName);
-            writer.println(myDate.format(DATE_FORMATTER));
+        Path writableFilePath = Paths.get(WRITABLE_HIGH_SCORE_FILE);
+        try {
+            Files.createDirectories(writableFilePath.getParent());
+            try (PrintWriter writer = new PrintWriter(new FileWriter(writableFilePath.toFile()))) {
+                writer.println(myScore);
+                writer.println(myPlayerName);
+                writer.println(myDate.format(DATE_FORMATTER));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

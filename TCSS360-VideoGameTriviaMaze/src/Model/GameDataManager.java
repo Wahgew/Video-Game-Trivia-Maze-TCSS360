@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,8 @@ import java.util.Map;
  * @version 0.0.8 May 28, 2024
  */
 public class GameDataManager {
-    private static final String SAVE_FILE_PATH = "src/Resource/save.json";
+    private static final String SAVE_FILE_PATH = "/Resource/save.json";
+    private static final String WRITABLE_SAVE_FILE_PATH = "Resource/save.json";
 
     /**
      * Saves the current game data to a JSON file.
@@ -33,8 +36,6 @@ public class GameDataManager {
      */
     public void saveGameData() {
         ObjectMapper om = new ObjectMapper();
-        File saveFile = new File(SAVE_FILE_PATH);
-
         SimpleModule module = new SimpleModule();
         module.addSerializer(Maze.class, new Maze.MazeSerializer());
         module.addSerializer(Room.class, new Room.RoomSerializer());
@@ -48,7 +49,13 @@ public class GameDataManager {
             HashMap<String, Object> gameData = new HashMap<>();
             gameData.put("mazeInstance", maze);
             gameData.put("playerInstance", player);
-            om.writerWithDefaultPrettyPrinter().writeValue(saveFile, gameData);
+
+            Path saveFilePath = Paths.get(WRITABLE_SAVE_FILE_PATH);
+            Files.createDirectories(saveFilePath.getParent());
+            try (OutputStream os = new FileOutputStream(saveFilePath.toFile())) {
+                om.writerWithDefaultPrettyPrinter().writeValue(os, gameData);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,41 +68,58 @@ public class GameDataManager {
      * the instances of Player and Maze.
      */
     public void loadGameData() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        File loadFile = new File(SAVE_FILE_PATH);
-
+        ObjectMapper om = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Door.class, new Door.DoorDeserializer());
         module.addDeserializer(Room.class, new Room.RoomDeserializer());
         module.addDeserializer(Maze.class, new Maze.MazeDeserializer());
-        objectMapper.registerModule(module);
+        om.registerModule(module);
 
-        try {
-            Map<String, Object> gameData = objectMapper.readValue(loadFile, new TypeReference<>() {
-            });
-            Maze loadedMaze = objectMapper.convertValue(gameData.get("mazeInstance"), Maze.class);
+        // First, try loading from the writable file
+        Path saveFilePath = Paths.get(WRITABLE_SAVE_FILE_PATH);
+        if (Files.exists(saveFilePath)) {
+            loadFromFile(om, saveFilePath.toFile());
+        } else {
+            // If writable file doesn't exist, load from classpath
+            try (InputStream is = GameDataManager.class.getResourceAsStream(SAVE_FILE_PATH)) {
+                if (is != null) {
+                    deserializeGameData(om, is);
+                } else {
+                    System.out.println("No save file found. Starting a new game.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-            Maze.setMySingleton(loadedMaze);
-
-            // Deserialize player
-            Player loadedPlayer = objectMapper.convertValue(gameData.get("playerInstance"), Player.class);
-            Player instance = Player.getInstance();
-            instance.setMyLocationRow(loadedPlayer.getMyLocationRow());
-            instance.setMyLocationCol(loadedPlayer.getMyLocationCol());
-            instance.setMyMazeLayout(loadedPlayer.getMyMazeLayout());
-            instance.setMyScore(loadedPlayer.getMyScore());
-            instance.setMyDirection(loadedPlayer.getMyDirection());
-            instance.setMyCorrectTotal(loadedPlayer.getMyCorrectTotal());
-            instance.setMyIncorrectTotal(loadedPlayer.getMyIncorrectTotal());
-            instance.setMyConsecutiveAns(loadedPlayer.getMyConsecutiveAns());
-            instance.setMyCheat(loadedPlayer.getMyCheat());
-            instance.setMyVictory(loadedPlayer.getMyVictory());
-            instance.setMyHealth(loadedPlayer.getMyHealth());
-            instance.setMyQuestionsAnswered(loadedPlayer.getMyQuestionsAnswered());
-
+    private void loadFromFile(ObjectMapper om, File file) {
+        try (InputStream is = new FileInputStream(file)) {
+            deserializeGameData(om, is);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void deserializeGameData(ObjectMapper om, InputStream is) throws IOException {
+        HashMap<String, Object> gameData = om.readValue(is, new HashMap<String, Object>().getClass());
+        Maze loadedMaze = om.convertValue(gameData.get("mazeInstance"), Maze.class);
+        Maze.setMySingleton(loadedMaze);
+
+        Player loadedPlayer = om.convertValue(gameData.get("playerInstance"), Player.class);
+        Player instance = Player.getInstance();
+        instance.setMyLocationRow(loadedPlayer.getMyLocationRow());
+        instance.setMyLocationCol(loadedPlayer.getMyLocationCol());
+        instance.setMyMazeLayout(loadedPlayer.getMyMazeLayout());
+        instance.setMyScore(loadedPlayer.getMyScore());
+        instance.setMyDirection(loadedPlayer.getMyDirection());
+        instance.setMyCorrectTotal(loadedPlayer.getMyCorrectTotal());
+        instance.setMyIncorrectTotal(loadedPlayer.getMyIncorrectTotal());
+        instance.setMyConsecutiveAns(loadedPlayer.getMyConsecutiveAns());
+        instance.setMyCheat(loadedPlayer.getMyCheat());
+        instance.setMyVictory(loadedPlayer.getMyVictory());
+        instance.setMyHealth(loadedPlayer.getMyHealth());
+        instance.setMyQuestionsAnswered(loadedPlayer.getMyQuestionsAnswered());
     }
 
     /**

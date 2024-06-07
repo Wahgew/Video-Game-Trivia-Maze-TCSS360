@@ -3,6 +3,7 @@ package Model;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * AuditoryQuestion represents a question that includes audio content.
@@ -39,20 +40,20 @@ public class AuditoryQuestion extends MultipleChoiceQuestion {
      */
     public Clip playMusic() {
         try {
-            File musicPath = new File("src/" + myAudioPath);
-            if (musicPath.exists()) {
-                try (AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath)) {
+            InputStream audioInputStream = AuditoryQuestion.class.getResourceAsStream("/" + myAudioPath);
+            if (audioInputStream != null) {
+                try (AudioInputStream audioInput = AudioSystem.getAudioInputStream(audioInputStream)) {
                     Clip audioClip = AudioSystem.getClip();
                     audioClip.open(audioInput);
                     return audioClip;
                 }
             } else {
-                System.out.println("Can't find file at " + myAudioPath);
+                System.out.println("Can't find resource at " + myAudioPath);
             }
         } catch (UnsupportedAudioFileException e) {
             System.out.println("Unsupported audio file format: " + e.getMessage());
         } catch (IOException e) {
-            System.out.println("Error reading audio file: " + e.getMessage());
+            System.out.println("Error reading audio resource: " + e.getMessage());
         } catch (LineUnavailableException e) {
             System.out.println("Audio line is unavailable: " + e.getMessage());
         } catch (Exception e) {
