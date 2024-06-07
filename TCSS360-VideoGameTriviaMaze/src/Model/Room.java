@@ -7,15 +7,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
  * Room class represents a room withing a maze
  * Each room has multiple doors max 4, allowing access to adjective rooms.
- * TODO: Currently, all rooms are created with four doors. Each "doorway" technically has two doors,
- *  * but this behavior may need to be adjusted.
  * This class is used in conjunction with other classes to model the layout and structure of a maze.
  *
  * @author Ken Egawa
@@ -30,12 +26,13 @@ public class Room {
      */
     private final Door[] myDoors;
 
+    /**
+     * The soft lock status of the door.
+     */
     private static boolean mySoftLock;
+
     /**
      * Constructs a new Room object with four doors.
-     *
-     * <p>TODO: Currently, all rooms are created with four doors. Each "doorway" technically has two doors,
-     *      but this behavior may need to be adjusted.</p>
      */
     Room() {
         myDoors = new Door[4];
@@ -44,6 +41,24 @@ public class Room {
         }
         mySoftLock = false;
     }
+
+    /**
+     * Checks if the room is soft locked, i.e., all doors are inaccessible.
+     *
+     * @return true if the room is soft locked, false otherwise
+     */
+    public boolean softLockCheck() {
+        boolean softLocked = true;
+        for (int i = 0; i < myDoors.length; i++) {
+            if (Player.getInstance().validPlayerMove(Direction.getDirectionInt(i))) {
+                softLocked = false;
+                break;
+            }
+        }
+        mySoftLock = softLocked;
+        return softLocked;
+    }
+
     /**
      * Returns the door in the specified direction.
      *
@@ -54,16 +69,11 @@ public class Room {
         return myDoors[theDirection.getMyValue()];
     }
 
-    @Override
-    public String toString() {
-        StringBuilder roomString = new StringBuilder();
-        for (int i = 0; i < 4; i++) {
-            roomString.append(i).append(" = ").append("Door ").append(Direction.getDirectionInt(i))
-                    .append(" Attempt Status: ").append(getMyDoor(Direction.getDirectionInt(i))).append("\n");
-        }
-        return roomString.toString();
-    }
-
+    /**
+     * Returns the filename of the image representing the room based on its doors.
+     *
+     * @return the filename of the image representing the room
+     */
     public String getRoomFileName() {
         String mazeFile = "src/Resource/MazeRooms/maze_";
         if (!getMyDoor(Direction.NORTH).getMyLeadsOutOfBounds()) {
@@ -81,26 +91,22 @@ public class Room {
         mazeFile += ".png";
         return mazeFile;
     }
-    public boolean softLockCheck() {
-        boolean softLocked = true;
-        for (int i = 0; i < myDoors.length; i++) {
-            if (Player.getInstance().validPlayerMove(Direction.getDirectionInt(i))) {
-                softLocked = false;
-                break;
-            }
-        }
-        mySoftLock = softLocked;
-        return softLocked;
-    }
 
+    /**
+     * Retrieves the soft lock status of the room.
+     *
+     * @return the soft lock status of the room
+     */
     public static boolean getSoftLock() {
         return mySoftLock;
     }
 
-    public void setImage(BufferedImage read) { // TODO: DO WE NEED TO REMOVE THIS???
-
-    }
-
+    /**
+     * Sets the doors of the room.
+     *
+     * @param doors the array of doors to set
+     * @throws IllegalArgumentException if the number of doors provided is not exactly four
+     */
     public void setDoors(Door[] doors) {
         if (doors.length != 4) {
             throw new IllegalArgumentException("A room must have exactly 4 doors.");
@@ -108,15 +114,35 @@ public class Room {
         System.arraycopy(doors, 0, myDoors, 0, doors.length);
     }
 
+    /**
+     * A serializer for converting Room objects into JSON format.
+     */
     public static class RoomSerializer extends StdSerializer<Room> {
+
+        /**
+         * Constructs a RoomSerializer object.
+         */
         public RoomSerializer() {
             this(null);
         }
 
-        public RoomSerializer(Class<Room> t) {
-            super(t);
+        /**
+         * Constructs a RoomSerializer object.
+         *
+         * @param the the type of Room
+         */
+        public RoomSerializer(Class<Room> the) {
+            super(the);
         }
 
+        /**
+         * Serializes a Room object into JSON format.
+         *
+         * @param theRoom         the Room object to serialize
+         * @param theGen          the JSON generator
+         * @param theProvider     the serializer provider
+         * @throws IOException if an I/O error occurs during serialization
+         */
         @Override
         public void serialize(Room theRoom, JsonGenerator theGen, SerializerProvider theProvider) throws IOException {
             theGen.writeStartObject();
@@ -131,18 +157,38 @@ public class Room {
         }
     }
 
+    /**
+     * A deserializer for converting JSON data into Room objects.
+     */
     public static class RoomDeserializer extends StdDeserializer<Room> {
+
+        /**
+         * Constructs a RoomDeserializer object.
+         */
         public RoomDeserializer() {
             this(null);
         }
 
+        /**
+         * Constructs a RoomDeserializer object.
+         *
+         * @param vc the type to deserialize
+         */
         public RoomDeserializer(Class<?> vc) {
             super(vc);
         }
 
+        /**
+         * Deserializes JSON data into a Room object.
+         *
+         * @param theJP      the JSON parser
+         * @param theCtxt    the deserialization context
+         * @return the deserialized Room object
+         * @throws IOException if an I/O error occurs during deserialization
+         */
         @Override
-        public Room deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-            JsonNode node = jp.getCodec().readTree(jp);
+        public Room deserialize(JsonParser theJP, DeserializationContext theCtxt) throws IOException {
+            JsonNode node = theJP.getCodec().readTree(theJP);
             JsonNode doorsNode = node.get("doors");
             if (doorsNode == null || doorsNode.size() != 4) {
                 throw new IOException("Invalid 'doors' node in JSON data.");
@@ -151,12 +197,27 @@ public class Room {
             Door[] doors = new Door[4];
             for (int i = 0; i < 4; i++) {
                 JsonNode doorNode = doorsNode.get(i);
-                doors[i] = jp.getCodec().treeToValue(doorNode, Door.class);
+                doors[i] = theJP.getCodec().treeToValue(doorNode, Door.class);
             }
 
             Room room = new Room();
             room.setDoors(doors);
             return room;
         }
+    }
+
+    /**
+     * To string of a room object
+     *
+     * @return returns room status of doors.
+     */
+    @Override
+    public String toString() {
+        StringBuilder roomString = new StringBuilder();
+        for (int i = 0; i < 4; i++) {
+            roomString.append(i).append(" = ").append("Door ").append(Direction.getDirectionInt(i))
+                    .append(" Attempt Status: ").append(getMyDoor(Direction.getDirectionInt(i))).append("\n");
+        }
+        return roomString.toString();
     }
 }

@@ -1,26 +1,25 @@
 {
   "playerInstance" : {
     "myLocationRow" : 5,
-    "myLocationCol" : 4,
-    "myScore" : 3500,
+    "myLocationCol" : 3,
+    "myScore" : 3000,
     "myDirection" : "EAST",
-    "myCorrectTotal" : 9,
+    "myCorrectTotal" : 8,
     "myIncorrectTotal" : 0,
-    "myConsecutiveAns" : 9,
+    "myConsecutiveAns" : 8,
     "myVictory" : false,
-    "myCheat" : true,
+    "myCheat" : false,
     "myHealth" : 3,
     "myMazeLayout" : "MaxDoorsLayout.txt",
     "myQuestionsAnswered" : {
-      "80" : true,
-      "18" : true,
-      "114" : true,
-      "23" : true,
-      "9" : true,
-      "27" : true,
-      "12" : true,
-      "13" : true,
-      "14" : true
+      "51" : true,
+      "101" : true,
+      "86" : true,
+      "73" : true,
+      "10" : true,
+      "59" : true,
+      "44" : true,
+      "30" : true
     }
   },
   "mazeInstance" : {
@@ -931,11 +930,11 @@
         "myDirection" : "up",
         "myMovementIcon" : "/Resource/upQuestion.png"
       }, {
-        "myLockStatus" : false,
-        "myAttemptStatus" : true,
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
         "myLeadsOutOfBounds" : false,
         "myDirection" : "right",
-        "myMovementIcon" : "/Resource/rightIcon.png"
+        "myMovementIcon" : "/Resource/rightQuestion.png"
       }, {
         "myLockStatus" : true,
         "myAttemptStatus" : true,
@@ -970,11 +969,11 @@
         "myDirection" : "down",
         "myMovementIcon" : "/Resource/downIcon.png"
       }, {
-        "myLockStatus" : false,
-        "myAttemptStatus" : true,
+        "myLockStatus" : true,
+        "myAttemptStatus" : false,
         "myLeadsOutOfBounds" : false,
         "myDirection" : "left",
-        "myMovementIcon" : "/Resource/leftIcon.png"
+        "myMovementIcon" : "/Resource/leftQuestion.png"
       } ]
     }, {
       "roomFileName" : "src/Resource/MazeRooms/maze_NW.png",

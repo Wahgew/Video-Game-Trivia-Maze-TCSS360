@@ -40,9 +40,19 @@ public class Door implements Serializable {
      */
     private boolean myAttemptStatus;
 
-    private boolean myLeadsOutOfBounds;
+    /**
+     * Out-of-bounds positions.
+     */
+    private boolean myLeadsOutOfBounds; // not actually useful? maybe remove this
 
+    /**
+     * Question and answer database.
+     */
     private final QuestionAnswerDatabase myQdb;
+
+    /**
+     * The Direction the door is facing.
+     */
     private final Direction myDirection;
     /**
      * Constructs a new Door object with default locks
@@ -78,10 +88,6 @@ public class Door implements Serializable {
         return myLockStatus;
     }
 
-    public Direction getMyDirection() {
-        return myDirection;
-    }
-
     /**
      * Gets the attempt status of the door.
      *
@@ -90,12 +96,21 @@ public class Door implements Serializable {
     public boolean getMyAttemptStatus() {
         return myAttemptStatus;
     }
+
+    /**
+     * Gets the out-of-bounds position.
+     *
+     * @return true if out of bounds, false otherwise.
+     */
     public boolean getMyLeadsOutOfBounds() {
         return myLeadsOutOfBounds;
     }
-    public boolean getMyLockIconStatus() {
-        return (myLockStatus && myAttemptStatus && !myLeadsOutOfBounds);
-    }
+
+    /**
+     * Gets the movement button icons.
+     *
+     * @return the icons depending on the door status.
+     */
     public String getMyMovementIcon() {
         String caseIcon = "/Resource/"; // default icon
         //String caseIcon = "/Resource/";
@@ -137,12 +152,11 @@ public class Door implements Serializable {
         return myQuestion;
     }
 
-    void setMyLeadsOutOfBounds(boolean theOOBStatus) {
-        myLeadsOutOfBounds = theOOBStatus;
-        myLockStatus = theOOBStatus;
-        myAttemptStatus = theOOBStatus;
-    }
-
+    /**
+     * Sets the status of the door.
+     *
+     * @param thePassibility the passibility of the door
+     */
     public void setNonPassable(boolean thePassibility) {
         myLockStatus = thePassibility;
         myAttemptStatus = thePassibility;
@@ -177,45 +191,89 @@ public class Door implements Serializable {
         }
     }
 
-    //TODO: this method may need the row, col, and direction of player
+    /**
+     * Asks a random question from the QuestionAnswerDatabase.
+     *
+     * @return the question asked
+     */
     public Question askQuestion() {
         myQuestion = QuestionAnswerDatabase.getInstance().getRandomQuestion();
         return myQuestion;
     }
 
+    /**
+     * Serializer for the Door class.
+     */
     public static class DoorSerializer extends StdSerializer<Door> {
+
+        /**
+         * Default constructor.
+         */
         public DoorSerializer() {
             this(null);
         }
 
+        /**
+         * Constructor with a specific class.
+         *
+         * @param t the class of the Door
+         */
         public DoorSerializer(Class<Door> t) {
             super(t);
         }
 
+        /**
+         * Serializes a Door object into JSON format.
+         *
+         * @param theDoor the Door object to be serialized
+         * @param theJsonGenerator the JsonGenerator used to generate JSON content
+         * @param theSP the provider for serializing objects
+         * @throws IOException if an I/O error occurs during serialization
+         */
         @Override
-        public void serialize(Door door, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-            jsonGenerator.writeStartObject();
-            jsonGenerator.writeBooleanField("myLockStatus", door.getMyLockStatus());
-            jsonGenerator.writeBooleanField("myAttemptStatus", door.getMyAttemptStatus());
-            jsonGenerator.writeBooleanField("myLeadsOutOfBounds", door.getMyLeadsOutOfBounds());
-            jsonGenerator.writeStringField("myDirection", door.myDirection.toString());
-            jsonGenerator.writeStringField("myMovementIcon", door.getMyMovementIcon());
-            jsonGenerator.writeEndObject();
+        public void serialize(Door theDoor, JsonGenerator theJsonGenerator, SerializerProvider theSP) throws IOException {
+            theJsonGenerator.writeStartObject();
+            theJsonGenerator.writeBooleanField("myLockStatus", theDoor.getMyLockStatus());
+            theJsonGenerator.writeBooleanField("myAttemptStatus", theDoor.getMyAttemptStatus());
+            theJsonGenerator.writeBooleanField("myLeadsOutOfBounds", theDoor.getMyLeadsOutOfBounds());
+            theJsonGenerator.writeStringField("myDirection", theDoor.myDirection.toString());
+            theJsonGenerator.writeStringField("myMovementIcon", theDoor.getMyMovementIcon());
+            theJsonGenerator.writeEndObject();
         }
     }
 
+    /**
+     * Deserializer for the Door class.
+     */
     public static class DoorDeserializer extends StdDeserializer<Door> {
+
+        /**
+         * Default constructor.
+         */
         public DoorDeserializer() {
             this(null);
         }
 
+        /**
+         * Constructor with a specific class.
+         *
+         * @param vc the class of the Door
+         */
         public DoorDeserializer(Class<?> vc) {
             super(vc);
         }
 
+        /**
+         * Deserializes a Door object from JSON data.
+         *
+         * @param theJsonParser the JsonParser used to parse the JSON content
+         * @param theDC the context for the deserialization process
+         * @return a Door object deserialized from the JSON data
+         * @throws IOException if an I/O error occurs during parsing
+         */
         @Override
-        public Door deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-            JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+        public Door deserialize(JsonParser theJsonParser, DeserializationContext theDC) throws IOException {
+            JsonNode node = theJsonParser.getCodec().readTree(theJsonParser);
 
             boolean lockStatus = node.get("myLockStatus").asBoolean();
             boolean attemptStatus = node.get("myAttemptStatus").asBoolean();
@@ -233,6 +291,11 @@ public class Door implements Serializable {
         }
     }
 
+    /**
+     * Returns a string representation of the Door object.
+     *
+     * @return a string representation of the Door
+     */
     @Override
     public String toString() {
         return "Door{" +

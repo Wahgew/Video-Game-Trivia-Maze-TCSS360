@@ -1,7 +1,5 @@
 package Model;
 
-import javax.swing.*;
-
 /**
  * The Direction enum represents the four cardinal directions:
  * North, East, South, and West

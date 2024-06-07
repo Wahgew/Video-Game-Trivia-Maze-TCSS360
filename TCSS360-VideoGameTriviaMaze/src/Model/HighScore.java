@@ -3,9 +3,28 @@ package Model;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Scanner;
 
+/**
+ * HighScore class represents the high score of the game.
+ * It manages the loading, saving, and resetting of high scores.
+ * <p>
+ * High scores are stored in a file named "highscore.txt" in the format:
+ * - Score
+ * - Player Name
+ * - Date
+ * If the file doesn't exist or is corrupted, default values are used.
+ * </p>
+ * <p>
+ * High scores are saved only if a new high score is achieved.
+ * </p>
+ *
+ * @author Peter Madin
+ * @author Ken Egawa
+ * @author Sopheanith Ny
+ *
+ * @version 0.0.1 May 20, 2024
+ */
 public class HighScore {
     private static final String HIGH_SCORE_FILE = "highscore.txt";
     private int myScore;
@@ -13,22 +32,43 @@ public class HighScore {
     private LocalDateTime myDate;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss a");
 
+    /**
+     * Constructs a HighScore object and loads the high score data from the file.
+     */
     public HighScore() {
         loadHighScore();
     }
 
+    /**
+     * Gets the current high score.
+     *
+     * @return the current high score
+     */
     public int getScore() {
         return myScore;
     }
 
+    /**
+     * Gets the player name associated with the high score.
+     *
+     * @return the player name
+     */
     public String getPlayerName() {
         return myPlayerName;
     }
 
+    /**
+     * Gets the date and time when the high score was achieved.
+     *
+     * @return the date and time of the high score
+     */
     public String getDate() {
         return myDate.format(DATE_FORMATTER);
     }
 
+    /**
+     * Helper loads the high-score data from the file.
+     */
     private void loadHighScore() {
         try (Scanner scanner = new Scanner(new File(HIGH_SCORE_FILE))) {
             if (scanner.hasNextLine()) {
@@ -47,6 +87,12 @@ public class HighScore {
         }
     }
 
+    /**
+     * Saves the new high score if it's higher than the current one.
+     *
+     * @param theNewScore the new high score
+     * @param theNewPlayerName the name of the player achieving the new high score
+     */
     public void saveHighScore(int theNewScore, String theNewPlayerName) {
         if (theNewScore > myScore) {
             myScore = theNewScore;
@@ -62,6 +108,11 @@ public class HighScore {
         }
     }
 
+    /**
+     * Retrieves the system's username.
+     *
+     * @return the system's username
+     */
     public static String getSystemUserName() {
         String userName = "Unknown";
         try {
@@ -72,10 +123,13 @@ public class HighScore {
         return userName;
     }
 
+    /**
+     * Resets the high score to default values.
+     */
     public void resetHighScore() {
         myScore = 0;
         myPlayerName = "N/A";
-        myDate =LocalDateTime.now();
+        myDate = LocalDateTime.now();
         try (PrintWriter writer = new PrintWriter(new FileWriter(HIGH_SCORE_FILE))) {
             writer.println(myScore);
             writer.println(myPlayerName);

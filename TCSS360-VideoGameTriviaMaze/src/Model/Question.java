@@ -50,6 +50,12 @@ public abstract class Question {
         setQuestionID(theID);
     }
 
+    /**
+     * Checks whether the provided user answer matches the correct answer.
+     *
+     * @param userAnswer the user's answer to be checked
+     * @return true if the user's answer matches the correct answer, false otherwise
+     */
     boolean checkAnswer(final String userAnswer) {
         return  myAnswers.getRightAnswer().equals(userAnswer.toLowerCase());
     }

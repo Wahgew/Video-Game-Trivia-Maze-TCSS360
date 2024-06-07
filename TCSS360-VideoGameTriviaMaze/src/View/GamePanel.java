@@ -60,8 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * A boolean indicating whether a fade effect is needed.
      */
-    private boolean needFade;
-    //private FadeScreen myFade;
+    private boolean myNeedFade;
 
     /**
      * Constructs a GamePanel object.
@@ -70,8 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
         myGameOver = false;
         myRoomImage = new JLabel();
         mySoundManager = SoundManager.getInstance();
-        //myFade = new FadeScreen();
-        needFade = false;
+        myNeedFade = false;
 
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(ScreenSetting.Screen_Width, ScreenSetting.Screen_Height));
@@ -102,7 +100,7 @@ public class GamePanel extends JPanel implements Runnable {
      * Updates the game state.
      */
     public void update(){
-        //System.out.println("The game is running");
+        System.out.println("The game is running");
         if (Player.getInstance().getMyVictory()) {
             // Dispose all open JDialog instances
             for (Window window : Window.getWindows()) {
@@ -132,6 +130,7 @@ public class GamePanel extends JPanel implements Runnable {
      * Updates the room image displayed on the panel.
      */
     public void updateRoomImage() {
+        System.out.println("the room is being updated");
         BufferedImage mapImage = null;
         try {
             mapImage = ImageIO.read(new File(Maze.getInstance().getMyRoom(Player.getInstance().getMyLocationRow(), Player.getInstance().getMyLocationCol()).getRoomFileName()));
@@ -145,11 +144,6 @@ public class GamePanel extends JPanel implements Runnable {
             myRoomImage.setHorizontalAlignment(JLabel.CENTER);
             myRoomImage.setVerticalAlignment(JLabel.CENTER);
             add(myRoomImage, BorderLayout.CENTER);
-//
-//            JPanel t = new JPanel();
-//            t.setBackground(Color.YELLOW); //TODO: Call transition fade here.
-//            add(t);
-
             revalidate();
             repaint();
         }
@@ -192,7 +186,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         while (myGameThread != null) {
             // Update information player movement postions
-            update();
+            //update();
             //Draw the screen with updated information
             repaint();
             try {
