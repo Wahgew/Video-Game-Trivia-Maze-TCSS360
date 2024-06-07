@@ -102,6 +102,15 @@ public class Player {
     }
 
     /**
+     * Gets the player's current health.
+     *
+     * @return the player's health
+     */
+    public int getMyHealth() {
+        return myHealth;
+    }
+
+    /**
      * Reduces the health of the object by one.
      * If the current health is greater than zero, it decrements the health by one.
      * If the health becomes zero or negative, the object is considered to be "dead".
@@ -110,15 +119,6 @@ public class Player {
         if (myHealth > 0) {
             myHealth--;
         }
-    }
-
-    /**
-     * Gets the player's current health.
-     *
-     * @return the player's health
-     */
-    public int getMyHealth() {
-        return myHealth;
     }
 
     /**
