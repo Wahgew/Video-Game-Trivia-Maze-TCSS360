@@ -34,6 +34,7 @@ public class DoorTest {
         assertEquals("/Resource/upLocked.png", door.getMyMovementIcon());
     }
 
+
     @Test
     void setMyLockStatus_ChangedValue_ReturnsChangedValue() {
         door.setMyLockStatus(false);
@@ -46,14 +47,12 @@ public class DoorTest {
         assertTrue(door.getMyAttemptStatus());
     }
 
+    //    @Test
+//    void askQuestion_DefaultDoor_ReturnsQuestion() {
+//    }
     @Test
     void toString_DefaultDoor_ReturnsStringRepresentation() {
         String expectedString = "Door{myLockStatus=true, myAttemptStatus=false, myLeadsOutofBounds=false}";
         assertEquals(expectedString, door.toString());
     }
-
-//    @Test
-//    void askQuestion_DefaultDoor_ReturnsQuestion() {
-//    }
-
 }
