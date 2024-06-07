@@ -112,31 +112,14 @@ public class Door implements Serializable {
      * @return the icons depending on the door status.
      */
 
-    //This is the original.
-
-//    public String getMyMovementIcon() {
-//        String caseIcon = "/Resource/"; // default icon
-//        //String caseIcon = "/Resource/";
-//        if (myLockStatus && myAttemptStatus && !myLeadsOutOfBounds) {
-//            caseIcon += (myDirection.toString() + "Locked.png"); // locked icon
-//        } else if (myLockStatus & !myAttemptStatus && !myLeadsOutOfBounds) {
-//            caseIcon += (myDirection.toString() + "Question.png"); // question icon
-//        } else if (!myLockStatus & !myAttemptStatus && !myLeadsOutOfBounds) {
-//            caseIcon += (myDirection.toString() + "Question.png");
-//        } else {
-//            caseIcon += (myDirection.toString() + "Icon.png");
-//        }
-//        return caseIcon;
-//    }
-
-    //This is correct method for the test and I did add !myAttemptStatus for the locked icon and question
     public String getMyMovementIcon() {
         String caseIcon = "/Resource/"; // default icon
+        //String caseIcon = "/Resource/";
         if (myLockStatus && myAttemptStatus && !myLeadsOutOfBounds) {
             caseIcon += (myDirection.toString() + "Locked.png"); // locked icon
-        } else if (myLockStatus && !myAttemptStatus && !myLeadsOutOfBounds) {
+        } else if (myLockStatus & !myAttemptStatus && !myLeadsOutOfBounds) {
             caseIcon += (myDirection.toString() + "Question.png"); // question icon
-        } else if (!myLockStatus && !myAttemptStatus && !myLeadsOutOfBounds) {
+        } else if (!myLockStatus & !myAttemptStatus && !myLeadsOutOfBounds) {
             caseIcon += (myDirection.toString() + "Question.png");
         } else {
             caseIcon += (myDirection.toString() + "Icon.png");

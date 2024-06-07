@@ -20,24 +20,23 @@ public class DoorTest {
 
     @Test
     void getMyAttemptStatus_DefaultValue_False() {
-        assertTrue(!door.getMyAttemptStatus());
+        assertFalse(door.getMyAttemptStatus());
     }
 
     @Test
     void getMyLeadsOutOfBounds_DefaultValue_False() {
-        assertTrue(!door.getMyLeadsOutOfBounds());
+        assertFalse(door.getMyLeadsOutOfBounds());
     }
 
     @Test
     void getMyMovementIcon_DefaultDirection_ReturnsExpectedIcon() {
-        assertEquals("/Resource/upLocked.png", door.getMyMovementIcon());
+        assertEquals("/Resource/upQuestion.png", door.getMyMovementIcon());
     }
-
 
     @Test
     void setMyLockStatus_ChangedValue_ReturnsChangedValue() {
         door.setMyLockStatus(false);
-        assertTrue(!door.getMyLockStatus());
+        assertFalse(door.getMyLockStatus());
     }
 
     @Test
@@ -52,6 +51,14 @@ public class DoorTest {
         Question question = door.askQuestion();
         assertNotNull(question);
     }
+
+    @Test
+    void locked_door_Icon() {
+        door.setMyAttemptStatus(true);
+        door.setMyLockStatus(true);
+        assertEquals("/Resource/upLocked.png", door.getMyMovementIcon());
+    }
+
     @Test
     void toString_DefaultDoor_ReturnsStringRepresentation() {
         String expectedString = "Door{myLockStatus=true, myAttemptStatus=false, myLeadsOutofBounds=false}";

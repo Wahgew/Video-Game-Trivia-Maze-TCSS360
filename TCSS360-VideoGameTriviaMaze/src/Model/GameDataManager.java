@@ -130,10 +130,9 @@ public class GameDataManager {
      * Deletion only happens when the player beats the maze.
      */
     public static void deleteSavedGame() {
-        File saveFile = new File(SAVE_FILE_PATH);
+        File saveFile = new File(WRITABLE_SAVE_FILE_PATH);
         if (saveFile.exists()) {
             if (saveFile.delete()) {
-
                 System.out.println("Save file deleted successfully.");
             } else {
                 System.out.println("Failed to delete the save file.");
