@@ -27,9 +27,6 @@ import java.util.Scanner;
  */
 
 public class Maze {
-    //TODO:
-    // Define a minimum and maximum maze size.
-
     /**
      * Singleton instance of Maze.
      */
@@ -86,6 +83,11 @@ public class Maze {
         checkEntExitGen();
         mazeInstantiate();
     }
+
+    /**
+     * Constructs a new Maze object with the specified layout.
+     * @param theFileName the layout .txt file's name.
+     */
     private Maze(String theFileName) {
         Scanner fileScan;
         myRandom = null;
@@ -99,6 +101,11 @@ public class Maze {
         checkOOBMaze();
     }
 
+    /**
+     * Maze constructor, used with resetMaze method.
+     * @param theLayout the layout to set.
+     * @param theRooms the 2d array of Rooms to set.
+     */
     private Maze(String theLayout, Room[][] theRooms) {
         myLayout = theLayout;
         myRandom = null;
@@ -118,6 +125,13 @@ public class Maze {
         }
         return mySingleton;
     }
+
+    /**
+     * Getter for Singleton instance of Maze,
+     * will instantiate a maze using layout if null.
+     * @param theFileName the layout .txt name.
+     * @return Singleton instance of Maze.
+     */
     public static synchronized Maze getInstance(String theFileName) {
         if (mySingleton == null) {
             mySingleton = new Maze(theFileName);
@@ -125,6 +139,10 @@ public class Maze {
         return mySingleton;
     }
 
+    /**
+     * Resets the Maze.
+     * @param theFileName the Maze layout to reset Maze to.
+     */
     public static synchronized void resetMaze(String theFileName) {
         mySingleton = new Maze(theFileName);
     }
@@ -133,10 +151,19 @@ public class Maze {
         mySingleton = new Maze(theXsize, theXsize);
     }
 
+    /**
+     * Resets the Maze, constructing a new maze w/ parameters.
+     * @param theLayout the layout of the maze, .txt file.
+     * @param theRoom the 2d array of Rooms.
+     */
     public static synchronized void resetMaze(String theLayout, Room[][] theRoom) {
         mySingleton = new Maze(theLayout, theRoom);
     }
 
+    /**
+     * Setter for Singleton instance.
+     * @param theMaze the Maze to set Singleton to.
+     */
     public static synchronized void setMySingleton(Maze theMaze) {
         mySingleton = theMaze;
     }
@@ -248,26 +275,49 @@ public class Maze {
         return myMaze[0].length;
     }
 
+    /**
+     * Returns the Maze's layout.
+     * @return String of .txt file name.
+     */
     public String getMyLayout() {
         return myLayout;
     }
 
+    /**
+     * Setter for Maze's entrance column position.
+     * @param theEntranceColumn the Column where entrance is located.
+     */
     public void setMyEntranceColumn(int theEntranceColumn) {
         myEntranceColumn = theEntranceColumn;
     }
 
+    /**
+     * Setter for Maze's entrance row position.
+     * @param theEntranceRow the Row where entrance is located.
+     */
     public void setMyEntranceRow(int theEntranceRow) {
         myEntranceRow = theEntranceRow;
     }
 
+    /**
+     * Setter for Maze's exit column position.
+     * @param theExitColumn the Column where exit is located.
+     */
     public void setMyExitColumn(int theExitColumn) {
         myExitColumn = theExitColumn;
     }
 
+    /**
+     * Setter for Maze's exit row position.
+     * @param theExitRow the Row where entrance is located.
+     */
     public void setMyExitRow(int theExitRow) {
         myExitRow = theExitRow;
     }
 
+    /**
+     * Default Maze instantiator, used w/ default constructor.
+     */
     void mazeInstantiate() {
         for (int i = 0; i < getMyMazeRows(); i++) {
             for (int j = 0; j < getMyMazeCols(); j++) {
@@ -278,6 +328,10 @@ public class Maze {
             }
         }
     }
+
+    /**
+     * Calls roomOutOfBounds on rooms on edge of maze.
+     */
     void checkOOBMaze() {
         for (int i = 0; i < getMyMazeRows(); i++) {
             for (int j = 0; j < getMyMazeCols(); j++) {
@@ -287,6 +341,12 @@ public class Maze {
             }
         }
     }
+
+    /**
+     * Instantiates maze, reading from input file.
+     * @param theScan the Scanner reading input file.
+     * @return 2d array of Room, representing Maze.
+     */
     private Room[][] fileMazeInstantiate(Scanner theScan) {
         int mazeRow, mazeCol;
         mazeRow = theScan.nextInt();
@@ -305,6 +365,13 @@ public class Maze {
         }
         return readLayoutMaze(inputMaze, outputMaze);
     }
+
+    /**
+     * Turns fileMazeInstantiate inputMaze into usable Maze.
+     * @param theInputMaze the room of Char read by Scanner.
+     * @param theOutputMaze the empty Maze w/ final return size.
+     * @return 2d array of Room, representing Maze in .txt file.
+     */
     private Room[][] readLayoutMaze(char[][] theInputMaze, Room[][] theOutputMaze) {
         int mazeRowCount = -1;
         for (int i = 0; i < theInputMaze.length; i++) {
@@ -347,6 +414,14 @@ public class Maze {
         return theOutputMaze;
     }
 
+    /**
+     * Checks if Room's door in direction is passable.
+     * @param theMaze the Maze, 2d array of char.
+     * @param theRoom the Room that is being checked.
+     * @param theRow the Row location of the Room.
+     * @param theCol the Column location of the Room.
+     * @return the Room with Doors set accordingly.
+     */
     private Room roomAdjacent(char[][] theMaze, Room theRoom, int theRow, int theCol) {
         if (theRow - 1 < 0 || theMaze[theRow - 1][theCol] != '|') { // north door
             theRoom.getMyDoor(Direction.NORTH).setNonPassable(true);
@@ -363,6 +438,10 @@ public class Maze {
         return theRoom;
     }
 
+    /**
+     * Generates a new Entrance/Exit if
+     * they both are overlapping positions.
+     */
     void checkEntExitGen() {
         while (myEntranceRow == myExitRow && myEntranceColumn == myExitColumn) {
             myExitRow = generateNumber(myMaze.length);

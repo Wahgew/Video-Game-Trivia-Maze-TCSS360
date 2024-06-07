@@ -40,7 +40,7 @@ public class Door implements Serializable {
      */
     private boolean myAttemptStatus;
 
-    private boolean myLeadsOutOfBounds; // not actually useful? maybe remove this
+    private boolean myLeadsOutOfBounds;
 
     private final QuestionAnswerDatabase myQdb;
     private final Direction myDirection;

@@ -3,6 +3,7 @@ package Model;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MazeTest {
+    Maze testMaze = null;
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
@@ -14,10 +15,8 @@ class MazeTest {
 
     @org.junit.jupiter.api.Test
     void getInstance() {
-    }
-
-    @org.junit.jupiter.api.Test
-    void testGetInstance() {
+        Maze testMaze = Maze.getInstance();
+        assertEquals(testMaze, Maze.getInstance());
     }
 
     @org.junit.jupiter.api.Test

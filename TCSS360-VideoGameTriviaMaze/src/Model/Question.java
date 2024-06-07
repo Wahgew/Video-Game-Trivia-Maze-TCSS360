@@ -50,8 +50,6 @@ public abstract class Question {
         setQuestionID(theID);
     }
 
-    //TODO: For now this just checks the answer of user input
-    // we will need to make check for the four button option the user clicks on.
     boolean checkAnswer(final String userAnswer) {
         return  myAnswers.getRightAnswer().equals(userAnswer.toLowerCase());
     }
