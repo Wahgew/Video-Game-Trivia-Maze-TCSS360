@@ -2,6 +2,10 @@ package Model;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MazeTest {
@@ -110,6 +114,20 @@ class MazeTest {
         assertTrue(Maze.getInstance().getMyRoom(0, 0).getMyDoor(Direction.WEST).getMyLeadsOutOfBounds());
         assertFalse(Maze.getInstance().getMyRoom(0,0).getMyDoor(Direction.EAST).getMyLeadsOutOfBounds());
         assertFalse(Maze.getInstance().getMyRoom(0,0).getMyDoor(Direction.SOUTH).getMyLeadsOutOfBounds());
+    }
+    @Test
+    void testFileMazeInstantiate() {
+        Scanner fileScan;
+        try {
+            fileScan = new Scanner(new File("src/Resource/MazeLayouts/" + "MazeyMazeLayout.txt"));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        Room[][] myMaze = Maze.getInstance().fileMazeInstantiate(fileScan);
+        assertFalse(myMaze[1][1].getMyDoor(Direction.NORTH).getMyAttemptStatus());
+        assertFalse(myMaze[1][1].getMyDoor(Direction.SOUTH).getMyAttemptStatus());
+        assertFalse(myMaze[1][1].getMyDoor(Direction.EAST).getMyAttemptStatus());
+        assertTrue(myMaze[1][1].getMyDoor(Direction.WEST).getMyAttemptStatus());
     }
 
 }
