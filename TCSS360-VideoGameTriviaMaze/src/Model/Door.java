@@ -129,7 +129,7 @@ public class Door implements Serializable {
 //        return caseIcon;
 //    }
 
-    //This is correct logic and i did change the 135.
+    //This is correct method for the test and I did add !myAttemptStatus for the locked icon and question
     public String getMyMovementIcon() {
         String caseIcon = "/Resource/"; // default icon
         if (myLockStatus && !myAttemptStatus && !myLeadsOutOfBounds) {
