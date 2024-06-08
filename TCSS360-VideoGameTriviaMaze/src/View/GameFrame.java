@@ -359,7 +359,6 @@ public class GameFrame extends JFrame {
                             JDK: Java 20.""", "About",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, authorIcon);
         });
-        //myHintGame.addActionListener(e -> showDialog(new hintPanel()));
         myInstructionGame.addActionListener(e -> { // TODO: REWRITE THIS WITH UPDATED INSTRUCTIONS
             JOptionPane.showConfirmDialog(null, "<html><p align='justify'>Objective:<br>"
                             + "Navigate through the maze, answer the trivia questions as prompted when you reach a door to open the pathway, and reach the exit!<br><br>"
@@ -367,7 +366,7 @@ public class GameFrame extends JFrame {
                             + "Press 'New Game' to begin the game.<br>"
                             + "Press 'Load Game' or go back to Welcome Screen to start a new game<br><br>"
                             + "Gameplay:<br>"
-                            + "When the player encounters a door, a video game based trivia question will be prompted on the screen.<br>"
+                            + "When the player click on the one of the movement button, a video game based trivia question will be prompted on the screen.<br>"
                             + "Trivia question types include short answer, multiple choice, true/false, audio and image.<br>"
                             + "Answer the question correctly, and the player is free to continue on the maze,<br>"
                             + "otherwise if the player answers incorrectly, the door is now locked.<br>"
