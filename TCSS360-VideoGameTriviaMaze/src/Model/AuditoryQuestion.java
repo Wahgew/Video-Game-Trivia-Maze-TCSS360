@@ -1,6 +1,7 @@
 package Model;
 
 import javax.sound.sampled.*;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,13 +40,14 @@ public class AuditoryQuestion extends MultipleChoiceQuestion {
      * https://www.youtube.com/watch?v=wJO_cq5XeSA
      */
     public Clip playMusic() {
+        Clip audioClip = null;
         try {
-            InputStream audioInputStream = AuditoryQuestion.class.getResourceAsStream("/" + myAudioPath);
+            String resourcePath = getResourcePath(myAudioPath);
+            InputStream audioInputStream = AuditoryQuestion.class.getResourceAsStream(resourcePath);
             if (audioInputStream != null) {
-                try (AudioInputStream audioInput = AudioSystem.getAudioInputStream(audioInputStream)) {
-                    Clip audioClip = AudioSystem.getClip();
+                try (AudioInputStream audioInput = AudioSystem.getAudioInputStream(new BufferedInputStream(audioInputStream))) {
+                    audioClip = AudioSystem.getClip();
                     audioClip.open(audioInput);
-                    return audioClip;
                 }
             } else {
                 System.out.println("Can't find resource at " + myAudioPath);
@@ -59,7 +61,15 @@ public class AuditoryQuestion extends MultipleChoiceQuestion {
         } catch (Exception e) {
             System.out.println("Error playing audio: " + e.getMessage());
         }
-        return null;
+        return audioClip;
+    }
+
+    private String getResourcePath(String path) {
+        if (path.startsWith("/")) {
+            return path;
+        } else {
+            return "/" + path;
+        }
     }
 
     /**

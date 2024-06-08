@@ -182,6 +182,42 @@ public class QuestionPanel implements ActionListener {
      *
      * @return JPanel containing the auditory question
      */
+//    private JPanel loadAudio() {
+//        assert myDoor.getQuestionObject() instanceof AuditoryQuestion;
+//        AuditoryQuestion audioQuestion = (AuditoryQuestion) myDoor.getQuestionObject();
+//
+//        JPanel audioPanel = new JPanel(new BorderLayout());
+//        JButton playButton = new JButton("Play Audio");
+//        audioPanel.setBackground(R.Colors.QUESTION_PANEL_BG);
+//        audioPanel.setBackground(Color.RED);
+//        myAudio = new Clip[]{audioQuestion.playMusic()};
+//
+//        playButton.addActionListener(e -> {
+//            if (myAudio[0] != null && myAudio[0].isRunning()) {
+//                myAudio[0].stop();
+//            }
+//            myAudio = new Clip[]{audioQuestion.playMusic()};
+//            myAudio[0].start();
+//        });
+//
+//        playButton.setPreferredSize(new Dimension(150, 150));
+//
+//        // Make the button circular
+//        playButton.setBorder(BorderFactory.createEmptyBorder());
+//        playButton.setContentAreaFilled(false);
+//        playButton.setFocusPainted(false);
+//        playButton.setOpaque(true);
+//        playButton.setBackground(Color.WHITE);
+//        playButton.setForeground(Color.BLACK);
+//
+//        // Add a border around the circular button
+//        playButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+//
+//        audioPanel.add(playButton, BorderLayout.CENTER);
+//        audioPanel.setPreferredSize(new Dimension(700, 100));
+//        return audioPanel;
+//    }
+
     private JPanel loadAudio() {
         assert myDoor.getQuestionObject() instanceof AuditoryQuestion;
         AuditoryQuestion audioQuestion = (AuditoryQuestion) myDoor.getQuestionObject();
@@ -190,14 +226,24 @@ public class QuestionPanel implements ActionListener {
         JButton playButton = new JButton("Play Audio");
         audioPanel.setBackground(R.Colors.QUESTION_PANEL_BG);
         audioPanel.setBackground(Color.RED);
-        myAudio = new Clip[]{audioQuestion.playMusic()};
+
+        Clip audioClip = audioQuestion.playMusic();
+        if (audioClip != null) {
+            myAudio = new Clip[]{audioClip};
+        } else {
+            System.out.println("Failed to load audio clip");
+        }
 
         playButton.addActionListener(e -> {
-            if (myAudio[0] != null && myAudio[0].isRunning()) {
+            if (myAudio != null && myAudio[0] != null && myAudio[0].isRunning()) {
                 myAudio[0].stop();
             }
-            myAudio = new Clip[]{audioQuestion.playMusic()};
-            myAudio[0].start();
+            if (myAudio != null && myAudio[0] != null) {
+                myAudio[0].setFramePosition(0);
+                myAudio[0].start();
+            } else {
+                System.out.println("Audio clip is not initialized");
+            }
         });
 
         playButton.setPreferredSize(new Dimension(150, 150));

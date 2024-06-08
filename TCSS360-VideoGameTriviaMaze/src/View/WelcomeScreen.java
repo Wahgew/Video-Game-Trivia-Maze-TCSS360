@@ -156,7 +156,7 @@ public class WelcomeScreen extends JPanel implements PropertyChangeListener {
             QuestionPanel.cheatToggle(false);
             gameFrame.switchToMazeLayout();
         });
-        File saveFile = new File("src/Resource/save.json");
+        File saveFile = new File("Resource/save.json");
         if (saveFile.exists()) {
             myLoadGameButton.addActionListener(e -> {
                 GameFrame gameFrame = (GameFrame) SwingUtilities.getWindowAncestor(WelcomeScreen.this);
