@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * FadeScreen is a JPanel that handles a fade-in effect by gradually increasing
@@ -62,11 +63,15 @@ public class FadeScreen extends JPanel implements ActionListener {
         myBuffImage = null;
 
         try {
-            myBuffImage = ImageIO.read(new File("src/Resource/Images/Solid_black_bg.jpg"));
+            InputStream inputStream = FadeScreen.class.getResourceAsStream("/Resource/Images/Solid_black_bg.jpg");
+            if (inputStream != null) {
+                myBuffImage = ImageIO.read(inputStream);
+            } else {
+                System.err.println("Resource file not found: /Resource/Images/Solid_black_bg.jpg");
+            }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-
     }
 
     /**
