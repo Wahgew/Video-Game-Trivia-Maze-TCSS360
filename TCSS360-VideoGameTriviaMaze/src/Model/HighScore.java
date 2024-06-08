@@ -30,7 +30,7 @@ import java.util.Scanner;
  */
 public class HighScore {
     private static final String HIGH_SCORE_FILE = "/Resource/highscore.txt";
-    private static final String WRITABLE_HIGH_SCORE_FILE = "Resource/highscore.txt";
+    private static String WRITABLE_HIGH_SCORE_FILE = "Resource/highscore.txt";
     private int myScore;
     private String myPlayerName;
     private LocalDateTime myDate;
@@ -94,6 +94,9 @@ public class HighScore {
         }
     }
 
+    /**
+     * Helper loads the high-score data from the file.
+     */
     private void loadFromFile(Path path) {
         try (Scanner scanner = new Scanner(path)) {
             if (scanner.hasNextLine()) {
@@ -135,22 +138,6 @@ public class HighScore {
         }
     }
 
-
-    /**
-     * Retrieves the system's username.
-     *
-     * @return the system's username
-     */
-    public static String getSystemUserName() {
-        String userName = "Unknown";
-        try {
-            userName = System.getProperty("user.name");
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-        return userName;
-    }
-
     /**
      * Resets the high score to default values.
      */
@@ -169,5 +156,29 @@ public class HighScore {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Retrieves the system's username.
+     *
+     * @return the system's username
+     */
+    public static String getSystemUserName() {
+        String userName = "Unknown";
+        try {
+            userName = System.getProperty("user.name");
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+        return userName;
+    }
+
+    /**
+     * Sets the writable file path.
+     *
+     * @param theFile the path to the writeable file
+     */
+    public void setWritableHighScoreFile(String theFile) {
+        WRITABLE_HIGH_SCORE_FILE = theFile;
     }
 }
