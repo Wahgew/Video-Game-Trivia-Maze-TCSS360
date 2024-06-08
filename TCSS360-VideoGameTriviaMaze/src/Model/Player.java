@@ -53,13 +53,46 @@ public class Player {
      * Number of correct answers given by the player.
      */
     private int myCorrectTotal;
+
+    /**
+     * Total number of incorrect answers given by the player.
+     */
     private int myIncorrectTotal;
+
+    /**
+     * Number of consecutive correct answers given by the player.
+     */
     private int myConsecutiveAns;
+
+    /**
+     * Indicates whether the player achieved victory in the game.
+     */
     private boolean myVictory;
+
+    /**
+     * Indicates whether the player resorted to cheating during the game.
+     */
     private boolean myCheat;
+
+    /**
+     * The layout of the maze in which the player is navigating.
+     */
     private int myHealth;
+
+    /**
+     * The layout of the maze in which the player is navigating.
+     */
     private String myMazeLayout;
+
+    /**
+     * A mapping of question IDs to boolean values indicating whether the player has answered the questions.
+     */
     private HashMap<Integer, Boolean> myQuestionsAnswered;
+
+    /**
+     * PropertyChangeSupport instance for managing property change listeners.
+     * This field is marked with @JsonIgnore to exclude it from JSON serialization.
+     */
     @JsonIgnore
     private final PropertyChangeSupport myPCS = new PropertyChangeSupport(this);
 

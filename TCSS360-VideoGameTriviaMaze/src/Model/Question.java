@@ -96,10 +96,21 @@ public abstract class Question {
         return myAnswers.getRightAnswer();
     }
 
+    /**
+     * Retrieves the ID of the question.
+     *
+     * @return The ID of the question.
+     */
     public int getID() {
         return myID;
     }
 
+    /**
+     * Retrieves a hint for the question based on its type.
+     *
+     * @return A hint for the question.
+     * @throws IllegalArgumentException If the question type is unknown.
+     */
     public String getHint() {
         switch (myQuestionType) {
             case "Multi", "Image", "Audio" -> {
@@ -129,6 +140,12 @@ public abstract class Question {
         }
     }
 
+    /**
+     * Sets the question text.
+     *
+     * @param theQuestion The text of the question.
+     * @throws IllegalArgumentException If the provided question is null.
+     */
     public void setQuestion(final String theQuestion) {
          if (theQuestion == null) {
              throw new IllegalArgumentException("Question can't be null");
@@ -137,6 +154,12 @@ public abstract class Question {
          myQuestion = theQuestion;
     }
 
+    /**
+     * Sets the answer data for the question.
+     *
+     * @param theAnswer The answer data for the question.
+     * @throws IllegalArgumentException If the provided answer data is null.
+     */
     public void setAnswers(final AnswerData theAnswer) {
         if (theAnswer == null) {
             throw new IllegalArgumentException("Answers cannot be null");
@@ -144,6 +167,12 @@ public abstract class Question {
         myAnswers = theAnswer;
     }
 
+    /**
+     * Sets the type of the question.
+     *
+     * @param theType The type of the question.
+     * @throws IllegalArgumentException If the provided question type is null or empty.
+     */
     public void setQuestionType(final String theType) {
         if (theType == null || theType.isEmpty()) {
             throw new IllegalArgumentException("Question type cannot be null or empty");
@@ -151,6 +180,12 @@ public abstract class Question {
         myQuestionType = theType;
     }
 
+    /**
+     * Sets the ID of the question.
+     *
+     * @param theID The ID of the question.
+     * @throws IllegalArgumentException If the provided question ID is not a positive integer.
+     */
     public void setQuestionID(final int theID) {
         if (theID <= 0) {
             throw new IllegalArgumentException("Question ID must be a positive integer");

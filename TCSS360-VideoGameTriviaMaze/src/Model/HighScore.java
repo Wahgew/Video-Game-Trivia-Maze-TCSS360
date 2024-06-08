@@ -29,11 +29,35 @@ import java.util.Scanner;
  * @version 0.0.1 May 20, 2024
  */
 public class HighScore {
+
+    /**
+     * Path to the file storing the high scores. This file is read-only.
+     */
     private static final String HIGH_SCORE_FILE = "/Resource/highscore.txt";
+
+    /**
+     * Path to the file where new high scores are written. This file is writable.
+     */
     private static String WRITABLE_HIGH_SCORE_FILE = "Resource/highscore.txt";
+
+    /**
+     * The score achieved by the player.
+     */
     private int myScore;
+
+    /**
+     * The name of the player achieving the score.
+     */
     private String myPlayerName;
+
+    /**
+     * The date and time when the score was achieved.
+     */
     private LocalDateTime myDate;
+
+    /**
+     * Formatter for converting LocalDateTime objects to formatted date strings.
+     */
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss a");
 
     /**

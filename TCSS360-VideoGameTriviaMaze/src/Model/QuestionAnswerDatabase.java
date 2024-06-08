@@ -90,6 +90,10 @@ public class QuestionAnswerDatabase {
         }
     }
 
+    /**
+     * Removes seen question from the data base hashtable,
+     * prevents duplicate questions appearance
+     */
     public void removeSeenQuestions() {
         Player player = Player.getInstance();
         HashMap<Integer, Boolean> answeredQuestions = player.getMyQuestionsAnswered();
@@ -133,7 +137,12 @@ public class QuestionAnswerDatabase {
         return myDatabase;
     }
 
-
+    /**
+     * First trys to initiate hash table then grabs a random question
+     * object from the question db hash table.
+     *
+     * @return random question object.
+     */
     public Question getRandomQuestion() {
         Question rndQuestion = null;
 
@@ -221,7 +230,6 @@ public class QuestionAnswerDatabase {
         return audioPath;
     }
 
-    //TODO: May throw null pointer exception fix later.
     /**
      * Retrieves the image URL of a question from the database.
      *

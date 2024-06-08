@@ -1,6 +1,5 @@
 package Model;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
@@ -9,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * GameDataManger class provides functionality to save, load, and manage game data
@@ -25,7 +23,14 @@ import java.util.Map;
  * @version 0.0.8 May 28, 2024
  */
 public class GameDataManager {
+    /**
+     * Path to save inside the src Resource folder
+     */
     private static final String SAVE_FILE_PATH = "/Resource/save.json";
+
+    /**
+     * Path to write for external Resource folder
+     */
     private static final String WRITABLE_SAVE_FILE_PATH = "Resource/save.json";
 
     /**
@@ -93,20 +98,33 @@ public class GameDataManager {
         }
     }
 
-    private void loadFromFile(ObjectMapper om, File file) {
-        try (InputStream is = new FileInputStream(file)) {
-            deserializeGameData(om, is);
+    /**
+     * Loads game data from a theFile using the provided ObjectMapper.
+     *
+     * @param theOm   The ObjectMapper instance used for deserialization.
+     * @param theFile The File object representing the theFile from which to load the data.
+     */
+    private void loadFromFile(ObjectMapper theOm, File theFile) {
+        try (InputStream is = new FileInputStream(theFile)) {
+            deserializeGameData(theOm, is);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void deserializeGameData(ObjectMapper om, InputStream is) throws IOException {
-        HashMap<String, Object> gameData = om.readValue(is, new HashMap<String, Object>().getClass());
-        Maze loadedMaze = om.convertValue(gameData.get("mazeInstance"), Maze.class);
+    /**
+     * Deserializes game data from an InputStream using the provided ObjectMapper.
+     *
+     * @param theOm The ObjectMapper instance used for deserialization.
+     * @param theIs The InputStream from which to read the serialized data.
+     * @throws IOException If an I/O error occurs during deserialization.
+     */
+    private void deserializeGameData(ObjectMapper theOm, InputStream theIs) throws IOException {
+        HashMap<String, Object> gameData = theOm.readValue(theIs, new HashMap<String, Object>().getClass());
+        Maze loadedMaze = theOm.convertValue(gameData.get("mazeInstance"), Maze.class);
         Maze.setMySingleton(loadedMaze);
 
-        Player loadedPlayer = om.convertValue(gameData.get("playerInstance"), Player.class);
+        Player loadedPlayer = theOm.convertValue(gameData.get("playerInstance"), Player.class);
         Player instance = Player.getInstance();
         instance.setMyLocationRow(loadedPlayer.getMyLocationRow());
         instance.setMyLocationCol(loadedPlayer.getMyLocationCol());

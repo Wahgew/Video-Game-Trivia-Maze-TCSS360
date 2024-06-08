@@ -2,7 +2,6 @@ package Model;
 
 import javax.sound.sampled.*;
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -64,6 +63,11 @@ public class AuditoryQuestion extends MultipleChoiceQuestion {
         return audioClip;
     }
 
+    /**
+     * Helper method to get a resource path, with or without /
+     * @param path the file path
+     * @return path string with or without /
+     */
     private String getResourcePath(String path) {
         if (path.startsWith("/")) {
             return path;
